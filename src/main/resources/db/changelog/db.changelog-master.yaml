@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: /changes/create_table_employees.sql
+      relativeToChangelogFile: true
