@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres-agropro
+    environment:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+    ports:
+      - "5432:5432"
