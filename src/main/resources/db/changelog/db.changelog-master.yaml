@@ -1,4 +1,8 @@
 databaseChangeLog:
   - include:
+      file: /changes/create_table_positions.sql
+      relativeToChangelogFile: true
+
+  - include:
       file: /changes/create_table_employees.sql
       relativeToChangelogFile: true
