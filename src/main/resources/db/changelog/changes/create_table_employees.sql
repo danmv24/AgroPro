@@ -4,7 +4,8 @@ CREATE TABLE "employees" (
     name VARCHAR(30) NOT NULL,
     patronymic VARCHAR(70) NOT NULL,
     position_id INT,
-    salary DECIMAL(8, 2),
-    hire_date TIMESTAMP,
+    payment_type VARCHAR(15) NOT NULL CHECK (payment_type IN ('FIXED', 'HOURLY')),
+    salary DECIMAL(8, 2) NOT NULL CHECK (salary > 0),
+    hire_date DATE,
     FOREIGN KEY (position_id) REFERENCES positions(position_id)
 );
