@@ -10,3 +10,7 @@ databaseChangeLog:
   - include:
       file: /changes/create_table_employees_work_time.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: /changes/insert_data_to_positions_table.sql
+      relativeToChangelogFile: true
