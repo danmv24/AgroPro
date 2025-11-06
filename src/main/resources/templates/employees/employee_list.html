@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список сотрудников</title>
+
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/employee_list.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Список сотрудников</h1>
+
+    <table class="employee-table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Должность</th>
+            <th>Тип оплаты</th>
+            <th>Зарплата / Ставка</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee, iterStat : ${employeeView}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${employee.surname}"></td>
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.patronymic}"></td>
+            <td th:text="${employee.position}"></td>
+            <td th:text="${employee.paymentType}"></td>
+            <td th:text="${employee.salary} + ' ₽'"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
