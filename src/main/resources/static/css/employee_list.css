@@ -1,0 +1,57 @@
+body {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 40px;
+}
+
+h1 {
+    color: #2e7d32;
+    margin-bottom: 25px;
+}
+
+/* Таблица */
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.employee-table thead {
+    background: linear-gradient(90deg, #f7e75d, #a8e063);
+}
+
+.employee-table th, .employee-table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.employee-table th {
+    color: #333;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.employee-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.employee-table tr:hover {
+    background-color: #f1f8e9;
+    transition: 0.2s;
+}
+
+/* Нумерация */
+.employee-table td:first-child {
+    font-weight: 600;
+    color: #2e7d32;
+}
