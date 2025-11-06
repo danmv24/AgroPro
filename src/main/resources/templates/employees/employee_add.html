@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Добавление сотрудника</title>
+
+  <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+  <link rel="stylesheet" th:href="@{/css/employee_add.css}">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+  <h1>Регистрация сотрудника</h1>
+
+  <form class="employee-form" th:action="@{/employees/add}" th:object="${employeeForm}" method="post">
+
+    <div class="form-group">
+      <label>Фамилия</label>
+      <input type="text" th:field="*{surname}" required>
+    </div>
+
+    <div class="form-group">
+      <label>Имя</label>
+      <input type="text" th:field="*{name}" required>
+    </div>
+
+    <div class="form-group">
+      <label>Отчество</label>
+      <input type="text" th:field="*{patronymic}">
+    </div>
+
+    <div class="form-group">
+      <label>Должность</label>
+      <select th:field="*{position}">
+        <option th:each="pos : ${positions}" th:value="${pos.positionName}" th:text="${pos.positionName}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Тип оплаты</label>
+      <select th:field="*{paymentType}">
+        <option value="FIXED">Фиксированная</option>
+        <option value="HOURLY">Почасовая</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Ставка / Зарплата</label>
+      <input type="number" th:field="*{salary}" step="0.01" required>
+    </div>
+
+    <div class="form-group">
+      <label>Дата приёма</label>
+      <input type="date" th:field="*{hireDate}" required>
+    </div>
+
+    <button type="submit" class="submit-btn">✅ Добавить сотрудника</button>
+
+  </form>
+</div>
+</body>
+</html>
+
