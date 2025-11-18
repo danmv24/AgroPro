@@ -5,11 +5,13 @@ import com.agropro.AgroPro.repository.PositionRepository;
 import com.agropro.AgroPro.service.EmployeeService;
 import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -28,14 +30,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public String addEmployee(@ModelAttribute("employeeForm") EmployeeForm employeeForm) {
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> addEmployee(@RequestBody EmployeeForm employeeForm) {
         employeeService.addEmployee(employeeForm);
-        return "redirect:/employees/success";
-    }
-
-    @GetMapping("/success")
-    public String showSuccessPage() {
-        return "employees/employee_success";
+        return ResponseEntity.ok(Map.of("status", "success", "message", "Сотрудник успешно добавлен"));
     }
 
     @GetMapping("/list")
