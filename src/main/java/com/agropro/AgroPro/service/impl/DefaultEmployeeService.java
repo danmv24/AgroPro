@@ -20,7 +20,6 @@ import java.util.List;
 public class DefaultEmployeeService implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-
     private final PositionRepository positionRepository;
 
     @Override
