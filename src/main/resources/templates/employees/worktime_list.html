@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список работ</title>
+
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/employee_list.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Список работ</h1>
+
+    <table class="employee-table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Дата работы</th>
+            <th>Часов отработано</th>
+            <th>Заработок</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="workRecord, iterStat : ${workRecords}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${workRecord.surname}"></td>
+            <td th:text="${workRecord.name}"></td>
+            <td th:text="${workRecord.patronymic}"></td>
+            <td th:text="${workRecord.workDate}"></td>
+            <td th:text="${workRecord.hoursWorked}"></td>
+            <td th:text="${workRecord.amountEarned} + ' ₽'"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
