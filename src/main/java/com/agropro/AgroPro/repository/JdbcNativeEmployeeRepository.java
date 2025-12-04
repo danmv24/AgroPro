@@ -2,7 +2,7 @@ package com.agropro.AgroPro.repository;
 
 import com.agropro.AgroPro.enums.PaymentType;
 import com.agropro.AgroPro.model.Employee;
-import org.springframework.dao.DataAccessException;
+import com.agropro.AgroPro.view.EmployeeBasicInfo;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class JdbcNativeEmployeeRepository implements EmployeeRepository {
@@ -23,7 +22,7 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public Employee save(Employee employee) {
+    public void save(Employee employee) {
         String query = "INSERT INTO employees (surname, name, patronymic, position_id, payment_type, salary, hire_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -43,8 +42,6 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
 
         Long generatedId = ((Number) keyHolder.getKeys().get("employee_id")).longValue();
         employee.setEmployeeId(generatedId);
-
-        return employee;
     }
 
     @Override
@@ -61,6 +58,26 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
                         .salary(rs.getBigDecimal("salary"))
                         .build()
                 );
+    }
+
+    @Override
+    public List<EmployeeBasicInfo> findEmployeesWherePaymentTypeIsHourly() {
+        String query = "SELECT employee_id, surname, name, patronymic FROM employees WHERE payment_type = 'HOURLY' ORDER BY surname, name";
+        return jdbcTemplate.query(query,
+                (rs, rowNum) -> EmployeeBasicInfo.builder()
+                        .employeeId(rs.getLong("employee_id"))
+                        .surname(rs.getString("surname"))
+                        .name(rs.getString("name"))
+                        .patronymic(rs.getString("patronymic"))
+                        .build()
+                );
+    }
+
+    @Override
+    public boolean existByEmployeeId(Long employeeId) {
+        String query = "SELECT EXISTS(SELECT 1 FROM employees WHERE employee_id = ?)";
+
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(query, Boolean.class, employeeId));
     }
 
 
