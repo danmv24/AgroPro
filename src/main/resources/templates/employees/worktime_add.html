@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Учёт рабочего времени</title>
+
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/worktime_add.css}">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("worktimeForm");
+
+            form.addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const formData = {
+                    employeeId: form.querySelector('[name="employeeId"]').value,
+                    workDate: form.querySelector('[name="workDate"]').value,
+                    hoursWorked: form.querySelector('[name="hoursWorked"]').value
+                };
+
+                try {
+                    const response = await fetch("/employees/work-time/add", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (!response.ok) {
+                        showNotification("Ошибка сервера", "error");
+                        return;
+                    }
+
+                    showNotification("Рабочее время успешно сохранено!", "success");
+                    form.reset();
+
+                } catch (err) {
+                    console.error(err);
+                    showNotification("Ошибка соединения", "error");
+                }
+            });
+        });
+
+        function showNotification(message, type) {
+            let notif = document.getElementById('form-notification');
+            if (!notif) {
+                notif = document.createElement('div');
+                notif.id = 'form-notification';
+                notif.className = 'notification';
+
+                const form = document.getElementById('worktimeForm');
+                form.parentNode.insertBefore(notif, form);
+            }
+
+            notif.textContent = message;
+            notif.className = `notification ${type}`;
+
+            setTimeout(() => notif.classList.add('show'), 10);
+
+            setTimeout(() => {
+                notif.classList.remove('show');
+                setTimeout(() => {
+                    if (notif.parentNode) {
+                        notif.parentNode.removeChild(notif);
+                    }
+                }, 300);
+            }, 5000);
+        }
+    </script>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Учёт рабочего времени</h1>
+
+    <form id="worktimeForm" class="worktime-form" th:object="${workTimeForm}">
+
+        <div class="form-group">
+            <label>Сотрудник</label>
+            <select th:field="*{employeeId}" required>
+                <option value="" disabled selected>Выберите сотрудника</option>
+                <option th:each="emp : ${employees}"
+                        th:value="${emp.employeeId}"
+                        th:text="${emp.surname + ' ' + emp.name + ' ' + emp.patronymic}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Дата работы</label>
+            <input type="date" th:field="*{workDate}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Количество часов</label>
+            <input type="number" step="0.1" min="0" th:field="*{hoursWorked}" required>
+        </div>
+
+        <button type="submit" class="submit-btn">💾 Сохранить</button>
+
+    </form>
+</div>
+
+</body>
+</html>
