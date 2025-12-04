@@ -4,23 +4,21 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
-@Setter
 @Builder
 public class EmployeeView {
 
-    private String surname;
+    private final String surname;
 
-    private String name;
+    private final String name;
 
-    private String patronymic;
+    private final String patronymic;
 
-    private String position;
+    private final String position;
 
-    private String paymentType;
+    private final String paymentType;
 
-    private BigDecimal salary;
+    private final BigDecimal salary;
 
 }
