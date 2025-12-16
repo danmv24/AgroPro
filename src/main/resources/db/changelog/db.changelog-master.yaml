@@ -14,3 +14,27 @@ databaseChangeLog:
   - include:
       file: /changes/insert_data_to_positions_table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: /changes/create_table_crops.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/create_table_fields.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/create_table_field_plantings.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/create_table_harvests.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/insert_data_to_crops_table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/insert_data_to_fields_table.sql
+      relativeToChangelogFile: true
