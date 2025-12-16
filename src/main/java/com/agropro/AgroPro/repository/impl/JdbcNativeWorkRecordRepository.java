@@ -1,6 +1,7 @@
-package com.agropro.AgroPro.repository;
+package com.agropro.AgroPro.repository.impl;
 
 import com.agropro.AgroPro.model.WorkRecord;
+import com.agropro.AgroPro.repository.WorkRecordRepository;
 import com.agropro.AgroPro.view.WorkRecordView;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -32,7 +33,7 @@ public class JdbcNativeWorkRecordRepository implements WorkRecordRepository {
             );
             preparedStatement.setLong(1, workRecord.getEmployeeId());
             preparedStatement.setDate(2, Date.valueOf(workRecord.getWorkDate()));
-            preparedStatement.setDouble(3, workRecord.getHoursWorked());
+            preparedStatement.setBigDecimal(3, workRecord.getHoursWorked());
             return preparedStatement;
         }, keyHolder);
 

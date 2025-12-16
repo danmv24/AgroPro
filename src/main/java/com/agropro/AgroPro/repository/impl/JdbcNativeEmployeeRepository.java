@@ -1,7 +1,8 @@
-package com.agropro.AgroPro.repository;
+package com.agropro.AgroPro.repository.impl;
 
 import com.agropro.AgroPro.enums.PaymentType;
 import com.agropro.AgroPro.model.Employee;
+import com.agropro.AgroPro.repository.EmployeeRepository;
 import com.agropro.AgroPro.view.EmployeeBasicInfo;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

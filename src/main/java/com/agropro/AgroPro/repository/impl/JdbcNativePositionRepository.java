@@ -1,6 +1,7 @@
-package com.agropro.AgroPro.repository;
+package com.agropro.AgroPro.repository.impl;
 
 import com.agropro.AgroPro.model.Position;
+import com.agropro.AgroPro.repository.PositionRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
