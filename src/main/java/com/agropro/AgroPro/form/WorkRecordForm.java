@@ -2,6 +2,7 @@ package com.agropro.AgroPro.form;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -15,6 +16,6 @@ public class WorkRecordForm {
 
     private LocalDate workDate;
 
-    private Double hoursWorked;
+    private BigDecimal hoursWorked;
 
 }

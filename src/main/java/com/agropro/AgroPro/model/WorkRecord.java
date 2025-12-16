@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Table(name = "employees_work_time")
@@ -25,6 +26,6 @@ public class WorkRecord {
     private LocalDate workDate;
 
     @Column("hours_worked")
-    private Double hoursWorked;
+    private BigDecimal hoursWorked;
 
 }
