@@ -75,7 +75,7 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public boolean existByEmployeeId(Long employeeId) {
+    public boolean existsByEmployeeId(Long employeeId) {
         String query = "SELECT EXISTS(SELECT 1 FROM employees WHERE employee_id = ?)";
 
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject(query, Boolean.class, employeeId));
