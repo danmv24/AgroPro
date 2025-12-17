@@ -13,6 +13,6 @@ public interface EmployeeRepository {
 
     List<EmployeeBasicInfo> findEmployeesWherePaymentTypeIsHourly();
 
-    boolean existByEmployeeId(Long employeeId);
+    boolean existsByEmployeeId(Long employeeId);
 
 }
