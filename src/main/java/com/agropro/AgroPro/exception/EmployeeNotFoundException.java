@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 public class EmployeeNotFoundException extends RuntimeException {
     private final HttpStatus status;
 
-    public EmployeeNotFoundException(HttpStatus status, String message) {
-        super(message);
+    public EmployeeNotFoundException(HttpStatus status, Long employeeId) {
+        super("Сотрудник с id " + employeeId + " не найден");
         this.status = status;
     }
 }
