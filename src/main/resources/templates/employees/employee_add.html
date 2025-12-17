@@ -36,7 +36,7 @@
       const submitBtn = form.querySelector('.submit-btn');
       const originalText = submitBtn.textContent;
       submitBtn.disabled = true;
-      submitBtn.textContent = '🕗 Отправка...';
+      submitBtn.textContent = 'Отправка';
 
       try {
         const response = await fetch(form.action, {
