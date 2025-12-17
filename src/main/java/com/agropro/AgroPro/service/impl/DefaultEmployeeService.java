@@ -58,8 +58,8 @@ public class DefaultEmployeeService implements EmployeeService {
 
     @Override
     public void addWorkRecord(WorkRecordForm workRecordForm) {
-        if (!employeeRepository.existByEmployeeId(workRecordForm.getEmployeeId())) {
-            throw new EmployeeNotFoundException(HttpStatus.NOT_FOUND, "Не найден сотрудник с id: " + workRecordForm.getEmployeeId());
+        if (!employeeRepository.existsByEmployeeId(workRecordForm.getEmployeeId())) {
+            throw new EmployeeNotFoundException(HttpStatus.NOT_FOUND, workRecordForm.getEmployeeId());
         }
 
         workRecordRepository.save(WorkRecordMapper.toModel(workRecordForm));
