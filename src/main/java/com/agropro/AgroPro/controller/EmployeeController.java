@@ -56,7 +56,7 @@ public class EmployeeController {
     @PostMapping("/work-time/add")
     public ResponseEntity<Map<String, String>> addWorkRecord(@RequestBody WorkRecordForm workTimeForm) {
         employeeService.addWorkRecord(workTimeForm);
-        return ResponseEntity.ok(Map.of("status", "success", "message", "Сотрудник успешно добавлен"));
+        return ResponseEntity.ok(Map.of("status", "success", "message", "Успешно"));
     }
 
     @GetMapping("/work-time/list")
