@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить посев</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/field_plantings_add.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Добавить посев</h1>
+
+    <form id="fieldPlantingForm" class="planting-form" method="post">
+        <div id="notification" class="notification" style="display: none;">
+            <span id="notification-text"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldId">Поле</label>
+            <select id="fieldId" name="fieldId" required>
+                <option value="" disabled selected>Выберите поле</option>
+                <option th:each="field : ${fields}" th:value="${field.fieldId}" th:text="${field.fieldNumber}">Поле 1</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cropId">Культура</label>
+            <select id="cropId" name="cropId" required>
+                <option value="" disabled selected>Выберите культуру</option>
+                <option th:each="crop : ${crops}" th:value="${crop.cropId}" th:text="${crop.cropName}">Пшеница</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="plantingYear">Год посева</label>
+            <input type="number" id="plantingYear" name="plantingYear" min="2000" max="2100" required>
+        </div>
+
+        <button type="submit" class="submit-btn">Добавить посев</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('fieldPlantingForm');
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                fieldId: parseInt(form.elements['fieldId'].value),
+                cropId: parseInt(form.elements['cropId'].value),
+                plantingYear: parseInt(form.elements['plantingYear'].value)
+            };
+
+            try {
+                const response = await fetch('/field-plantings/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    showNotification(result.message, 'success');
+                    form.reset();
+                } else {
+                    const message = result.message || 'Не удалось добавить посев';
+                    showNotification(message, 'error');
+                }
+            } catch (error) {
+                console.error('Ошибка сети:', error);
+                showNotification('Ошибка сети. Проверьте подключение.', 'error');
+            }
+        });
+    });
+
+    function showNotification(message, type) {
+        const notif = document.getElementById('notification');
+        const text = document.getElementById('notification-text');
+
+        text.textContent = message;
+        notif.className = `notification ${type}`;
+        notif.style.display = 'block';
+
+        setTimeout(() => {
+            notif.style.display = 'none';
+        }, 5000);
+    }
+</script>
+
+</body>
+</html>
