@@ -14,7 +14,8 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Crop {
 
     @Id
-    private Long id;
+    @Column("crop_id")
+    private Long cropId;
 
     @Column("crop_name")
     private String cropName;
