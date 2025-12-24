@@ -8,9 +8,12 @@ import com.agropro.AgroPro.repository.CropRepository;
 import com.agropro.AgroPro.repository.FieldPlantingRepository;
 import com.agropro.AgroPro.repository.FieldRepository;
 import com.agropro.AgroPro.service.FieldService;
+import com.agropro.AgroPro.view.FieldWithCurrentCropView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,11 @@ public class DefaultFieldService implements FieldService {
         fieldPlantingRepository.save(FieldPlantingMapper.toModel(fieldPlantingForm));
     }
 
+    @Override
+    public List<FieldWithCurrentCropView> getFieldsWithCropByYear(Integer year) {
+        return fieldRepository.findFieldsWithCropByYear(year);
+    }
+
     private void validateFieldExists(Long fieldId) {
         if (!fieldRepository.existsByFieldId(fieldId)) {
             throw new FieldNotFoundException(HttpStatus.NOT_FOUND, fieldId);
@@ -39,4 +47,7 @@ public class DefaultFieldService implements FieldService {
             throw new CropNotFoundException(HttpStatus.NOT_FOUND, cropId);
         }
     }
+
+
+
 }
