@@ -11,7 +11,7 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: /changes/create_table_employees_work_time.sql
+      file: changes/create_table_work_records.sql
       relativeToChangelogFile: true
 
   - include:
