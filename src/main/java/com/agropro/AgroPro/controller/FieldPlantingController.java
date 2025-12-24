@@ -4,6 +4,7 @@ import com.agropro.AgroPro.form.FieldPlantingForm;
 import com.agropro.AgroPro.repository.CropRepository;
 import com.agropro.AgroPro.repository.FieldRepository;
 import com.agropro.AgroPro.service.FieldService;
+import com.agropro.AgroPro.view.FieldPlantingView;
 import com.agropro.AgroPro.view.FieldWithCurrentCropView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,12 @@ public class FieldPlantingController {
     @ResponseBody
     public List<FieldWithCurrentCropView> getFieldPlantingsDataJson(@RequestParam(defaultValue = "2025") Integer year) {
         return fieldService.getFieldsWithCropByYear(year);
+    }
+
+    @GetMapping("/by-field/{fieldId}/data")
+    @ResponseBody
+    public List<FieldPlantingView> getFieldPlantingsDataByFieldId(@PathVariable Long fieldId) {
+        return fieldService.getFieldPlantingsByFieldId(fieldId);
     }
 
 }
