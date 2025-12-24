@@ -52,7 +52,7 @@ function generateCardsHTML(fields) {
                 <p>Культура: <span>${cropDisplay}</span></p>
             </div>
             <div class="card-actions">
-                <a href="/field-plantings/by-field/${field.fieldId}" class="btn-secondary">Посевы</a>
+                <a href="#" onclick="openFieldPlantingsModal(${field.fieldId})" class="btn-secondary">Посевы</a>
                 <a href="/field-works/by-field/${field.fieldId}" class="btn-primary">Работы</a>
             </div>
         </div>
@@ -98,3 +98,56 @@ function applyFieldCardStyling() {
         }
     });
 }
+
+
+function openFieldPlantingsModal(fieldId) {
+    const modal = document.getElementById('fieldPlantingsModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+
+    modal.style.display = 'block';
+
+    modalTitle.textContent = `Посевы на поле ${fieldId}`;
+
+    fetch(`/field-plantings/by-field/${fieldId}/data`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка загрузки данных: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Генерируем HTML для посевов
+            let html = '';
+            if (data && data.length > 0) {
+                html = data.map(planting => `
+                    <div class="planting-item">
+                        <span class="year">${planting.plantingYear}:</span>
+                        <span class="crop">${planting.cropName}</span>
+                    </div>
+                `).join('');
+            } else {
+                html = '<p>На этом поле ещё не было посевов.</p>';
+            }
+
+            modalContent.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Ошибка при загрузке посевов:', error);
+            modalContent.innerHTML = '<p>Ошибка загрузки данных.</p>';
+        });
+}
+
+function closeFieldPlantingsModal() {
+    const modal = document.getElementById('fieldPlantingsModal');
+    modal.style.display = 'none';
+}
+
+document.querySelector('.close').addEventListener('click', closeFieldPlantingsModal);
+
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('fieldPlantingsModal');
+    if (event.target === modal) {
+        closeFieldPlantingsModal();
+    }
+});
