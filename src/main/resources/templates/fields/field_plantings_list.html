@@ -11,7 +11,7 @@
 <div class="main-content">
     <h1>Посевы на полях</h1>
 
-    <!-- Селект года -->
+
     <div class="year-selector">
         <label for="year">Год: </label>
         <select id="year" name="year" onchange="loadFieldsForYear(this.value)">
@@ -21,14 +21,27 @@
         </select>
     </div>
 
-    <!-- Контейнер для карточек -->
+
     <div id="cards-container" class="cards-container">
-        <!-- Карточки будут загружены сюда -->
+
     </div>
 
-    <!-- Спиннер (пока грузятся данные) -->
     <div id="loading" class="loading" style="display: none;">
         Загрузка...
+    </div>
+</div>
+
+
+<div id="fieldPlantingsModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Посевы на поле</h2>
+
+        <div id="modalContent">
+            <p>Загрузка...</p>
+        </div>
+
+        <button class="btn-close" onclick="closeFieldPlantingsModal()">Закрыть</button>
     </div>
 </div>
 
