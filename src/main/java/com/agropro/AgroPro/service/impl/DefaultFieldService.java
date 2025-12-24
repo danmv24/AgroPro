@@ -8,6 +8,7 @@ import com.agropro.AgroPro.repository.CropRepository;
 import com.agropro.AgroPro.repository.FieldPlantingRepository;
 import com.agropro.AgroPro.repository.FieldRepository;
 import com.agropro.AgroPro.service.FieldService;
+import com.agropro.AgroPro.view.FieldPlantingView;
 import com.agropro.AgroPro.view.FieldWithCurrentCropView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,11 @@ public class DefaultFieldService implements FieldService {
     @Override
     public List<FieldWithCurrentCropView> getFieldsWithCropByYear(Integer year) {
         return fieldRepository.findFieldsWithCropByYear(year);
+    }
+
+    @Override
+    public List<FieldPlantingView> getFieldPlantingsByFieldId(Long fieldId) {
+        return fieldPlantingRepository.findPlantingsByFieldId(fieldId);
     }
 
     private void validateFieldExists(Long fieldId) {
