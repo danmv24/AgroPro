@@ -1,0 +1,159 @@
+:root {
+    --crop-wheat-winter-color: #f7e75d;
+    --crop-wheat-spring-color: #f0d56d;
+    --crop-barley-color: #a8e063;
+    --crop-sunflower-color: #f0a841;
+    --crop-soya-color: #a0d8ef;
+    --crop-fallow-color: #e0e0e0;
+    --crop-apple-color: #ff6b6b;
+    --crop-free-color: #e0e0e0;
+    --text-color: #333;
+    --border-color: #ddd;
+    --card-bg: #f9f9f9;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 40px;
+}
+
+h1 {
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+.year-selector {
+    margin-bottom: 20px;
+}
+
+.year-selector label {
+    margin-right: 8px;
+}
+
+.year-selector select {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    color: var(--text-color);
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--card-bg);
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+.crop-icon {
+    font-size: 1.8em;
+    margin-left: 8px;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.icon-wheat-winter {
+    background-image: url('../images/wheat-winter.png');
+}
+.icon-wheat-spring {
+    background-image: url('../images/wheat-spring.png');
+}
+.icon-barley {
+    background-image: url('../images/barley.png');
+}
+.icon-sunflower {
+    background-image: url('../images/sunflower.png');
+}
+.icon-soya {
+    background-image: url('../images/soy.png');
+}
+.icon-fallow {
+    background-image: url('../images/fallow.png');
+}
+.icon-apple {
+    background-image: url('../images/apple.png');
+}
+.icon-default {
+    background-image: url('../images/fields.png');
+}
+
+.crop-icon::before {
+    content: none;
+}
+
+.crop-bg-wheat-winter { background-color: var(--crop-wheat-winter-color); }
+.crop-bg-wheat-spring { background-color: var(--crop-wheat-spring-color); }
+.crop-bg-barley { background-color: var(--crop-barley-color); }
+.crop-bg-sunflower { background-color: var(--crop-sunflower-color); }
+.crop-bg-soya { background-color: var(--crop-soya-color); }
+.crop-bg-fallow { background-color: var(--crop-fallow-color); }
+.crop-bg-apple { background-color: var(--crop-apple-color); }
+.crop-bg-free { background-color: var(--crop-free-color); }
+
+.btn-secondary, .btn-primary {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-top: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background-color: #bbb;
+}
+
+.btn-primary {
+    background-color: #a8e063;
+    color: #333;
+}
+
+.btn-primary:hover {
+    background-color: #f7e75d;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #666;
+}
