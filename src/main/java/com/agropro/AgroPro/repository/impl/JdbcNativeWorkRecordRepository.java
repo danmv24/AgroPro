@@ -24,7 +24,7 @@ public class JdbcNativeWorkRecordRepository implements WorkRecordRepository {
 
     @Override
     public void save(WorkRecord workRecord) {
-        String query = "INSERT INTO employees_work_time (employee_id, work_date, hours_worked) VALUES (?, ?, ?)";
+        String query = "INSERT INTO work_records (employee_id, work_date, hours_worked) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -43,11 +43,11 @@ public class JdbcNativeWorkRecordRepository implements WorkRecordRepository {
 
     @Override
     public List<WorkRecordView> findAllWorkRecords() {
-        String query = "SELECT e.surname, e.name, e.patronymic, ewt.work_date, ewt.hours_worked, e.salary * ewt.hours_worked AS amount_earned " +
-                "FROM employees_work_time AS ewt " +
+        String query = "SELECT e.surname, e.name, e.patronymic, wr.work_date, wr.hours_worked, e.salary * wr.hours_worked AS amount_earned " +
+                "FROM work_records AS wr " +
                 "INNER JOIN employees AS e " +
-                "ON ewt.employee_id = e.employee_id " +
-                "ORDER BY ewt.work_date DESC";
+                "ON wr.employee_id = e.employee_id " +
+                "ORDER BY wr.work_date DESC";
 
         return jdbcTemplate.query(query, (rs, rowNum) -> WorkRecordView.builder()
                 .surname(rs.getString("surname"))
