@@ -21,7 +21,7 @@
                 };
 
                 try {
-                    const response = await fetch("/employees/work-time/add", {
+                    const response = await fetch("/work-record/add", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(formData)
