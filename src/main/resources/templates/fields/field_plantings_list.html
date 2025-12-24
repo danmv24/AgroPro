@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Посевы на полях</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/field_plantings_list.css}">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="main-content">
+    <h1>Посевы на полях</h1>
+
+    <!-- Селект года -->
+    <div class="year-selector">
+        <label for="year">Год: </label>
+        <select id="year" name="year" onchange="loadFieldsForYear(this.value)">
+            <option value="2024">2024</option>
+            <option value="2025" selected>2025</option>
+            <option value="2026">2026</option>
+        </select>
+    </div>
+
+    <!-- Контейнер для карточек -->
+    <div id="cards-container" class="cards-container">
+        <!-- Карточки будут загружены сюда -->
+    </div>
+
+    <!-- Спиннер (пока грузятся данные) -->
+    <div id="loading" class="loading" style="display: none;">
+        Загрузка...
+    </div>
+</div>
+
+<script th:src="@{/js/field_plantings_ajax.js}"></script>
+</body>
+</html>
