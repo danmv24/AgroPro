@@ -1,4 +1,4 @@
-CREATE TABLE "employees_work_time" (
+CREATE TABLE "work_records" (
     id SERIAL PRIMARY KEY,
     employee_id INT NOT NULL,
     work_date DATE,
