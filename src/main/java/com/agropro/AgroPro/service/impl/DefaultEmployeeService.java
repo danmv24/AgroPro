@@ -4,10 +4,9 @@ import com.agropro.AgroPro.exception.PositionNotFoundException;
 import com.agropro.AgroPro.form.EmployeeForm;
 import com.agropro.AgroPro.mapper.EmployeeMapper;
 import com.agropro.AgroPro.model.Employee;
-import com.agropro.AgroPro.model.Position;
 import com.agropro.AgroPro.repository.EmployeeRepository;
-import com.agropro.AgroPro.repository.PositionRepository;
 import com.agropro.AgroPro.service.EmployeeService;
+import com.agropro.AgroPro.service.PositionService;
 import com.agropro.AgroPro.view.EmployeeBasicInfo;
 import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +20,11 @@ import java.util.List;
 public class DefaultEmployeeService implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final PositionRepository positionRepository;
+    private final PositionService positionService;
 
     @Override
     public void addEmployee(EmployeeForm employeeForm) {
-        Long positionId = positionRepository.findByPositionName(employeeForm.getPosition())
-                .map(Position::getPositionId)
+        Long positionId = positionService.getPositionIdByPositionName(employeeForm.getPosition())
                 .orElseThrow(() -> new PositionNotFoundException(HttpStatus.NOT_FOUND, "Должность не найдена: " + employeeForm.getPosition()));
 
         employeeRepository.save(EmployeeMapper.toModel(employeeForm, positionId));
@@ -38,9 +36,9 @@ public class DefaultEmployeeService implements EmployeeService {
 
         return employees.stream()
                 .map(employee -> {
-                    Position position = positionRepository.findByPositionId(employee.getPositionId())
+                    String positionName = positionService.getPositionNameByPositionId(employee.getPositionId())
                             .orElseThrow(() -> new PositionNotFoundException(HttpStatus.NOT_FOUND, "Не найдена должность с id:" + employee.getPositionId()));
-                    return EmployeeMapper.toView(employee, position.getPositionName());
+                    return EmployeeMapper.toView(employee, positionName);
                 })
                 .toList();
     }
