@@ -57,5 +57,21 @@ public class JdbcNativePositionRepository implements PositionRepository {
         return Optional.ofNullable(position);
     }
 
+    @Override
+    public Optional<Long> findPositionIdByPositionName(String positionName) {
+        String query = "SELECT position_id FROM positions WHERE position_name = ?";
+        Long positionId = jdbcTemplate.queryForObject(query, Long.class, positionName);
+
+        return Optional.ofNullable(positionId);
+    }
+
+    @Override
+    public Optional<String> findPositionNameByPositionId(Long positionId) {
+        String query = "SELECT position_name FROM positions WHERE position_id = ?";
+        String positionName = jdbcTemplate.queryForObject(query, String.class, positionId);
+
+        return Optional.ofNullable(positionName);
+    }
+
 
 }
