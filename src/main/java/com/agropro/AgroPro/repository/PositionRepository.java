@@ -12,4 +12,9 @@ public interface PositionRepository {
     List<Position> findAll();
 
     Optional<Position> findByPositionId(Long positionId);
+
+    Optional<Long> findPositionIdByPositionName(String positionName);
+
+    Optional<String> findPositionNameByPositionId(Long positionId);
+
 }
