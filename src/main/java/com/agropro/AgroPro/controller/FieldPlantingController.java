@@ -3,9 +3,8 @@ package com.agropro.AgroPro.controller;
 import com.agropro.AgroPro.form.FieldPlantingForm;
 import com.agropro.AgroPro.repository.CropRepository;
 import com.agropro.AgroPro.repository.FieldRepository;
-import com.agropro.AgroPro.service.FieldService;
+import com.agropro.AgroPro.service.FieldPlantingService;
 import com.agropro.AgroPro.view.FieldPlantingView;
-import com.agropro.AgroPro.view.FieldWithCurrentCropView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,7 @@ public class FieldPlantingController {
 
     private final CropRepository cropRepository;
     private final FieldRepository fieldRepository;
-    private final FieldService fieldService;
+    private final FieldPlantingService fieldPlantingService;
 
     @GetMapping("/add")
     public String showAddFieldPlantingForm(Model model) {
@@ -34,25 +33,14 @@ public class FieldPlantingController {
 
     @PostMapping("/add")
     public ResponseEntity<Map<String, String>> addFieldPlanting(@RequestBody FieldPlantingForm fieldForm) {
-        fieldService.addFieldPlanting(fieldForm);
+        fieldPlantingService.addFieldPlanting(fieldForm);
         return ResponseEntity.ok(Map.of("status", "success", "message", "Успешно"));
-    }
-
-    @GetMapping("/list")
-    public String getAllPlantings(Model model) {
-        return "fields/field_plantings_list";
-    }
-
-    @GetMapping("/data-json")
-    @ResponseBody
-    public List<FieldWithCurrentCropView> getFieldPlantingsDataJson(@RequestParam(defaultValue = "2025") Integer year) {
-        return fieldService.getFieldsWithCropByYear(year);
     }
 
     @GetMapping("/by-field/{fieldId}/data")
     @ResponseBody
     public List<FieldPlantingView> getFieldPlantingsDataByFieldId(@PathVariable Long fieldId) {
-        return fieldService.getFieldPlantingsByFieldId(fieldId);
+        return fieldPlantingService.getFieldPlantingsByFieldId(fieldId);
     }
 
 }
