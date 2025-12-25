@@ -7,7 +7,6 @@ import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.model.Position;
 import com.agropro.AgroPro.repository.EmployeeRepository;
 import com.agropro.AgroPro.repository.PositionRepository;
-import com.agropro.AgroPro.repository.WorkRecordRepository;
 import com.agropro.AgroPro.service.EmployeeService;
 import com.agropro.AgroPro.view.EmployeeBasicInfo;
 import com.agropro.AgroPro.view.EmployeeView;
@@ -23,7 +22,6 @@ public class DefaultEmployeeService implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final PositionRepository positionRepository;
-    private final WorkRecordRepository workRecordRepository;
 
     @Override
     public void addEmployee(EmployeeForm employeeForm) {
