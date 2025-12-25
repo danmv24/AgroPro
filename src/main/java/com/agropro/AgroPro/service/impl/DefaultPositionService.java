@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,4 +25,16 @@ public class DefaultPositionService implements PositionService {
                 .map(PositionMapper::toView)
                 .toList();
     }
+
+    @Override
+    public Optional<Long> getPositionIdByPositionName(String positionName) {
+        return positionRepository.findPositionIdByPositionName(positionName);
+    }
+
+    @Override
+    public Optional<String> getPositionNameByPositionId(Long positionId) {
+        return positionRepository.findPositionNameByPositionId(positionId);
+    }
+
+
 }
