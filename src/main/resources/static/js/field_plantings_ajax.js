@@ -9,7 +9,7 @@ function loadFieldsForYear(year) {
     loadingIndicator.style.display = 'block';
     cardsContainer.innerHTML = '';
 
-    fetch(`/field-plantings/data-json?year=${year}`)
+    fetch(`/fields/data-json?year=${year}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Сетевая ошибка: ' + response.status);
