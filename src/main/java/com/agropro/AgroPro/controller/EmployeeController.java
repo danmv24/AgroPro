@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.form.EmployeeForm;
-import com.agropro.AgroPro.repository.PositionRepository;
 import com.agropro.AgroPro.service.EmployeeService;
+import com.agropro.AgroPro.service.PositionService;
 import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +20,12 @@ import java.util.Map;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final PositionRepository positionRepository;
+    private final PositionService positionService;
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("employeeForm", new EmployeeForm());
-        model.addAttribute("positions", positionRepository.findAll());
+        model.addAttribute("positions", positionService.getAllPositions());
         return "employees/employee_add";
     }
 
