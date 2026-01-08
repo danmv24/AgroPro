@@ -84,28 +84,28 @@ h1 {
 }
 
 .icon-wheat-winter {
-    background-image: url('../images/wheat-winter.png');
+    background-image: url('../images/crops/wheat-winter.png');
 }
 .icon-wheat-spring {
-    background-image: url('../images/wheat-spring.png');
+    background-image: url('../images/crops/wheat-spring.png');
 }
 .icon-barley {
-    background-image: url('../images/barley.png');
+    background-image: url('../images/crops/barley.png');
 }
 .icon-sunflower {
-    background-image: url('../images/sunflower.png');
+    background-image: url('../images/crops/sunflower.png');
 }
 .icon-soya {
-    background-image: url('../images/soy.png');
+    background-image: url('../images/crops/soy.png');
 }
 .icon-fallow {
-    background-image: url('../images/fallow.png');
+    background-image: url('../images/crops/fallow.png');
 }
 .icon-apple {
-    background-image: url('../images/apple.png');
+    background-image: url('../images/crops/apple.png');
 }
 .icon-default {
-    background-image: url('../images/fields.png');
+    background-image: url('../images/crops/fields.png');
 }
 
 .crop-icon::before {
