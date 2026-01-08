@@ -2,6 +2,7 @@ package com.agropro.AgroPro.repository.impl;
 
 import com.agropro.AgroPro.model.Position;
 import com.agropro.AgroPro.repository.PositionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -9,13 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class JdbcNativePositionRepository implements PositionRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
-    public JdbcNativePositionRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public Optional<Position> findByPositionName(String positionName) {

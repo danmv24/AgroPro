@@ -3,6 +3,7 @@ package com.agropro.AgroPro.repository.impl;
 import com.agropro.AgroPro.model.WorkRecord;
 import com.agropro.AgroPro.repository.WorkRecordRepository;
 import com.agropro.AgroPro.view.WorkRecordView;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -14,13 +15,10 @@ import java.sql.Statement;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class JdbcNativeWorkRecordRepository implements WorkRecordRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
-    public JdbcNativeWorkRecordRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public void save(WorkRecord workRecord) {

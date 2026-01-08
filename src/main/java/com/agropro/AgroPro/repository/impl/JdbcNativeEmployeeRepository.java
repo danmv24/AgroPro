@@ -4,6 +4,7 @@ import com.agropro.AgroPro.enums.PaymentType;
 import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.EmployeeRepository;
 import com.agropro.AgroPro.view.EmployeeBasicInfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -14,13 +15,10 @@ import java.sql.Statement;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class JdbcNativeEmployeeRepository implements EmployeeRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
-    public JdbcNativeEmployeeRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public void save(Employee employee) {
