@@ -1,4 +1,4 @@
-INSERT INTO machinery_types(machinery_name) VALUES ('Трактор'),
+INSERT INTO machinery_types(machinery_type) VALUES ('Трактор'),
                                                    ('Комбайн'),
                                                    ('Грузовик'),
                                                    ('Легковой транспорт'),
