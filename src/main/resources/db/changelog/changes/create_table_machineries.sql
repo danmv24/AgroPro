@@ -1,5 +1,5 @@
 CREATE TABLE "machineries" (
-    machinery_id SERIAL PRIMARY KEY,
+    machinery_id BIGSERIAL PRIMARY KEY,
     machinery_name VARCHAR(100) NOT NULL,
     machinery_type_id INT NOT NULL,
     inventory_number INT NOT NULL UNIQUE,
