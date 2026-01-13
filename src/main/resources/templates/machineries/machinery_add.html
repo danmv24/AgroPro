@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить машину</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/machinery_add.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Добавить машину</h1>
+
+    <div id="notification" class="notification" style="display: none;">
+        <span id="notification-text"></span>
+    </div>
+
+    <form id="machineryForm" class="machinery-form" th:object="${machineryForm}"> <!-- Добавлен th:object -->
+
+        <div class="form-group">
+            <label for="machineryName">Название машины</label>
+            <input type="text" id="machineryName" name="machineryName" th:field="*{machineryName}" required>
+            <span class="error-message" id="machineryName-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="machineryTypeId">Тип машины</label>
+            <select id="machineryTypeId" name="machineryTypeId" th:field="*{machineryTypeId}" required>
+                <option value="" disabled selected>Выберите тип...</option>
+                <option th:each="type : ${machineryTypes}"
+                        th:value="${type.id}"
+                        th:text="${type.machineryType}"></option>
+            </select>
+            <span class="error-message" id="machineryTypeId-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="inventoryNumber">Инвентарный номер</label>
+            <input type="number" id="inventoryNumber" name="inventoryNumber" th:field="*{inventoryNumber}" required>
+            <span class="error-message" id="inventoryNumber-error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="licensePlate">Гос. номер</label>
+            <input type="text" id="licensePlate" name="licensePlate" th:field="*{licensePlate}">
+            <span class="error-message" id="licensePlate-error"></span>
+        </div>
+
+        <button type="submit" class="submit-btn">Добавить машину</button>
+    </form>
+</div>
+
+<script th:src="@{/js/machineries/machinery_add.js}"></script> <!-- Убедитесь, что путь к JS корректен -->
+</body>
+</html>

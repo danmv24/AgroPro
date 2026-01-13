@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Техника предприятия</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/machinery_list.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Техника предприятия</h1>
+
+    <div class="machinery-container">
+        <div th:each="machinery : ${machineries}" class="machinery-card" th:data-status="${#strings.toLowerCase(#strings.replace(machinery.statusCode, ' ', '-'))}">
+            <div class="card-header">
+                <h3 th:text="${machinery.machineryName}">Название машины</h3>
+                <!-- Иконка машины -->
+                <span class="machinery-icon"></span>
+            </div>
+            <div class="card-body">
+                <p><strong>Тип:</strong> <span th:text="${machinery.machineryType}">Тип машины</span></p>
+                <p><strong>Инв. №:</strong> <span th:text="${machinery.inventoryNumber}">12345</span></p>
+                <p><strong>Гос. №:</strong> <span th:text="${machinery.licencePlate ?: '—'}">XX123XX</span></p>
+                <p><strong>Статус:</strong> <span class="status-badge" th:text="${machinery.statusCode}">В работе</span></p>
+            </div>
+            <div class="card-actions">
+                <!-- <button onclick="editMachinery(${machinery.machineryId})">Редактировать</button> -->
+                <!-- <button onclick="deleteMachinery(${machinery.machineryId})">Изменить статус</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/machineries/machinery_list.js}"></script>
+</body>
+</html>
