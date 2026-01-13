@@ -7,11 +7,7 @@ import java.util.Optional;
 
 public interface PositionRepository {
 
-    Optional<Position> findByPositionName(String positionName);
-
     List<Position> findAll();
-
-    Optional<Position> findByPositionId(Long positionId);
 
     Optional<Long> findPositionIdByPositionName(String positionName);
 
