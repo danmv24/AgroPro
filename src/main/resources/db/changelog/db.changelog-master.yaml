@@ -34,6 +34,18 @@ databaseChangeLog:
       file: /changes/create_table_work_types.sql
       relativeToChangelogFile: true
 
+  - include:
+      file: /changes/create_table_status_codes.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/create_table_machinery_types.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/create_table_machineries.sql
+      relativeToChangelogFile: true
+
     # inserting data
 
   - include:
@@ -50,4 +62,12 @@ databaseChangeLog:
 
   - include:
       file: changes/insert_data_to_work_types_table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/insert_data_to_machinery_types_table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/insert_data_to_status_codes_table.sql
       relativeToChangelogFile: true
