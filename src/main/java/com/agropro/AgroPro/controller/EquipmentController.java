@@ -3,12 +3,14 @@ package com.agropro.AgroPro.controller;
 import com.agropro.AgroPro.form.EquipmentForm;
 import com.agropro.AgroPro.service.EquipmentService;
 import com.agropro.AgroPro.service.EquipmentTypeService;
+import com.agropro.AgroPro.view.EquipmentView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -35,5 +37,12 @@ public class EquipmentController {
         return ResponseEntity.ok(Map.of("status", "success", "message", "Оборудование успешно добавлено"));
     }
 
+    @GetMapping("/list")
+    public String showEquipment(Model model) {
+        List<EquipmentView> equipmentViews = equipmentService.getAllEquipment();
+        model.addAttribute("equipment", equipmentViews);
+
+        return "equipment/equipment_list";
+    }
 
 }
