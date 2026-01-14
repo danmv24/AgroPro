@@ -15,7 +15,7 @@ public class Equipment {
 
     @Id
     @Column("equipment_id")
-    private String equipmentId;
+    private Long equipmentId;
 
     @Column("equipment_name")
     private String equipmentName;
