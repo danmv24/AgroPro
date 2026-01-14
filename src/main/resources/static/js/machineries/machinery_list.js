@@ -4,14 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setMachineryIcons() {
-    const iconMap = {
-        'Трактор': 'icon-tractor',
-        'Комбайн': 'icon-combine',
-        'Грузовик': 'icon-truck',
-        'Легковой транспорт': 'icon-transport',
-        'Погрузчик': 'icon-forklift'
-    };
-
     const icons = document.querySelectorAll('.machinery-icon');
     icons.forEach(icon => {
         const card = icon.closest('.machinery-card');
