@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    applyequipmentCardStyling();
+    applyEquipmentCardStyling();
     setEquipmentIcons();
 });
 
@@ -35,7 +35,7 @@ function getIconClassForEquipmentType(equipmentTypeName) {
     return iconMap[equipmentTypeName] || 'icon-default';
 }
 
-function applyequipmentCardStyling() {
+function applyEquipmentCardStyling() {
     const statusClassMap = {
         'в-работе': 'status-bg-in-operation',
         'на-ремонте': 'status-bg-under-repair',
