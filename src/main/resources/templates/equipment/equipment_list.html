@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Оборудование предприятия</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/equipment_list.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Оборудование предприятия</h1>
+
+    <div class="equipment-container">
+        <div th:each="equip : ${equipment}" class="equipment-card" th:data-status="${#strings.toLowerCase(#strings.replace(equip.statusCode, ' ', '-'))}">
+            <div class="card-header">
+                <h3 th:text="${equip.equipmentName}">Название оборудования</h3>
+                <span class="equipment-icon"></span>
+            </div>
+            <div class="card-body">
+                <p><strong>Тип:</strong> <span th:text="${equip.equipmentType}"></span></p>
+                <p><strong>Инв. №:</strong> <span th:text="${equip.inventoryNumber}"></span></p>
+                <p><strong>Статус:</strong> <span class="status-badge" th:text="${equip.statusCode}"></span></p>
+            </div>
+            <div class="card-actions">
+                <!-- <button onclick="editMachinery(${machinery.machineryId})">Редактировать</button> -->
+                <!-- <button onclick="deleteMachinery(${machinery.machineryId})">Изменить статус</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/equipment/equipment_list.js}"></script>
+</body>
+</html>
