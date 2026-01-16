@@ -86,35 +86,35 @@ h1 {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/machineries/tractor.png');
+    background-image: url('../../images/machineries/tractor.png');
 }
 
 .icon-combine {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/machineries/combine.png');
+    background-image: url('../../images/machineries/combine.png');
 }
 
 .icon-truck {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/machineries/truck.png');
+    background-image: url('../../images/machineries/truck.png');
 }
 
 .icon-transport {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/machineries/transport.png');
+    background-image: url('../../images/machineries/transport.png');
 }
 
 .icon-forklift {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/machineries/forklift.png');
+    background-image: url('../../images/machineries/forklift.png');
 }
 
 /*.card-actions {*/

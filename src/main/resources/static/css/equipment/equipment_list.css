@@ -86,55 +86,55 @@ h1 {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/cultivator.png');
+    background-image: url('../../images/equipment/cultivator.png');
 }
 
 .icon-diskator {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/diskator.png');
+    background-image: url('../../images/equipment/diskator.png');
 }
 
 .icon-trailer {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/trailer.png');
+    background-image: url('../../images/equipment/trailer.png');
 }
 
 .icon-seeder {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/seeder.png');
+    background-image: url('../../images/equipment/seeder.png');
 }
 
 .icon-mower {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/mower.png');
+    background-image: url('../../images/equipment/mower.png');
 }
 
 .icon-fertilizer-spreader {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/fertilizer_spreader.png');
+    background-image: url('../../images/equipment/fertilizer_spreader.png');
 }
 
 .icon-plow {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/plow.png');
+    background-image: url('../../images/equipment/plow.png');
 }
 .icon-sprayer {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('../images/equipment/sprayer.png');
+    background-image: url('../../images/equipment/sprayer.png');
 }
 
 
