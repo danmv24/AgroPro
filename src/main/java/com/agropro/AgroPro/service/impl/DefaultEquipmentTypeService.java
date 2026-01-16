@@ -28,7 +28,7 @@ public class DefaultEquipmentTypeService implements EquipmentTypeService {
     }
 
     @Override
-    public void validateExistsById(Long id) {
+    public void validateEquipmentTypeExistsById(Long id) {
         if (!equipmentTypeRepository.existsById(id)) {
             throw new EquipmentTypeNotFoundException(HttpStatus.NOT_FOUND, id);
         }

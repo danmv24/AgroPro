@@ -17,14 +17,12 @@ import java.util.List;
 public class DefaultEquipmentService implements EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
-
     private final EquipmentTypeService equipmentTypeService;
-
     private final StatusService statusService;
 
     @Override
     public void addEquipment(EquipmentForm equipmentForm) {
-        equipmentTypeService.validateExistsById(equipmentForm.getEquipmentTypeId());
+        equipmentTypeService.validateEquipmentTypeExistsById(equipmentForm.getEquipmentTypeId());
         Long idleStatusId = statusService.getIdleStatusCodeId();
 
         equipmentRepository.save(EquipmentMapper.toModel(equipmentForm, idleStatusId));

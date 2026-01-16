@@ -8,6 +8,6 @@ public interface EquipmentTypeService {
 
     List<EquipmentTypeView> getAllEquipmentTypes();
 
-    void validateExistsById(Long id);
+    void validateEquipmentTypeExistsById(Long id);
 
 }
