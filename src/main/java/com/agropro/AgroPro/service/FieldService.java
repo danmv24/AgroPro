@@ -8,4 +8,6 @@ public interface FieldService {
 
     List<FieldWithCurrentCropView> getFieldsWithCropByYear(Integer year);
 
+    void validateFieldExistsById(Long fieldId);
+
 }

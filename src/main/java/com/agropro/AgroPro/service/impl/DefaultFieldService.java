@@ -1,9 +1,11 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.exception.FieldNotFoundException;
 import com.agropro.AgroPro.repository.FieldRepository;
 import com.agropro.AgroPro.service.FieldService;
 import com.agropro.AgroPro.view.FieldWithCurrentCropView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,13 @@ public class DefaultFieldService implements FieldService {
     @Override
     public List<FieldWithCurrentCropView> getFieldsWithCropByYear(Integer year) {
         return fieldRepository.findFieldsWithCropByYear(year);
+    }
+
+    @Override
+    public void validateFieldExistsById(Long fieldId) {
+        if (!fieldRepository.existsByFieldId(fieldId)) {
+            throw new FieldNotFoundException(HttpStatus.NOT_FOUND, fieldId);
+        }
     }
 
 }
