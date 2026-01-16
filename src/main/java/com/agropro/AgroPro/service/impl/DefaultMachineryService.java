@@ -17,14 +17,12 @@ import java.util.List;
 public class DefaultMachineryService implements MachineryService {
 
     private final MachineryRepository machineryRepository;
-
     private final MachineryTypeService machineryTypeService;
-
     private final StatusService statusService;
 
     @Override
     public void addMachinery(MachineryForm machineryForm) {
-        machineryTypeService.validateExists(machineryForm.getMachineryTypeId());
+        machineryTypeService.validateMachineryTypeExistsById(machineryForm.getMachineryTypeId());
         Long idleStatusId = statusService.getIdleStatusCodeId();
 
         machineryRepository.save(MachineryMapper.toModel(machineryForm, idleStatusId));

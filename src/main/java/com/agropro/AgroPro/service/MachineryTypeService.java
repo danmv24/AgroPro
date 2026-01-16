@@ -8,6 +8,6 @@ public interface MachineryTypeService {
 
     List<MachineryTypeView> getAllMachineryTypes();
 
-    void validateExists(Long machineryTypeId);
+    void validateMachineryTypeExistsById(Long machineryTypeId);
 
 }

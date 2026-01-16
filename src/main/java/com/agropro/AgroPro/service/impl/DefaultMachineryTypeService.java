@@ -19,7 +19,6 @@ public class DefaultMachineryTypeService implements MachineryTypeService {
 
     private final MachineryTypeRepository machineryTypeRepository;
 
-
     @Override
     public List<MachineryTypeView> getAllMachineryTypes() {
         List<MachineryType> machineryTypes = machineryTypeRepository.findAll();
@@ -30,7 +29,7 @@ public class DefaultMachineryTypeService implements MachineryTypeService {
     }
 
     @Override
-    public void validateExists(Long machineryTypeId) {
+    public void validateMachineryTypeExistsById(Long machineryTypeId) {
         if (!machineryTypeRepository.existsById(machineryTypeId)) {
             throw new MachineryTypeNotFoundException(HttpStatus.NOT_FOUND, machineryTypeId);
         }
