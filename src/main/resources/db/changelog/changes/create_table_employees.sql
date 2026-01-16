@@ -6,6 +6,6 @@ CREATE TABLE "employees" (
     position_id INT,
     payment_type VARCHAR(15) NOT NULL CHECK (payment_type IN ('FIXED', 'HOURLY')),
     salary DECIMAL(8, 2) NOT NULL CHECK (salary > 0),
-    hire_date DATE,
+    hire_date DATE NOT NULL,
     FOREIGN KEY (position_id) REFERENCES positions(position_id)
 );
