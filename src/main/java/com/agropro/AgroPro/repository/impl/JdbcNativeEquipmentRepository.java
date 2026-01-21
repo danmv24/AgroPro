@@ -47,7 +47,7 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
         String query = "SELECT e.equipment_name, e.inventory_number, et.equipment_type, sc.display_name " +
                 "FROM equipment AS e " +
                 "INNER JOIN equipment_types AS et ON e.equipment_type_id = et.id " +
-                "INNER JOIN status_codes AS sc ON e.status_id = sc.status_id " +
+                "INNER JOIN status_codes AS sc ON e.current_status_id = sc.status_id " +
                 "ORDER BY e.equipment_name";
 
         return jdbcTemplate.query(query, (rs, rowNum) ->

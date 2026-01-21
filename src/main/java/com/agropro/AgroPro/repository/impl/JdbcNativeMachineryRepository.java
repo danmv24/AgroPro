@@ -49,7 +49,7 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
         String query = "SELECT m.machinery_name, mt.machinery_type, m.inventory_number, m.license_plate, sc.display_name" +
                 " FROM machineries AS m " +
                 "INNER JOIN machinery_types AS mt ON m.machinery_type_id = mt.id " +
-                "INNER JOIN status_codes AS sc ON m.status_id = sc.status_id " +
+                "INNER JOIN status_codes AS sc ON m.current_status_id = sc.status_id " +
                 "ORDER BY m.machinery_name";
 
         return jdbcTemplate.query(query, (rs, rowNum) ->
