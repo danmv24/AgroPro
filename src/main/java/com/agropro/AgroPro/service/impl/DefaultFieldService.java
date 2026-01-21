@@ -3,6 +3,7 @@ package com.agropro.AgroPro.service.impl;
 import com.agropro.AgroPro.exception.FieldNotFoundException;
 import com.agropro.AgroPro.repository.FieldRepository;
 import com.agropro.AgroPro.service.FieldService;
+import com.agropro.AgroPro.view.FieldView;
 import com.agropro.AgroPro.view.FieldWithCurrentCropView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,11 @@ public class DefaultFieldService implements FieldService {
         if (!fieldRepository.existsByFieldId(fieldId)) {
             throw new FieldNotFoundException(HttpStatus.NOT_FOUND, fieldId);
         }
+    }
+
+    @Override
+    public List<FieldView> getAllFields() {
+        return fieldRepository.findAll();
     }
 
 }
