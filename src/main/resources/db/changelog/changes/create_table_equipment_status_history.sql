@@ -1,4 +1,4 @@
-CREATE TABLE "machinery_status_history" (
+CREATE TABLE "equipment_status_history" (
     id BIGSERIAL PRIMARY KEY,
     equipment_id BIGINT NOT NULL,
     status_id INT NOT NULL,
