@@ -54,6 +54,14 @@ databaseChangeLog:
       file: /changes/create_table_equipment.sql
       relativeToChangelogFile: true
 
+  - include:
+      file: /changes/create_table_machinery_status_history.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: /changes/create_table_equipment_status_history.sql
+      relativeToChangelogFile: true
+
     # inserting data
 
   - include:
