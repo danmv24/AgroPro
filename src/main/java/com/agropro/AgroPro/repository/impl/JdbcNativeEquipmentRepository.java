@@ -21,7 +21,8 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
 
     @Override
     public void save(Equipment equipment) {
-        String query = "INSERT INTO equipment(equipment_name, equipment_type_id, inventory_number, status_id) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO equipment(equipment_name, equipment_type_id, inventory_number, current_status_id, purchase_date) " +
+                "VALUES (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -29,7 +30,8 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
             preparedStatement.setString(1, equipment.getEquipmentName());
             preparedStatement.setLong(2, equipment.getEquipmentTypeId());
             preparedStatement.setInt(3, equipment.getInventoryNumber());
-            preparedStatement.setLong(4, equipment.getStatusId());
+            preparedStatement.setLong(4, equipment.getCurrentStatusId());
+            preparedStatement.setObject(5, equipment.getPurchaseDate());
 
             return preparedStatement;
         }, keyHolder);

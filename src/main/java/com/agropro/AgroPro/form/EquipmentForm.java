@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,5 +18,7 @@ public class EquipmentForm {
     private Long equipmentTypeId;
 
     private Integer inventoryNumber;
+
+    private LocalDate purchaseDate;
 
 }

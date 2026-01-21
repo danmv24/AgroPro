@@ -21,8 +21,8 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
 
     @Override
     public void save(Machinery machinery) {
-        String query = "INSERT INTO machineries(machinery_name, machinery_type_id, inventory_number, license_plate, status_id) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO machineries(machinery_name, machinery_type_id, inventory_number, license_plate, current_status_id, purchase_date) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -33,7 +33,8 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
             preparedStatement.setLong(2, machinery.getMachineryTypeId());
             preparedStatement.setInt(3, machinery.getInventoryNumber());
             preparedStatement.setString(4, machinery.getLicencePlate());
-            preparedStatement.setLong(5, machinery.getStatusId());
+            preparedStatement.setLong(5, machinery.getCurrentStatusId());
+            preparedStatement.setObject(6, machinery.getPurchaseDate());
             return preparedStatement;
         }, keyHolder);
 

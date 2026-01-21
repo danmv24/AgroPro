@@ -38,7 +38,8 @@ document.addEventListener('DOMContentLoaded', function () {
             machineryName: document.getElementById('machineryName').value.trim(),
             machineryTypeId: parseInt(document.getElementById('machineryTypeId').value, 10),
             inventoryNumber: parseInt(document.getElementById('inventoryNumber').value, 10),
-            licensePlate: document.getElementById('licensePlate').value.trim() || null
+            licensePlate: document.getElementById('licensePlate').value.trim() || null,
+            purchaseDate: form.elements['purchaseDate']?.value || '',
         };
 
         if (isNaN(formData.machineryTypeId) || isNaN(formData.inventoryNumber)) {

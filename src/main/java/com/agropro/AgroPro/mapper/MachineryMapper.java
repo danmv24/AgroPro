@@ -11,7 +11,8 @@ public class MachineryMapper {
                 .inventoryNumber(machineryForm.getInventoryNumber())
                 .machineryTypeId(machineryForm.getMachineryTypeId())
                 .licencePlate(machineryForm.getLicensePlate())
-                .statusId(idleStatusId)
+                .currentStatusId(idleStatusId)
+                .purchaseDate(machineryForm.getPurchaseDate())
                 .build();
     }
 

@@ -10,7 +10,8 @@ public class EquipmentMapper {
                 .equipmentName(equipmentForm.getEquipmentName())
                 .equipmentTypeId(equipmentForm.getEquipmentTypeId())
                 .inventoryNumber(equipmentForm.getInventoryNumber())
-                .statusId(idleStatusId)
+                .currentStatusId(idleStatusId)
+                .purchaseDate(equipmentForm.getPurchaseDate())
                 .build();
     }
 

@@ -2,6 +2,8 @@ package com.agropro.AgroPro.form;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,5 +18,7 @@ public class MachineryForm {
     private Integer inventoryNumber;
 
     private String licensePlate;
+
+    private LocalDate purchaseDate;
 
 }

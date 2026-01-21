@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.LocalDate;
+
 @Table(name = "equipment")
 @Getter
 @Setter
@@ -26,7 +28,10 @@ public class Equipment {
     @Column("inventory_number")
     private Integer inventoryNumber;
 
-    @Column("status_id")
-    private Long statusId;
+    @Column("current_status_id")
+    private Long currentStatusId;
+
+    @Column("purchase_date")
+    private LocalDate purchaseDate;
 
 }

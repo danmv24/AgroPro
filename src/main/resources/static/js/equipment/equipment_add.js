@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
             equipmentName: document.getElementById('equipmentName').value.trim(),
             equipmentTypeId: parseInt(document.getElementById('equipmentTypeId').value, 10),
             inventoryNumber: parseInt(document.getElementById('inventoryNumber').value, 10),
+            purchaseDate: form.elements['purchaseDate']?.value || '',
         };
 
         if (isNaN(formData.equipmentTypeId) || isNaN(formData.inventoryNumber)) {
