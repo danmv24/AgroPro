@@ -10,7 +10,7 @@ description = 'An application for cost accounting and financial planning'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
