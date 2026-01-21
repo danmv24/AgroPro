@@ -13,7 +13,7 @@ public class JdbcNativeEquipmentStatusHistoryRepository implements EquipmentStat
 
     @Override
     public void save(Long equipmentId, Long statusId) {
-        String query = "INSERT INTO equipment_status_history(machinery_id, status_id, changed_at) VALUES (?, ?, NOW())";
+        String query = "INSERT INTO equipment_status_history(equipment_id, status_id, changed_at) VALUES (?, ?, NOW())";
         jdbcTemplate.update(query, equipmentId, statusId);
     }
 }
