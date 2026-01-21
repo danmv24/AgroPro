@@ -9,6 +9,7 @@ import com.agropro.AgroPro.service.FieldService;
 import com.agropro.AgroPro.view.FieldPlantingView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class DefaultFieldPlantingService implements FieldPlantingService {
     private final CropService cropService;
 
     @Override
+    @Transactional
     public void addFieldPlanting(FieldPlantingForm fieldPlantingForm) {
         fieldService.validateFieldExistsById(fieldPlantingForm.getFieldId());
         cropService.validateCropExistsById(fieldPlantingForm.getCropId());

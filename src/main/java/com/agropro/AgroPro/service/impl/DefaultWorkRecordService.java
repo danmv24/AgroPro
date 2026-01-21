@@ -10,6 +10,7 @@ import com.agropro.AgroPro.view.WorkRecordView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class DefaultWorkRecordService implements WorkRecordService {
     private final WorkRecordRepository workRecordRepository;
 
     @Override
+    @Transactional
     public void addWorkRecord(WorkRecordForm workRecordForm) {
         if (!employeeRepository.existsByEmployeeId(workRecordForm.getEmployeeId())) {
             throw new EmployeeNotFoundException(HttpStatus.NOT_FOUND, workRecordForm.getEmployeeId());

@@ -12,6 +12,7 @@ import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class DefaultEmployeeService implements EmployeeService {
     private final PositionService positionService;
 
     @Override
+    @Transactional
     public void addEmployee(EmployeeForm employeeForm) {
         Long positionId = positionService.getPositionIdByPositionName(employeeForm.getPosition())
                 .orElseThrow(() -> new PositionNotFoundException(HttpStatus.NOT_FOUND, "Должность не найдена: " + employeeForm.getPosition()));
