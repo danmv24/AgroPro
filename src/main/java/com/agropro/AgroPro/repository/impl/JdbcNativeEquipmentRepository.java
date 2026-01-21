@@ -20,7 +20,7 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public void save(Equipment equipment) {
+    public Long save(Equipment equipment) {
         String query = "INSERT INTO equipment(equipment_name, equipment_type_id, inventory_number, current_status_id, purchase_date) " +
                 "VALUES (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -38,6 +38,8 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
 
         Long generatedId = ((Number) keyHolder.getKeys().get("equipment_id")).longValue();
         equipment.setEquipmentId(generatedId);
+
+        return generatedId;
     }
 
     @Override

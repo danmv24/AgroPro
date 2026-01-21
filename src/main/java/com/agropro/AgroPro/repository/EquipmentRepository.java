@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EquipmentRepository {
 
-    void save(Equipment equipment);
+    Long save(Equipment equipment);
 
     List<EquipmentView> findAll();
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MachineryRepository {
 
-    void save(Machinery machinery);
+    Long save(Machinery machinery);
 
     List<MachineryView> findAll();
 

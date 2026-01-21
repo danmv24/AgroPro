@@ -20,7 +20,7 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public void save(Machinery machinery) {
+    public Long save(Machinery machinery) {
         String query = "INSERT INTO machineries(machinery_name, machinery_type_id, inventory_number, license_plate, current_status_id, purchase_date) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -40,6 +40,8 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
 
         Long generatedId = ((Number) keyHolder.getKeys().get("machinery_id")).longValue();
         machinery.setMachineryId(generatedId);
+
+        return generatedId;
     }
 
     @Override
