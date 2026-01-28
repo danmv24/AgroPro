@@ -7,6 +7,7 @@ import com.agropro.AgroPro.service.EquipmentService;
 import com.agropro.AgroPro.service.EquipmentStatusHistoryService;
 import com.agropro.AgroPro.service.EquipmentTypeService;
 import com.agropro.AgroPro.service.StatusService;
+import com.agropro.AgroPro.view.EquipmentBasicInfoView;
 import com.agropro.AgroPro.view.EquipmentView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,10 @@ public class DefaultEquipmentService implements EquipmentService {
     @Override
     public List<EquipmentView> getAllEquipment() {
         return equipmentRepository.findAll();
+    }
+
+    @Override
+    public List<EquipmentBasicInfoView> getIdleEquipment() {
+        return equipmentRepository.findEquipmentWithIdleStatus();
     }
 }
