@@ -27,10 +27,6 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: /changes/create_table_harvests.sql
-      relativeToChangelogFile: true
-
-  - include:
       file: /changes/create_table_work_types.sql
       relativeToChangelogFile: true
 
