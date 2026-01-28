@@ -7,7 +7,7 @@ import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.EmployeeRepository;
 import com.agropro.AgroPro.service.EmployeeService;
 import com.agropro.AgroPro.service.PositionService;
-import com.agropro.AgroPro.view.EmployeeBasicInfo;
+import com.agropro.AgroPro.view.EmployeeBasicInfoView;
 import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,12 +46,12 @@ public class DefaultEmployeeService implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeBasicInfo> getHourlyPaidEmployees() {
+    public List<EmployeeBasicInfoView> getHourlyPaidEmployees() {
         return employeeRepository.findEmployeesWherePaymentTypeIsHourly();
     }
 
     @Override
-    public List<EmployeeBasicInfo> getMechanizators() {
+    public List<EmployeeBasicInfoView> getMechanizators() {
         return employeeRepository.findEmployeesWherePositionIsMechanizator();
     }
 

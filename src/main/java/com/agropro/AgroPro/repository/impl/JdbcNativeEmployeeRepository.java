@@ -3,7 +3,7 @@ package com.agropro.AgroPro.repository.impl;
 import com.agropro.AgroPro.enums.PaymentType;
 import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.EmployeeRepository;
-import com.agropro.AgroPro.view.EmployeeBasicInfo;
+import com.agropro.AgroPro.view.EmployeeBasicInfoView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -60,11 +60,11 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public List<EmployeeBasicInfo> findEmployeesWherePaymentTypeIsHourly() {
+    public List<EmployeeBasicInfoView> findEmployeesWherePaymentTypeIsHourly() {
         String query = "SELECT employee_id, surname, name, patronymic FROM employees WHERE payment_type = ? ORDER BY surname, name";
         return jdbcTemplate.query(query,
                 ps -> ps.setString(1, "HOURLY"),
-                (rs, rowNum) -> EmployeeBasicInfo.builder()
+                (rs, rowNum) -> EmployeeBasicInfoView.builder()
                         .employeeId(rs.getLong("employee_id"))
                         .surname(rs.getString("surname"))
                         .name(rs.getString("name"))
@@ -81,14 +81,14 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public List<EmployeeBasicInfo> findEmployeesWherePositionIsMechanizator() {
+    public List<EmployeeBasicInfoView> findEmployeesWherePositionIsMechanizator() {
         String query = "SELECT e.employee_id, e.surname, e.name, e.patronymic FROM employees AS e " +
                 "INNER JOIN positions AS p ON p.position_id = e.position_id " +
                 "WHERE p.position_name = ?";
 
         return jdbcTemplate.query(query,
                 ps -> ps.setString(1, "Механизатор"),
-                (rs, rowNum) -> EmployeeBasicInfo.builder()
+                (rs, rowNum) -> EmployeeBasicInfoView.builder()
                             .employeeId(rs.getLong("employee_id"))
                             .surname(rs.getString("surname"))
                             .name(rs.getString("surname"))

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 @Getter
-public class EmployeeBasicInfo {
+public class EmployeeBasicInfoView {
 
     private final Long employeeId;
 

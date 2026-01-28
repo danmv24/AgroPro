@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.service;
 
 import com.agropro.AgroPro.form.EmployeeForm;
-import com.agropro.AgroPro.view.EmployeeBasicInfo;
+import com.agropro.AgroPro.view.EmployeeBasicInfoView;
 import com.agropro.AgroPro.view.EmployeeView;
 
 import java.util.List;
@@ -12,8 +12,8 @@ public interface EmployeeService {
 
     List<EmployeeView> getEmployees();
 
-    List<EmployeeBasicInfo> getHourlyPaidEmployees();
+    List<EmployeeBasicInfoView> getHourlyPaidEmployees();
 
-    List<EmployeeBasicInfo> getMechanizators();
+    List<EmployeeBasicInfoView> getMechanizators();
 
 }
