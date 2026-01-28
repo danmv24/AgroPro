@@ -91,7 +91,7 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
                 (rs, rowNum) -> EmployeeBasicInfoView.builder()
                             .employeeId(rs.getLong("employee_id"))
                             .surname(rs.getString("surname"))
-                            .name(rs.getString("surname"))
+                            .name(rs.getString("name"))
                             .patronymic(rs.getString("patronymic"))
                             .build()
                 );
