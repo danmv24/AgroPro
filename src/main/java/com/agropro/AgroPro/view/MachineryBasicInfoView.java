@@ -15,4 +15,6 @@ public class MachineryBasicInfoView {
 
     private final String machineryName;
 
+    private final String licensePlate;
+
 }
