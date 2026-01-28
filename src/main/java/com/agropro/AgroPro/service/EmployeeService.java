@@ -14,4 +14,6 @@ public interface EmployeeService {
 
     List<EmployeeBasicInfo> getHourlyPaidEmployees();
 
+    List<EmployeeBasicInfo> getMechanizators();
+
 }

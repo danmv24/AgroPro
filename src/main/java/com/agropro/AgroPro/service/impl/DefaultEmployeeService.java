@@ -50,4 +50,9 @@ public class DefaultEmployeeService implements EmployeeService {
         return employeeRepository.findEmployeesWherePaymentTypeIsHourly();
     }
 
+    @Override
+    public List<EmployeeBasicInfo> getMechanizators() {
+        return employeeRepository.findEmployeesWherePositionIsMechanizator();
+    }
+
 }
