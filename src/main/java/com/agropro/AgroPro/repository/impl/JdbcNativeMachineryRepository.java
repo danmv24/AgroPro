@@ -66,7 +66,7 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
 
     @Override
     public List<MachineryBasicInfoView> findMachineriesWithIdleStatus() {
-        String query = "SELECT m.machinery_id, m.machinery_name, mt.machinery_type FROM machineries AS m " +
+        String query = "SELECT m.machinery_id, m.machinery_name, mt.machinery_type, m.license_plate FROM machineries AS m " +
                 "INNER JOIN machinery_types AS mt ON mt.id = m.machinery_type_id " +
                 "INNER JOIN status_codes AS sc ON sc.status_id = m.current_status_id " +
                 "WHERE sc.status_code = ?";
@@ -78,6 +78,7 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
                             .machineryId(rs.getLong("machinery_id"))
                             .machineryName(rs.getString("machinery_name"))
                             .machineryType(rs.getString("machinery_type"))
+                            .licensePlate(rs.getString("license_plate"))
                             .build()
                 );
     }
