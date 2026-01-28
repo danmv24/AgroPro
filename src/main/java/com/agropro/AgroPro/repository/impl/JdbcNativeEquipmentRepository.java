@@ -2,6 +2,7 @@ package com.agropro.AgroPro.repository.impl;
 
 import com.agropro.AgroPro.model.Equipment;
 import com.agropro.AgroPro.repository.EquipmentRepository;
+import com.agropro.AgroPro.view.EquipmentBasicInfoView;
 import com.agropro.AgroPro.view.EquipmentView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,6 +59,24 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
                             .statusCode(rs.getString("display_name"))
                             .build()
                 );
+    }
+
+    @Override
+    public List<EquipmentBasicInfoView> findEquipmentWithIdleStatus() {
+        String query = "SELECT e.equipment_id, e.equipment_name, et.equipment_type FROM equipment AS e " +
+                "INNER JOIN equipment_types AS et ON et.id = e.equipment_type_id " +
+                "INNER JOIN status_codes AS sc ON sc.status_id = e.current_status_id " +
+                "WHERE sc.status_code = ?";
+
+        return jdbcTemplate.query(query,
+                ps -> ps.setString(1, "IDLE"),
+                (rs, rowNum) ->
+                        EquipmentBasicInfoView.builder()
+                                .equipmentId(rs.getLong("equipment_id"))
+                                .equipmentName(rs.getString("equipment_name"))
+                                .equipmentType(rs.getString("equipment_type"))
+                                .build()
+        );
     }
 
 
