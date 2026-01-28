@@ -1,4 +1,4 @@
-INSERT INTO work_types(name) VALUES ('Пахота'),
+INSERT INTO work_types(work_name) VALUES ('Пахота'),
                                     ('Культивация'),
                                     ('Боронование'),
                                     ('Посев'),
