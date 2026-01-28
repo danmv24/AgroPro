@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Планирование работы</title>
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/field_works/field_work_add.css}">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Планирование работы</h1>
+
+    <div id="notification-area"></div>
+
+    <form id="fieldWorkForm" class="field-work-form" th:object="${fieldWorkForm}">
+
+        <div class="form-group">
+            <label for="workTypeId">Вид работ:</label>
+            <select id="workTypeId" name="workTypeId" required>
+                <option value="">Выберите вид работ</option>
+                <option th:each="workType : ${workTypes}"
+                        th:value="${workType.workTypeId}"
+                        th:text="${workType.workName}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldId">Поле:</label>
+            <select id="fieldId" name="fieldId" required>
+                <option value="">Выберите поле</option>
+                <option th:each="field : ${fields}"
+                        th:value="${field.fieldId}"
+                        th:text="${field.fieldNumber}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Дата и время начала:</label>
+            <input type="datetime-local" id="startDate" name="startDate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate">Дата и время окончания:</label>
+            <input type="datetime-local" id="endDate" name="endDate" required>
+        </div>
+        >
+        <div class="form-group">
+            <label>Сотрудники:</label>
+            <div class="dropdown-container">
+                <input type="text" id="employee-dropdown-trigger" class="dropdown-trigger" readonly placeholder="Выберите сотрудников">
+                <div id="employee-dropdown-menu" class="dropdown-menu" style="display: none;">
+                    <input type="text" id="employee-search" class="dropdown-search" placeholder="Поиск по ФИО">
+                    <div id="employee-checkbox-list" class="checkbox-list">
+                        <div th:each="employee : ${employees}" class="checkbox-item">
+                            <input type="checkbox" th:id="'emp_' + ${employee.employeeId}" th:value="${employee.employeeId}" class="employee-checkbox">
+                            <label th:for="'emp_' + ${employee.employeeId}" th:text="${employee.surname + ' ' + employee.name + ' ' + employee.patronymic}"></label>
+                        </div>
+                    </div>
+                    <button type="button" id="confirm-employees-btn" class="confirm-btn">Подтвердить</button>
+                </div>
+            </div>
+            <div id="selected-employees-display" class="selected-items-display"></div>
+            <div id="employee-error" class="error-message" style="display: none;">Должен быть выбран сотрудник</div>
+        </div>
+
+        <div class="form-group">
+            <label>Используемая техника:</label>
+            <div class="dropdown-container">
+                <input type="text" id="machinery-dropdown-trigger" class="dropdown-trigger" readonly placeholder="Выберите технику">
+                <div id="machinery-dropdown-menu" class="dropdown-menu" style="display: none;">
+                    <input type="text" id="machinery-search" class="dropdown-search" placeholder="Поиск по названию">
+                    <div id="machinery-checkbox-list" class="checkbox-list">
+                        <div th:each="mach : ${machineries}" class="checkbox-item">
+                            <input type="checkbox" th:id="'mach_' + ${mach.machineryId}" th:value="${mach.machineryId}" class="resource-checkbox">
+                            <label th:for="'mach_' + ${mach.machineryId}" th:text="${mach.machineryType + ' ' + mach.machineryName + ' ' + mach.licensePlate}"></label>
+                        </div>
+                    </div>
+                    <button type="button" id="confirm-machinery-btn" class="confirm-btn">Подтвердить</button>
+                </div>
+            </div>
+            <div id="selected-machineries-display" class="selected-items-display"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Используемое оборудование:</label>
+            <div class="dropdown-container">
+                <input type="text" id="equipment-dropdown-trigger" class="dropdown-trigger" readonly placeholder="Выберите оборудование">
+                <div id="equipment-dropdown-menu" class="dropdown-menu" style="display: none;">
+                    <input type="text" id="equipment-search" class="dropdown-search" placeholder="Поиск по названию">
+                    <div id="equipment-checkbox-list" class="checkbox-list">
+                        <div th:each="equip : ${equipment}" class="checkbox-item">
+                            <input type="checkbox" th:id="'equip_' + ${equip.equipmentId}" th:value="${equip.equipmentId}" class="resource-checkbox">
+                            <label th:for="'equip_' + ${equip.equipmentId}" th:text="${equip.equipmentType + ' ' + equip.equipmentName}"></label>
+                        </div>
+                    </div>
+                    <button type="button" id="confirm-equipment-btn" class="confirm-btn">Подтвердить</button>
+                </div>
+            </div>
+            <div id="selected-equipment-display" class="selected-items-display"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">Запланировать работу</button>
+    </form>
+</div>
+
+<script th:src="@{/js/field_works/field_work_add.js}"></script>
+</body>
+</html>
