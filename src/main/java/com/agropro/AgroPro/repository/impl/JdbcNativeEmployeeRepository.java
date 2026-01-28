@@ -61,8 +61,9 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
 
     @Override
     public List<EmployeeBasicInfo> findEmployeesWherePaymentTypeIsHourly() {
-        String query = "SELECT employee_id, surname, name, patronymic FROM employees WHERE payment_type = 'HOURLY' ORDER BY surname, name";
+        String query = "SELECT employee_id, surname, name, patronymic FROM employees WHERE payment_type = ? ORDER BY surname, name";
         return jdbcTemplate.query(query,
+                ps -> ps.setString(1, "HOURLY"),
                 (rs, rowNum) -> EmployeeBasicInfo.builder()
                         .employeeId(rs.getLong("employee_id"))
                         .surname(rs.getString("surname"))
@@ -77,6 +78,23 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
         String query = "SELECT EXISTS(SELECT 1 FROM employees WHERE employee_id = ?)";
 
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject(query, Boolean.class, employeeId));
+    }
+
+    @Override
+    public List<EmployeeBasicInfo> findEmployeesWherePositionIsMechanizator() {
+        String query = "SELECT e.employee_id, e.surname, e.name, e.patronymic FROM employees AS e " +
+                "INNER JOIN positions AS p ON p.position_id = e.position_id " +
+                "WHERE p.position_name = ?";
+
+        return jdbcTemplate.query(query,
+                ps -> ps.setString(1, "Механизатор"),
+                (rs, rowNum) -> EmployeeBasicInfo.builder()
+                            .employeeId(rs.getLong("employee_id"))
+                            .surname(rs.getString("surname"))
+                            .name(rs.getString("surname"))
+                            .patronymic(rs.getString("patronymic"))
+                            .build()
+                );
     }
 
 

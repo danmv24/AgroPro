@@ -15,4 +15,6 @@ public interface EmployeeRepository {
 
     boolean existsByEmployeeId(Long employeeId);
 
+    List<EmployeeBasicInfo> findEmployeesWherePositionIsMechanizator();
+
 }
