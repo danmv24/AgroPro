@@ -7,6 +7,7 @@ import com.agropro.AgroPro.service.MachineryService;
 import com.agropro.AgroPro.service.MachineryStatusHistoryService;
 import com.agropro.AgroPro.service.MachineryTypeService;
 import com.agropro.AgroPro.service.StatusService;
+import com.agropro.AgroPro.view.MachineryBasicInfoView;
 import com.agropro.AgroPro.view.MachineryView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,11 @@ public class DefaultMachineryService implements MachineryService {
     @Override
     public List<MachineryView> getMachineries() {
         return machineryRepository.findAll();
+    }
+
+    @Override
+    public List<MachineryBasicInfoView> getIdleMachineries() {
+        return machineryRepository.findMachineriesWithIdleStatus();
     }
 
 }
