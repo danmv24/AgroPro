@@ -45,7 +45,7 @@
             <label for="endDate">Дата и время окончания:</label>
             <input type="datetime-local" id="endDate" name="endDate" required>
         </div>
-        >
+
         <div class="form-group">
             <label>Сотрудники:</label>
             <div class="dropdown-container">
@@ -99,6 +99,11 @@
                 </div>
             </div>
             <div id="selected-equipment-display" class="selected-items-display"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Описание работы:</label>
+            <textarea id="description" name="description" rows="3" cols="50" maxlength="300" placeholder="Введите описание работы (не обязательно)"></textarea>
         </div>
 
         <button type="submit" class="submit-btn">Запланировать работу</button>

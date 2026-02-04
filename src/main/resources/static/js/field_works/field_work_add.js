@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
             id: parseInt(item.querySelector('input').value),
             label: item.querySelector('label').textContent
         })));
-        updateTriggerText(employeeTrigger, selectedEmployeeIds.size, 'сотрудник', 'сотрудников', 'Выберите сотрудников...');
+        updateTriggerText(employeeTrigger, selectedEmployeeIds.size, 'сотрудник', 'сотрудников', 'Выберите сотрудников');
         validateEmployees();
     });
 
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 id: parseInt(item.querySelector('input').value),
                 label: item.querySelector('label').textContent
             })));
-            updateTriggerText(employeeTrigger, selectedEmployeeIds.size, 'сотрудник', 'сотрудников', 'Выберите сотрудников...');
+            updateTriggerText(employeeTrigger, selectedEmployeeIds.size, 'сотрудник', 'сотрудников', 'Выберите сотрудников');
             validateEmployees();
         }
     });
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             id: parseInt(item.querySelector('input').value),
             label: item.querySelector('label').textContent
         })));
-        updateTriggerText(machineryTrigger, selectedMachineryIds.size, 'машина', 'машины', 'Выберите технику...');
+        updateTriggerText(machineryTrigger, selectedMachineryIds.size, 'машина', 'машины', 'Выберите технику');
     });
 
     selectedMachineriesDisplay.addEventListener('click', function(e) {
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 id: parseInt(item.querySelector('input').value),
                 label: item.querySelector('label').textContent
             })));
-            updateTriggerText(machineryTrigger, selectedMachineryIds.size, 'машина', 'машины', 'Выберите технику...');
+            updateTriggerText(machineryTrigger, selectedMachineryIds.size, 'машина', 'машины', 'Выберите технику');
         }
     });
 
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
             id: parseInt(item.querySelector('input').value),
             label: item.querySelector('label').textContent
         })));
-        updateTriggerText(equipmentTrigger, selectedEquipmentIds.size, 'оборудование', 'оборудования', 'Выберите оборудование...');
+        updateTriggerText(equipmentTrigger, selectedEquipmentIds.size, 'оборудование', 'оборудования', 'Выберите оборудование');
     });
 
     selectedEquipmentDisplay.addEventListener('click', function(e) {
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 id: parseInt(item.querySelector('input').value),
                 label: item.querySelector('label').textContent
             })));
-            updateTriggerText(equipmentTrigger, selectedEquipmentIds.size, 'оборудование', 'оборудования', 'Выберите оборудование...');
+            updateTriggerText(equipmentTrigger, selectedEquipmentIds.size, 'оборудование', 'оборудования', 'Выберите оборудование');
         }
     });
 
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         if (!validateEmployees()) {
-            showNotification('Выберите хотя бы одного сотрудника.', 'error');
+            showNotification('Выберите хотя бы одного сотрудника', 'error');
             return;
         }
 
@@ -210,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fieldId: parseInt(document.getElementById('fieldId').value) || null,
             startDate: document.getElementById('startDate').value,
             endDate: document.getElementById('endDate').value,
+            description: document.getElementById('description').value.trim() || null,
             employeeIds: Array.from(selectedEmployeeIds),
             machineryIds: Array.from(selectedMachineryIds),
             equipmentIds: Array.from(selectedEquipmentIds)
@@ -232,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.status === 'success') {
                     showNotification(data.message, 'success');
-                    // Сброс формы
+
                     form.reset();
                     selectedEmployeeIds.clear();
                     selectedMachineryIds.clear();
@@ -240,9 +241,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateDisplay(selectedEmployeesDisplay, selectedEmployeeIds, []);
                     updateDisplay(selectedMachineriesDisplay, selectedMachineryIds, []);
                     updateDisplay(selectedEquipmentDisplay, selectedEquipmentIds, []);
-                    employeeTrigger.placeholder = 'Выберите сотрудников...';
-                    machineryTrigger.placeholder = 'Выберите технику...';
-                    equipmentTrigger.placeholder = 'Выберите оборудование...';
+                    employeeTrigger.placeholder = 'Выберите сотрудников';
+                    machineryTrigger.placeholder = 'Выберите технику';
+                    equipmentTrigger.placeholder = 'Выберите оборудование';
                     employeeErrorDiv.style.display = 'none';
                 } else if (data.status === 'error') {
                     showNotification(data.message, 'error');
