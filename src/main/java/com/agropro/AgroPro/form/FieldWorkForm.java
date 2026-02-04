@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,6 +20,9 @@ public class FieldWorkForm {
     @NotNull(message = "Поле должно быть выбрано")
     private Long fieldId;
 
+    @Size(max = 300, message = "Описание работы не должно превышать 300 символов")
+    private String description;
+
     @NotNull(message = "Должна быть выбрана дата начала работы")
     private LocalDateTime startDate;
 
@@ -27,10 +30,10 @@ public class FieldWorkForm {
     private LocalDateTime endDate;
 
     @Size(min = 1, message = "Должен быть выбран сотрудник")
-    private List<Long> employeeIds;
+    private Set<Long> employeeIds;
 
-    private List<Long> machineryIds;
+    private Set<Long> machineryIds;
 
-    private List<Long> equipmentIds;
+    private Set<Long> equipmentIds;
 
 }
