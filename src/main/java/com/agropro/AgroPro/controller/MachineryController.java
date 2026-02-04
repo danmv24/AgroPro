@@ -36,7 +36,7 @@ public class MachineryController {
     }
 
     @GetMapping("/list")
-    public String showMachineries(Model model) {
+    public String getAllMachineries(Model model) {
         List<MachineryView> machineryViews = machineryService.getMachineries();
         model.addAttribute("machineries", machineryViews);
 

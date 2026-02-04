@@ -38,7 +38,7 @@ public class EquipmentController {
     }
 
     @GetMapping("/list")
-    public String showEquipment(Model model) {
+    public String getAllEquipment(Model model) {
         List<EquipmentView> equipmentViews = equipmentService.getAllEquipment();
         model.addAttribute("equipment", equipmentViews);
 
