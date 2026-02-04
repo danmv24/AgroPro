@@ -70,7 +70,6 @@ databaseChangeLog:
       file: /changes/create_table_field_work_machineries.sql
       relativeToChangelogFile: true
 
-
   - include:
       file: /changes/create_table_field_work_employees.sql
       relativeToChangelogFile: true
