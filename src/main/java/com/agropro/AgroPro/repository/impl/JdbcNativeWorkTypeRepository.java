@@ -24,4 +24,13 @@ public class JdbcNativeWorkTypeRepository implements WorkTypeRepository {
                 .workName(rs.getString("work_name"))
                 .build());
     }
+
+    @Override
+    public boolean existWorkTypeById(Long workTypeId) {
+        String query = "SELECT EXISTS(SELECT 1 FROM work_types WHERE work_type_id = ?)";
+
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(query, Boolean.class, workTypeId));
+    }
+
+
 }

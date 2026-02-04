@@ -8,4 +8,6 @@ public interface WorkTypeRepository {
 
     List<WorkType> findAll();
 
+    boolean existWorkTypeById(Long workTypeId);
+
 }

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -77,6 +79,51 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
                                 .equipmentType(rs.getString("equipment_type"))
                                 .build()
         );
+    }
+
+    @Override
+    public Set<Long> findExistingEquipmentByIds(Set<Long> equipmentIds) {
+        String param = String.join(",", Collections.nCopies(equipmentIds.size(), "?"));
+        String query = "SELECT equipment_id FROM equipment WHERE equipment_id IN(" + param + ")";
+        List<Long> existingIds = jdbcTemplate.query(query,
+                (rs, rowNum) -> rs.getLong("equipment_id"),
+                equipmentIds.toArray());
+
+        return new HashSet<>(existingIds);
+    }
+
+    @Override
+    public Map<Long, Long> findEquipmentStatusesByIds(Set<Long> equipmentIds) {
+        String param = String.join(",", Collections.nCopies(equipmentIds.size(), "?"));
+        String query = "SELECT equipment_id, current_status_id FROM equipment WHERE equipment_id IN(" + param + ")";
+
+        return jdbcTemplate.query(query, rs -> {
+            Map<Long, Long> result = new HashMap<>();
+            while (rs.next()) {
+                result.put(rs.getLong("equipment_id"), rs.getLong("current_status_id"));
+            }
+            return result;
+        }, equipmentIds.toArray());
+    }
+
+    @Override
+    public List<Long> findConflictEquipmentIdsByDateTime(Set<Long> equipmentIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork) {
+        String param = String.join(",", Collections.nCopies(equipmentIds.size(), "?"));
+        String query = "SELECT DISTINCT fwe.equipment_id FROM field_work_equipment AS fwe " +
+                "INNER JOIN field_works AS fw ON fwe.field_work_id = fw.field_work_id " +
+                "WHERE fwe.equipment_id IN(" + param + ") " +
+                "AND (fw.end_date > ? AND fw.start_date < ?)";
+
+        List<Object> paramsList = new ArrayList<>(equipmentIds);
+        paramsList.add(Timestamp.valueOf(startDateOfWork));
+        paramsList.add(Timestamp.valueOf(endDateOfWork));
+
+
+        List<Long> conflictEquipmentIds = jdbcTemplate.query(query,
+                (rs, rowNum) -> rs.getLong("equipment_id"),
+                paramsList.toArray());
+
+        return conflictEquipmentIds;
     }
 
 

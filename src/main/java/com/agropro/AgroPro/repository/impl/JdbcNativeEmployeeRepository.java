@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -95,6 +97,46 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
                             .patronymic(rs.getString("patronymic"))
                             .build()
                 );
+    }
+
+//    @Override
+//    public boolean existsByEmployeeIds(Set<Long> employeeIds) {
+//        String query = "SELECT COUNT(employee_id) FROM employees WHERE employee_id IN(" +
+//                employeeIds.stream().map(employeeId -> "?").collect(Collectors.joining(",")) +
+//                ")";
+//        Integer count = jdbcTemplate.queryForObject(query, Integer.class, employeeIds.toArray());
+//
+//        return count != null && count == employeeIds.size();
+//    }
+
+    @Override
+    public Set<Long> findExistingEmployeesByIds(Set<Long> employeeIds) {
+        String param = String.join(",", Collections.nCopies(employeeIds.size(), "?"));
+        String query = "SELECT employee_id FROM employees WHERE employee_id IN (" + param + ")";
+        List<Long> existingIds = jdbcTemplate.query(query,
+                (rs, rowNum) -> rs.getLong("employee_id"),
+                employeeIds.toArray());
+
+        return new HashSet<>(existingIds);
+    }
+
+    @Override
+    public List<Long> findConflictEmployeeIdsByDateTime(Set<Long> employeeIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork) {
+        String param = String.join(",", Collections.nCopies(employeeIds.size(), "?"));
+        String query = "SELECT DISTINCT fwe.employee_id FROM field_work_employees AS fwe " +
+                "INNER JOIN field_works AS fw ON fwe.field_work_id = fw.field_work_id " +
+                "WHERE fwe.employee_id IN(" + param + ") " +
+                "AND (fw.end_date > ? AND fw.start_date < ?)";
+
+        List<Object> paramsList = new ArrayList<>(employeeIds);
+        paramsList.add(Timestamp.valueOf(startDateOfWork));
+        paramsList.add(Timestamp.valueOf(endDateOfWork));
+
+        List<Long> conflictEmployeeIds = jdbcTemplate.query(query,
+                (rs, rowNum) -> rs.getLong("employee_id"),
+                paramsList.toArray());
+
+        return conflictEmployeeIds;
     }
 
 

@@ -8,4 +8,6 @@ public interface WorkTypeService {
 
     List<WorkTypeView> getAllWorkTypes();
 
+    void validateWorkTypeExistById(Long workTypeId);
+
 }
