@@ -29,10 +29,13 @@ public class FieldWork {
     @Column("status")
     private FieldWorkStatus status;
 
-    @Column("planned_start_date")
+    @Column("description")
+    private String description;
+
+    @Column("start_date")
     private LocalDateTime startDate;
 
-    @Column("planned_end_date")
+    @Column("end_date")
     private LocalDateTime endDate;
 
     @Column("created_at")
