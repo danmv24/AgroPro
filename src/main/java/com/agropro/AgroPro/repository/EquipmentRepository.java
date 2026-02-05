@@ -23,4 +23,5 @@ public interface EquipmentRepository {
 
     List<Long> findConflictEquipmentIdsByDateTime(Set<Long> equipmentIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
+    List<EquipmentBasicInfoView> findEquipmentByFieldWorkId(Long workId);
 }

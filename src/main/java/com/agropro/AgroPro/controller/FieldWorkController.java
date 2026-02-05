@@ -2,15 +2,13 @@ package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.form.FieldWorkForm;
 import com.agropro.AgroPro.service.*;
+import com.agropro.AgroPro.view.FieldWorkView;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -43,5 +41,25 @@ public class FieldWorkController {
         fieldWorkService.addFieldWork(fieldWorkForm);
         return ResponseEntity.ok(Map.of("status", "success", "message", "Работа успешно запланирована"));
     }
+
+    @GetMapping("/list")
+    public String getAllFieldWorks(Model model) {
+        model.addAttribute("fieldWorks", fieldWorkService.getFieldWorks());
+        return "field_works/field_work_list";
+    }
+
+    @GetMapping("/{workId}")
+    @ResponseBody
+    public FieldWorkView getFieldWork(@PathVariable("workId") Long workId) {
+        return fieldWorkService.getFieldWork(workId);
+    }
+
+    @PostMapping("/cancel/{workId}")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> cancelFieldWork(@PathVariable("workId") Long workId) {
+        fieldWorkService.cancelFieldWork(workId);
+
+        return ResponseEntity.ok(Map.of("message", "Работа успешно отменена"));
+     }
 
 }

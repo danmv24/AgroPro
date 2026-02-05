@@ -23,4 +23,5 @@ public interface MachineryRepository {
 
     List<Long> findConflictMachineryIdsByDateTime(Set<Long> machineryIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
+    List<MachineryBasicInfoView> findMachineriesByFieldWorkId(Long workId);
 }

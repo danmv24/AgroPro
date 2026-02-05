@@ -21,4 +21,6 @@ public interface EmployeeService {
     void validateEmployeesExistByIds(Set<Long> employeeIds);
 
     void validateEmployeesAvailability(Set<Long> employeeIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
+
+    List<EmployeeBasicInfoView> getEmployeesByFieldWorkId(Long workId);
 }

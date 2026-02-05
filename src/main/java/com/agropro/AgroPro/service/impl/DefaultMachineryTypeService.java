@@ -8,7 +8,6 @@ import com.agropro.AgroPro.repository.MachineryTypeRepository;
 import com.agropro.AgroPro.service.MachineryTypeService;
 import com.agropro.AgroPro.view.MachineryTypeView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class DefaultMachineryTypeService implements MachineryTypeService {
     @Override
     public void validateMachineryTypeExistsById(Long machineryTypeId) {
         if (!machineryTypeRepository.existsById(machineryTypeId)) {
-            throw new MachineryTypeNotFoundException(HttpStatus.NOT_FOUND, machineryTypeId);
+            throw new MachineryTypeNotFoundException(machineryTypeId);
         }
     }
 

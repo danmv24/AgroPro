@@ -32,6 +32,7 @@ public class FieldWorkForm {
     @Size(min = 1, message = "Должен быть выбран сотрудник")
     private Set<Long> employeeIds;
 
+    @Size(min = 1, message = "Должна быть выбрана техника")
     private Set<Long> machineryIds;
 
     private Set<Long> equipmentIds;

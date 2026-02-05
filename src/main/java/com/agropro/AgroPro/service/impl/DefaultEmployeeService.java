@@ -11,7 +11,6 @@ import com.agropro.AgroPro.service.PositionService;
 import com.agropro.AgroPro.view.EmployeeBasicInfoView;
 import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,7 @@ public class DefaultEmployeeService implements EmployeeService {
     @Transactional
     public void addEmployee(EmployeeForm employeeForm) {
         Long positionId = positionService.getPositionIdByPositionName(employeeForm.getPosition())
-                .orElseThrow(() -> new PositionNotFoundException(HttpStatus.NOT_FOUND, "Должность не найдена: " + employeeForm.getPosition()));
+                .orElseThrow(() -> new PositionNotFoundException("Должность не найдена: " + employeeForm.getPosition()));
 
         employeeRepository.save(EmployeeMapper.toModel(employeeForm, positionId));
     }
@@ -43,7 +42,7 @@ public class DefaultEmployeeService implements EmployeeService {
         return employees.stream()
                 .map(employee -> {
                     String positionName = positionService.getPositionNameByPositionId(employee.getPositionId())
-                            .orElseThrow(() -> new PositionNotFoundException(HttpStatus.NOT_FOUND, "Не найдена должность с id:" + employee.getPositionId()));
+                            .orElseThrow(() -> new PositionNotFoundException("Не найдена должность с id:" + employee.getPositionId()));
                     return EmployeeMapper.toView(employee, positionName);
                 })
                 .toList();
@@ -70,7 +69,7 @@ public class DefaultEmployeeService implements EmployeeService {
         if (existingIds.size() != employeeIds.size()) {
             Set<Long> missingIds = new HashSet<>(employeeIds);
             missingIds.removeAll(existingIds);
-            throw new EmployeeNotFoundException(HttpStatus.BAD_REQUEST, missingIds);
+            throw new EmployeeNotFoundException(missingIds);
         }
 
     }
@@ -86,6 +85,11 @@ public class DefaultEmployeeService implements EmployeeService {
         if (!conflictEmployeeIds.isEmpty()) {
             throw new RuntimeException("Пока что заглушка");
         }
+    }
+
+    @Override
+    public List<EmployeeBasicInfoView> getEmployeesByFieldWorkId(Long workId) {
+        return employeeRepository.findEmployeesByFieldWorkId(workId);
     }
 
 }

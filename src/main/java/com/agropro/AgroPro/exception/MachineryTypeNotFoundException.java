@@ -1,15 +1,14 @@
 package com.agropro.AgroPro.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public class MachineryTypeNotFoundException extends RuntimeException {
 
-    private final HttpStatus httpStatus;
+    private final Long machineryTypeId;
 
-    public MachineryTypeNotFoundException(HttpStatus httpStatus, Long machineryTypeId) {
+    public MachineryTypeNotFoundException(Long machineryTypeId) {
         super("Тип машины с id = " + machineryTypeId + " не найден");
-        this.httpStatus = httpStatus;
+        this.machineryTypeId = machineryTypeId;
     }
 }

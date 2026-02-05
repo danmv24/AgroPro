@@ -5,7 +5,6 @@ import com.agropro.AgroPro.repository.CropRepository;
 import com.agropro.AgroPro.service.CropService;
 import com.agropro.AgroPro.view.CropView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class DefaultCropService implements CropService {
     @Override
     public void validateCropExistsById(Long cropId) {
         if (!cropRepository.existsByCropId(cropId)) {
-            throw new CropNotFoundException(HttpStatus.NOT_FOUND, cropId);
+            throw new CropNotFoundException(cropId);
         }
     }
 

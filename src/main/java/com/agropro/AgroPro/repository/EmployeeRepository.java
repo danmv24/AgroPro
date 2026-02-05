@@ -22,4 +22,6 @@ public interface EmployeeRepository {
     Set<Long> findExistingEmployeesByIds(Set<Long> employeeIds);
 
     List<Long> findConflictEmployeeIdsByDateTime(Set<Long> employeeIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
+
+    List<EmployeeBasicInfoView> findEmployeesByFieldWorkId(Long workId);
 }

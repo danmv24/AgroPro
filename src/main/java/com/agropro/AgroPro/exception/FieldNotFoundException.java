@@ -1,15 +1,14 @@
 package com.agropro.AgroPro.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public class FieldNotFoundException extends RuntimeException {
 
-    private final HttpStatus httpStatus;
+    private final Long fieldId;
 
-    public FieldNotFoundException(HttpStatus httpStatus, Long fieldId) {
+    public FieldNotFoundException(Long fieldId) {
         super("Поле с id " + fieldId + " не найдено");
-        this.httpStatus = httpStatus;
+        this.fieldId = fieldId;
     }
 }

@@ -1,12 +1,18 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.enums.FieldWorkStatus;
+import com.agropro.AgroPro.exception.FieldWorkCannotBeCancelledException;
+import com.agropro.AgroPro.exception.FieldWorkNotFoundException;
 import com.agropro.AgroPro.form.FieldWorkForm;
 import com.agropro.AgroPro.mapper.FieldWorkMapper;
 import com.agropro.AgroPro.repository.FieldWorkRepository;
 import com.agropro.AgroPro.service.*;
+import com.agropro.AgroPro.view.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -32,11 +38,43 @@ public class DefaultFieldWorkService implements FieldWorkService {
         linkEntities(workId, fieldWorkForm);
     }
 
+    @Override
+    public List<FieldWorkBasicInfoView> getFieldWorks() {
+        return fieldWorkRepository.findAll();
+    }
+
+    @Override
+    public FieldWorkView getFieldWork(Long workId) {
+        FieldWorkDetail fieldWorkDetail = fieldWorkRepository.findFieldWorkById(workId).orElseThrow(() -> new FieldWorkNotFoundException(workId));
+        List<EmployeeBasicInfoView> employees = employeeService.getEmployeesByFieldWorkId(workId);
+        List<MachineryBasicInfoView> machineries = machineryService.getMachineriesByFieldWorkId(workId);
+        List<EquipmentBasicInfoView> equipment = equipmentService.getEquipmentByFieldWorkId(workId);
+
+        FieldWorkView fieldWorkView = FieldWorkMapper.toView(fieldWorkDetail, employees, machineries, equipment);
+
+        return fieldWorkView;
+    }
+
+    @Override
+    public void cancelFieldWork(Long workId) {
+        FieldWorkStatus status = fieldWorkRepository.getStatusByFieldWorkId(workId).orElseThrow(); // сделать искл
+
+        if (status == FieldWorkStatus.COMPLETED || status == FieldWorkStatus.CANCELLED) {
+            throw new FieldWorkCannotBeCancelledException(workId, status);
+        }
+
+        fieldWorkRepository.updateStatusById(workId, FieldWorkStatus.CANCELLED);
+    }
+
 
     private void validateEntitiesExist(FieldWorkForm fieldWorkForm) {
         employeeService.validateEmployeesExistByIds(fieldWorkForm.getEmployeeIds());
         machineryService.validateMachineriesExistByIds(fieldWorkForm.getMachineryIds());
-        equipmentService.validateEquipmentExistByIds(fieldWorkForm.getEquipmentIds());
+
+        if (fieldWorkForm.getEquipmentIds() != null && !fieldWorkForm.getEquipmentIds().isEmpty()) {
+            equipmentService.validateEquipmentExistByIds(fieldWorkForm.getEquipmentIds());
+        }
+
         fieldService.validateFieldExistsById(fieldWorkForm.getFieldId());
         workTypeService.validateWorkTypeExistById(fieldWorkForm.getWorkTypeId());
     }
@@ -53,13 +91,8 @@ public class DefaultFieldWorkService implements FieldWorkService {
     }
 
     private void linkEntities(Long workId, FieldWorkForm fieldWorkForm) {
-        if (fieldWorkForm.getEmployeeIds() != null && !fieldWorkForm.getEmployeeIds().isEmpty()) {
-            fieldWorkRepository.linkEmployees(workId, fieldWorkForm.getEmployeeIds());
-        }
-
-        if (fieldWorkForm.getMachineryIds() != null && !fieldWorkForm.getMachineryIds().isEmpty()) {
-            fieldWorkRepository.linkMachineries(workId, fieldWorkForm.getMachineryIds());
-        }
+        fieldWorkRepository.linkEmployees(workId, fieldWorkForm.getEmployeeIds());
+        fieldWorkRepository.linkMachineries(workId, fieldWorkForm.getMachineryIds());
 
         if (fieldWorkForm.getEquipmentIds() != null && !fieldWorkForm.getEquipmentIds().isEmpty()) {
             fieldWorkRepository.linkEquipment(workId, fieldWorkForm.getEquipmentIds());

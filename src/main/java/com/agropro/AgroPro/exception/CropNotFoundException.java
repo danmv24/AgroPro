@@ -1,15 +1,14 @@
 package com.agropro.AgroPro.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public class CropNotFoundException extends RuntimeException {
 
-    private final HttpStatus httpStatus;
+    private final Long cropId;
 
-    public CropNotFoundException(HttpStatus httpStatus, Long cropId) {
+    public CropNotFoundException(Long cropId) {
         super("Культура с id " + cropId + " не найдена");
-        this.httpStatus = httpStatus;
+        this.cropId = cropId;
     }
 }

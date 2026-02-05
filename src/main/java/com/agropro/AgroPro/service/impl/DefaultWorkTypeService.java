@@ -7,7 +7,6 @@ import com.agropro.AgroPro.repository.WorkTypeRepository;
 import com.agropro.AgroPro.service.WorkTypeService;
 import com.agropro.AgroPro.view.WorkTypeView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class DefaultWorkTypeService implements WorkTypeService {
     @Override
     public void validateWorkTypeExistById(Long workTypeId) {
         if (!workTypeRepository.existWorkTypeById(workTypeId)) {
-            throw new WorkTypeNotFoundException(HttpStatus.NOT_FOUND, workTypeId);
+            throw new WorkTypeNotFoundException(workTypeId);
         }
     }
 }

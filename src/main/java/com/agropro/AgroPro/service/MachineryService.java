@@ -25,4 +25,6 @@ public interface MachineryService {
     void validateMachineryStatus(Set<Long> machineryIds);
 
     void validateMachineriesAvailability(Set<Long> machineryIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
+
+    List<MachineryBasicInfoView> getMachineriesByFieldWorkId(Long workId);
 }

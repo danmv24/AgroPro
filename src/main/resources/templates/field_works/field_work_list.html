@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список работ</title>
+    <link rel="stylesheet" th:href="@{/css/fragments/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/field_works/field_work_list.css}">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="main-content">
+    <h1>Список работ</h1>
+
+    <div class="field-works-container">
+        <div class="column">
+            <h2>Запланировано</h2>
+            <div class="cards-grid">
+                <div class="card" th:each="work : ${fieldWorks}" th:if="${work.status eq 'PLANNED'}" th:attr="data-work-id=${work.fieldWorkId}">
+                    <div class="card-content">
+                        <h3 th:text="${work.workTypeName}">Название работы</h3>
+                        <p>Поле: <span th:text="${work.fieldNumber}">XX</span></p>
+                        <p>Начало: <span th:text="${#temporals.format(work.startDate, 'dd.MM.yyyy HH:mm')}"></span></p>
+                        <p>Окончание: <span th:text="${#temporals.format(work.endDate, 'dd.MM.yyyy HH:mm')}"></span></p>
+                    </div>
+                    <div class="card-buttons">
+                        <button class="btn btn-primary open-detail-btn">Подробнее</button>
+                        <button class="btn btn-secondary">Редактировать</button>
+                        <button class="btn btn-danger cancel-work-btn">Отменить</button>
+                    </div>
+                </div>
+                <div class="no-data" th:if="${fieldWorks.?[status eq 'PLANNED'].size() == 0}">
+                    Нет запланированных работ
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <h2>В процессе</h2>
+            <div class="cards-grid">
+                <div class="card" th:each="work : ${fieldWorks}" th:if="${work.status eq 'IN_PROGRESS'}" th:attr="data-work-id=${work.fieldWorkId}">
+                    <div class="card-content">
+                        <h3 th:text="${work.workTypeName}">Название работы</h3>
+                        <p>Поле: <span th:text="${work.fieldNumber}">XX</span></p>
+                        <p>Начало: <span th:text="${#temporals.format(work.startDate, 'dd.MM.yyyy HH:mm')}"></span></p>
+                        <p>Окончание: <span th:text="${#temporals.format(work.endDate, 'dd.MM.yyyy HH:mm')}"></span></p>
+                    </div>
+                    <div class="card-buttons">
+                        <!-- Заменяем кнопку на ссылку -->
+                        <button class="btn btn-primary open-detail-btn">Подробнее</button>
+                        <button class="btn btn-secondary">Редактировать</button>
+                        <button class="btn btn-danger cancel-work-btn">Отменить</button>
+                    </div>
+                </div>
+                <div class="no-data" th:if="${fieldWorks.?[status eq 'IN_PROGRESS'].size() == 0}">
+                    Нет работ в процессе
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <h2>Завершено</h2>
+            <div class="cards-grid">
+                <div class="card" th:each="work : ${fieldWorks}" th:if="${work.status eq 'COMPLETED'}" th:attr="data-work-id=${work.fieldWorkId}">
+                    <div class="card-content">
+                        <h3 th:text="${work.workTypeName}">Название работы</h3>
+                        <p>Поле: <span th:text="${work.fieldNumber}">XX</span></p>
+                        <p>Начало: <span th:text="${#temporals.format(work.startDate, 'dd.MM.yyyy HH:mm')}"></span></p>
+                        <p>Окончание: <span th:text="${#temporals.format(work.endDate, 'dd.MM.yyyy HH:mm')}"></span></p>
+                    </div>
+                    <div class="card-buttons">
+                        <!-- Заменяем кнопку на ссылку -->
+                        <button class="btn btn-primary open-detail-btn">Подробнее</button>
+                        <button class="btn btn-secondary">Внести итоги</button>
+                    </div>
+                </div>
+                <div class="no-data" th:if="${fieldWorks.?[status eq 'COMPLETED'].size() == 0}">
+                    Нет завершённых работ
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Детали работы</h2>
+        <div id="modal-body">
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/field_works/field_work_list.js}"></script>
+
+</body>
+</html>

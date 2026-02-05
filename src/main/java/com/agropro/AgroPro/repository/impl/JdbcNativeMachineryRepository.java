@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.repository.impl;
 
+import com.agropro.AgroPro.enums.FieldWorkStatus;
 import com.agropro.AgroPro.model.Machinery;
 import com.agropro.AgroPro.repository.MachineryRepository;
 import com.agropro.AgroPro.view.MachineryBasicInfoView;
@@ -116,9 +117,12 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
         String query = "SELECT DISTINCT fwm.machinery_id FROM field_work_machineries AS fwm " +
                 "INNER JOIN field_works AS fw ON fwm.field_work_id = fw.field_work_id " +
                 "WHERE fwm.machinery_id IN(" + param + ") " +
+                "AND fw.status IN(?, ?)" +
                 "AND (fw.end_date > ? AND fw.start_date < ?)";
 
         List<Object> paramsList = new ArrayList<>(machineryIds);
+        paramsList.add(FieldWorkStatus.PLANNED.name());
+        paramsList.add(FieldWorkStatus.IN_PROGRESS.name());
         paramsList.add(Timestamp.valueOf(startDateOfWork));
         paramsList.add(Timestamp.valueOf(endDateOfWork));
 
@@ -127,6 +131,23 @@ public class JdbcNativeMachineryRepository implements MachineryRepository {
                 paramsList.toArray());
 
         return conflictMachineryIds;
+    }
+
+    @Override
+    public List<MachineryBasicInfoView> findMachineriesByFieldWorkId(Long workId) {
+        String query = "SELECT m.machinery_id, m.machinery_name, mt.machinery_type, m.license_plate " +
+                "FROM field_work_machineries AS fwm " +
+                "INNER JOIN machineries AS m ON m.machinery_id = fwm.machinery_id " +
+                "INNER JOIN machinery_types AS mt ON m.machinery_type_id = mt.id " +
+                "WHERE fwm.field_work_id = ?";
+
+        return jdbcTemplate.query(query, (rs, rowNum) -> MachineryBasicInfoView.builder()
+                    .machineryId(rs.getLong("machinery_id"))
+                    .machineryType(rs.getString("machinery_type"))
+                    .machineryName(rs.getString("machinery_name"))
+                    .licensePlate(rs.getString("license_plate"))
+                .build(),
+                workId);
     }
 
 

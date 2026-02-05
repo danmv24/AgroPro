@@ -1,0 +1,179 @@
+/* field_works/field_work_list.css */
+
+body {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+h1 {
+    color: #000000;
+    margin-bottom: 30px;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 40px;
+}
+
+.field-works-container {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.column {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 1px rgba(0, 0, 0, 0.1);
+    min-width: 0; /* Позволяет колонке сжиматься */
+}
+
+.column h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #444;
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.no-data {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Закруглённые углы */
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px; /* Примерная высота карточки */
+}
+
+.card-content h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.card-content p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.card-content p span {
+    font-weight: 600;
+    color: #444;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    /* Распределение кнопок равномерно */
+    justify-content: space-between;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px; /* Закруглённые углы кнопок */
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    flex: 1;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #a8e063;
+    color: #333;
+}
+
+.btn-primary:hover {
+    background-color: #f7e75d;
+}
+
+.btn-secondary {
+    background-color: #dcdcdc;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background-color: #cccccc;
+}
+
+.btn-danger {
+    background-color: #ff6b6b; /* Яркий цвет для "Отменить" */
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #ff5252; /* Темнее при наведении */
+}
+
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Полупрозрачный фон */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+}
+
+#modal-body h3, #modal-body p {
+    margin: 8px 0;
+}
+
+#modal-body ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+#modal-body li {
+    margin: 5px 0;
+}

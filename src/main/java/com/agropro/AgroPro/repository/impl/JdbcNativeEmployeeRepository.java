@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.repository.impl;
 
+import com.agropro.AgroPro.enums.FieldWorkStatus;
 import com.agropro.AgroPro.enums.PaymentType;
 import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.EmployeeRepository;
@@ -126,9 +127,12 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
         String query = "SELECT DISTINCT fwe.employee_id FROM field_work_employees AS fwe " +
                 "INNER JOIN field_works AS fw ON fwe.field_work_id = fw.field_work_id " +
                 "WHERE fwe.employee_id IN(" + param + ") " +
+                "AND fw.status IN(?, ?) " +
                 "AND (fw.end_date > ? AND fw.start_date < ?)";
 
         List<Object> paramsList = new ArrayList<>(employeeIds);
+        paramsList.add(FieldWorkStatus.PLANNED.name());
+        paramsList.add(FieldWorkStatus.IN_PROGRESS.name());
         paramsList.add(Timestamp.valueOf(startDateOfWork));
         paramsList.add(Timestamp.valueOf(endDateOfWork));
 
@@ -137,6 +141,19 @@ public class JdbcNativeEmployeeRepository implements EmployeeRepository {
                 paramsList.toArray());
 
         return conflictEmployeeIds;
+    }
+
+    @Override
+    public List<EmployeeBasicInfoView> findEmployeesByFieldWorkId(Long workId) {
+        String query = "SELECT e.employee_id, e.surname, e.name, e.patronymic FROM field_work_employees AS fwe " +
+                "INNER JOIN employees AS e ON e.employee_id = fwe.employee_id " +
+                "WHERE fwe.field_work_id = ?";
+
+        return jdbcTemplate.query(query, (rs, rowNum) -> EmployeeBasicInfoView.builder()
+                .employeeId(rs.getLong("employee_id"))
+                .surname(rs.getString("surname"))
+                .name(rs.getString("patronymic"))
+                .build(), workId);
     }
 
 

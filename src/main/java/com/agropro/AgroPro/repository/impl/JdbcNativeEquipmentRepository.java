@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.repository.impl;
 
+import com.agropro.AgroPro.enums.FieldWorkStatus;
 import com.agropro.AgroPro.model.Equipment;
 import com.agropro.AgroPro.repository.EquipmentRepository;
 import com.agropro.AgroPro.view.EquipmentBasicInfoView;
@@ -112,9 +113,12 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
         String query = "SELECT DISTINCT fwe.equipment_id FROM field_work_equipment AS fwe " +
                 "INNER JOIN field_works AS fw ON fwe.field_work_id = fw.field_work_id " +
                 "WHERE fwe.equipment_id IN(" + param + ") " +
+                "AND fw.status IN(?, ?)" +
                 "AND (fw.end_date > ? AND fw.start_date < ?)";
 
         List<Object> paramsList = new ArrayList<>(equipmentIds);
+        paramsList.add(FieldWorkStatus.PLANNED.name());
+        paramsList.add(FieldWorkStatus.IN_PROGRESS.name());
         paramsList.add(Timestamp.valueOf(startDateOfWork));
         paramsList.add(Timestamp.valueOf(endDateOfWork));
 
@@ -124,6 +128,21 @@ public class JdbcNativeEquipmentRepository implements EquipmentRepository {
                 paramsList.toArray());
 
         return conflictEquipmentIds;
+    }
+
+    @Override
+    public List<EquipmentBasicInfoView> findEquipmentByFieldWorkId(Long workId) {
+        String query = "SELECT e.equipment_id, e.equipment_name, et.equipment_type FROM field_work_equipment AS fwe " +
+                "INNER JOIN equipment AS e ON e.equipment_id = fwe.equipment_id " +
+                "INNER JOIN equipment_types AS et ON et.id = e.equipment_type_id " +
+                "WHERE fwe.field_work_id = ?";
+
+        return jdbcTemplate.query(query, (rs, rowNum) -> EquipmentBasicInfoView.builder()
+                .equipmentId(rs.getLong("equipment_id"))
+                .equipmentName(rs.getString("equipment_name"))
+                .equipmentType(rs.getString("equipment_type"))
+                .build(),
+                workId);
     }
 
 

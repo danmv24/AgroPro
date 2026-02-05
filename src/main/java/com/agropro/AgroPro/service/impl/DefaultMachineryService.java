@@ -11,7 +11,6 @@ import com.agropro.AgroPro.service.StatusService;
 import com.agropro.AgroPro.view.MachineryBasicInfoView;
 import com.agropro.AgroPro.view.MachineryView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +53,7 @@ public class DefaultMachineryService implements MachineryService {
     @Override
     public void validateMachineriesExistByIds(Set<Long> machineryIds) {
         if (machineryIds == null || machineryIds.isEmpty()) {
-            throw new IllegalArgumentException("Отправлен пустой список машин для проверки на существование");
+            throw new IllegalArgumentException("Отправлен пустой список техники для проверки на существование");
         }
 
         Set<Long> existingIds = machineryRepository.findExistingMachineriesByIds(machineryIds);
@@ -62,7 +61,7 @@ public class DefaultMachineryService implements MachineryService {
         if (existingIds.size() != machineryIds.size()) {
             Set<Long> missingIds = new HashSet<>(machineryIds);
             missingIds.removeAll(existingIds);
-            throw new MachineryNotFoundException(HttpStatus.NOT_FOUND, missingIds);
+            throw new MachineryNotFoundException(missingIds);
         }
     }
 
@@ -102,6 +101,11 @@ public class DefaultMachineryService implements MachineryService {
         if (!conflictMachineryIds.isEmpty()) {
             throw new RuntimeException("Пока что заглушка 6");
         }
+    }
+
+    @Override
+    public List<MachineryBasicInfoView> getMachineriesByFieldWorkId(Long workId) {
+        return machineryRepository.findMachineriesByFieldWorkId(workId);
     }
 
 

@@ -11,7 +11,6 @@ import com.agropro.AgroPro.service.StatusService;
 import com.agropro.AgroPro.view.EquipmentBasicInfoView;
 import com.agropro.AgroPro.view.EquipmentView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,7 +61,7 @@ public class DefaultEquipmentService implements EquipmentService {
         if (existingIds.size() != equipmentIds.size()) {
             Set<Long> missingIds = new HashSet<>(equipmentIds);
             missingIds.removeAll(existingIds);
-            throw new EquipmentNotFoundException(HttpStatus.NOT_FOUND, missingIds);
+            throw new EquipmentNotFoundException(missingIds);
         }
     }
 
@@ -102,5 +101,10 @@ public class DefaultEquipmentService implements EquipmentService {
         if (!conflictMachineryIds.isEmpty()) {
             throw new RuntimeException("Пока что заглушка 3");
         }
+    }
+
+    @Override
+    public List<EquipmentBasicInfoView> getEquipmentByFieldWorkId(Long workId) {
+        return equipmentRepository.findEquipmentByFieldWorkId(workId);
     }
 }

@@ -7,7 +7,6 @@ import com.agropro.AgroPro.repository.EquipmentTypeRepository;
 import com.agropro.AgroPro.service.EquipmentTypeService;
 import com.agropro.AgroPro.view.EquipmentTypeView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class DefaultEquipmentTypeService implements EquipmentTypeService {
     @Override
     public void validateEquipmentTypeExistsById(Long id) {
         if (!equipmentTypeRepository.existsById(id)) {
-            throw new EquipmentTypeNotFoundException(HttpStatus.NOT_FOUND, id);
+            throw new EquipmentTypeNotFoundException(id);
         }
     }
 }
