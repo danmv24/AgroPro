@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Set;
 
 @Getter
-public class EmployeeNotFoundException extends RuntimeException {
+public class EmployeeNotFoundException extends NotFoundException {
 
     private final Long employeeId;
 

@@ -10,11 +10,11 @@ import java.util.Set;
 
 public interface EmployeeService {
 
-    void addEmployee(EmployeeForm employeeForm);
+    void createEmployee(EmployeeForm employeeForm);
 
     List<EmployeeView> getEmployees();
-
-    List<EmployeeBasicInfoView> getHourlyPaidEmployees();
+//
+//    List<EmployeeBasicInfoView> getHourlyPaidEmployees();
 
     List<EmployeeBasicInfoView> getMechanizators();
 

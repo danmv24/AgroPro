@@ -1,48 +1,39 @@
 package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.form.EquipmentForm;
+import com.agropro.AgroPro.form.EquipmentUpdateForm;
 import com.agropro.AgroPro.service.EquipmentService;
-import com.agropro.AgroPro.service.EquipmentTypeService;
 import com.agropro.AgroPro.view.EquipmentView;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/equipment")
+@RequestMapping("/api/equipment")
 public class EquipmentController {
-
-    private final EquipmentTypeService equipmentTypeService;
 
     private final EquipmentService equipmentService;
 
-    @GetMapping("/add")
-    public String showAddEquipmentForm(Model model) {
-        model.addAttribute("equipmentForm", new EquipmentForm());
-        model.addAttribute("equipmentTypes", equipmentTypeService.getAllEquipmentTypes());
-
-        return "equipment/equipment_add";
-    }
-
     @PostMapping("/add")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> addMachinery(@RequestBody EquipmentForm equipmentForm) {
-        equipmentService.addEquipment(equipmentForm);
-        return ResponseEntity.ok(Map.of("status", "success", "message", "Оборудование успешно добавлено"));
+    public ResponseEntity<Void> addMachinery(@Valid @RequestBody EquipmentForm equipmentForm) {
+        equipmentService.createEquipment(equipmentForm);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/list")
-    public String getAllEquipment(Model model) {
-        List<EquipmentView> equipmentViews = equipmentService.getAllEquipment();
-        model.addAttribute("equipment", equipmentViews);
+    public List<EquipmentView> getAllEquipment() {
+        return equipmentService.getAllEquipment();
+    }
 
-        return "equipment/equipment_list";
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Void> editEquipment(@PathVariable Long id, @Valid @RequestBody EquipmentUpdateForm equipmentUpdateForm) {
+        equipmentService.updateEquipment(id, equipmentUpdateForm);
+        return ResponseEntity.ok().build();
     }
 
 }

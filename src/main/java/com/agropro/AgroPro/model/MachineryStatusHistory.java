@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.model;
 
+import com.agropro.AgroPro.enums.StatusCode;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -21,8 +22,8 @@ public class MachineryStatusHistory {
     @Column("machinery_id")
     private Long machineryId;
 
-    @Column("status_id")
-    private Long statusId;
+    @Column("status")
+    private StatusCode status;
 
     @Column("changed_at")
     private LocalDateTime changedAt;

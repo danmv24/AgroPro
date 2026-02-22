@@ -2,45 +2,32 @@ package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.form.EmployeeForm;
 import com.agropro.AgroPro.service.EmployeeService;
-import com.agropro.AgroPro.service.PositionService;
 import com.agropro.AgroPro.view.EmployeeView;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/employees")
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final PositionService positionService;
-
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("employeeForm", new EmployeeForm());
-        model.addAttribute("positions", positionService.getAllPositions());
-        return "employees/employee_add";
-    }
 
     @PostMapping("/add")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> addEmployee(@RequestBody EmployeeForm employeeForm) {
-        employeeService.addEmployee(employeeForm);
-        return ResponseEntity.ok(Map.of("status", "success", "message", "Сотрудник успешно добавлен"));
+    public ResponseEntity<Void> addEmployee(@Valid @RequestBody EmployeeForm employeeForm) {
+        employeeService.createEmployee(employeeForm);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/list")
-    public String getAllEmployees(Model model) {
-        List<EmployeeView> employeeViews = employeeService.getEmployees();
-        model.addAttribute("employeeView", employeeViews);
-        return "employees/employee_list";
+    public List<EmployeeView> getAllEmployees() {
+        return employeeService.getEmployees();
     }
 
 }

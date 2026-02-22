@@ -1,7 +1,12 @@
 package com.agropro.AgroPro.repository;
 
-public interface MachineryStatusHistoryRepository {
+import com.agropro.AgroPro.model.MachineryStatusHistory;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-    void save(Long machineryId, Long statusId);
+@Repository
+public interface MachineryStatusHistoryRepository extends CrudRepository<MachineryStatusHistory, Long> {
+
+
 
 }

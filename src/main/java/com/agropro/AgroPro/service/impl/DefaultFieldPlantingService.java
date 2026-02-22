@@ -1,38 +1,50 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.form.FieldPlantingForm;
+import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.mapper.FieldPlantingMapper;
+import com.agropro.AgroPro.model.FieldPlanting;
 import com.agropro.AgroPro.repository.FieldPlantingRepository;
-import com.agropro.AgroPro.service.CropService;
 import com.agropro.AgroPro.service.FieldPlantingService;
 import com.agropro.AgroPro.service.FieldService;
-import com.agropro.AgroPro.view.FieldPlantingView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
 public class DefaultFieldPlantingService implements FieldPlantingService {
 
-    private final FieldPlantingRepository fieldPlantingRepository;
     private final FieldService fieldService;
-    private final CropService cropService;
+    private final FieldPlantingRepository fieldPlantingRepository;
 
     @Override
-    @Transactional
-    public void addFieldPlanting(FieldPlantingForm fieldPlantingForm) {
-        fieldService.validateFieldExistsById(fieldPlantingForm.getFieldId());
-        cropService.validateCropExistsById(fieldPlantingForm.getCropId());
+    public void createFieldPlanting(Long fieldId, String cropType, LocalDate plantingDate) {
+        fieldService.validateFieldExistsById(fieldId);
 
-        fieldPlantingRepository.save(FieldPlantingMapper.toModel(fieldPlantingForm));
+        CropType crop = CropType.fromString(cropType);
+        fieldPlantingRepository.save(FieldPlantingMapper.toModel(fieldId, crop, plantingDate));
     }
 
     @Override
-    public List<FieldPlantingView> getFieldPlantingsByFieldId(Long fieldId) {
-        return fieldPlantingRepository.findPlantingsByFieldId(fieldId);
+    public void addHarvestDate(Long fieldId, LocalDate harvestDate) {
+        fieldService.validateFieldExistsById(fieldId);
+
+        FieldPlanting fieldPlanting = fieldPlantingRepository.findFieldPlantingByFieldId(fieldId).orElseThrow(() ->
+                new IllegalStateException("Нет активного посева для данного поля"));
+
+        fieldPlanting.setHarvestDate(harvestDate);
+
+        fieldPlantingRepository.save(fieldPlanting);
     }
+
+//    @Override
+//    public List<FieldPlantingView> getFieldPlantingsByFieldId(Long fieldId) {
+//        List<FieldPlanting> fieldPlantings = fieldPlantingRepository.findFieldPlantingByFieldId(fieldId);
+//
+//        return fieldPlantings.stream()
+//                .map(FieldPlantingMapper::toView)
+//                .toList();
+//    }
 
 }

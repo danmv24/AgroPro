@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 @Getter
 public class FieldWithCurrentCropView {
 
-    private final Long fieldId;
+    private final Long id;
     private final Integer fieldNumber;
-    private final String cropName;
+    private final String cropType;
     private final BigDecimal area;
 
 }

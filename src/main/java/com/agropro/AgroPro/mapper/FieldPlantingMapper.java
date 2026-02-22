@@ -1,16 +1,25 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.form.FieldPlantingForm;
+import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.model.FieldPlanting;
+
+import java.time.LocalDate;
 
 public class FieldPlantingMapper {
 
-    public static FieldPlanting toModel(FieldPlantingForm fieldPlantingForm) {
+    public static FieldPlanting toModel(Long fieldId, CropType cropType, LocalDate plantingDate) {
         return FieldPlanting.builder()
-                .fieldId(fieldPlantingForm.getFieldId())
-                .cropId(fieldPlantingForm.getCropId())
-                .plantingYear(fieldPlantingForm.getPlantingYear())
+                .fieldId(fieldId)
+                .cropType(cropType)
+                .plantingDate(plantingDate)
                 .build();
     }
+
+//    public static FieldPlantingView toView(FieldPlanting fieldPlanting) {
+//        return FieldPlantingView.builder()
+//                .cropName(fieldPlanting.getCropType().getCropType())
+//                .plantingYear(fieldPlanting.getPlantingYear())
+//                .build();
+//    }
 
 }

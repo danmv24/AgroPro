@@ -1,46 +1,40 @@
 package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.form.MachineryForm;
+import com.agropro.AgroPro.form.MachineryUpdateForm;
 import com.agropro.AgroPro.service.MachineryService;
-import com.agropro.AgroPro.service.MachineryTypeService;
 import com.agropro.AgroPro.view.MachineryView;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/machineries")
+@RequestMapping("/api/machineries")
 public class MachineryController {
 
-    private final MachineryTypeService machineryTypeService;
     private final MachineryService machineryService;
-
-    @GetMapping("/add")
-    public String showAddMachineryForm(Model model) {
-        model.addAttribute("machineryForm", new MachineryForm());
-        model.addAttribute("machineryTypes", machineryTypeService.getAllMachineryTypes());
-        return "machineries/machinery_add";
-    }
 
     @PostMapping("/add")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> addMachinery(@RequestBody MachineryForm machineryForm) {
-        machineryService.addMachinery(machineryForm);
-        return ResponseEntity.ok(Map.of("status", "success", "message", "Техника успешно добавлена"));
+    public ResponseEntity<Void> addMachinery(@Valid @RequestBody MachineryForm machineryForm) {
+        machineryService.createMachinery(machineryForm);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/list")
-    public String getAllMachineries(Model model) {
-        List<MachineryView> machineryViews = machineryService.getMachineries();
-        model.addAttribute("machineries", machineryViews);
+    public List<MachineryView> getAllMachineries() {
+        return machineryService.getMachineries();
+    }
 
-        return "machineries/machinery_list";
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Void> editMachinery(@PathVariable Long id, @Valid @RequestBody MachineryUpdateForm machineryUpdateForm) {
+        machineryService.updateMachinery(id, machineryUpdateForm);
+        return ResponseEntity.ok().build();
     }
 
 }

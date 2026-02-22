@@ -3,12 +3,12 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class WorkTypeNotFoundException extends RuntimeException {
+public class WorkTypeNotFoundException extends NotFoundException {
 
-    private final Long workTypeId;
+    private final String workType;
 
-    public WorkTypeNotFoundException(Long workTypeId) {
-        super("Тип работы с id = " + workTypeId + " не найден");
-        this.workTypeId = workTypeId;
+    public WorkTypeNotFoundException(String workType) {
+        super("Тип работы с названием '" + workType + "' не найден");
+        this.workType = workType;
     }
 }

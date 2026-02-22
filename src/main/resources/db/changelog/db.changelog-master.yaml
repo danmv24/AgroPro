@@ -3,19 +3,7 @@ databaseChangeLog:
     # creating tables
 
   - include:
-      file: /changes/create_table_positions.sql
-      relativeToChangelogFile: true
-
-  - include:
       file: /changes/create_table_employees.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: changes/create_table_work_records.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/create_table_crops.sql
       relativeToChangelogFile: true
 
   - include:
@@ -27,23 +15,7 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: /changes/create_table_work_types.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/create_table_status_codes.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/create_table_machinery_types.sql
-      relativeToChangelogFile: true
-
-  - include:
       file: /changes/create_table_machineries.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/create_table_equipment_types.sql
       relativeToChangelogFile: true
 
   - include:
@@ -59,47 +31,23 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
-      file: /changes/create_table_field_works.sql
+      file: changes/create_table_works.sql
       relativeToChangelogFile: true
 
   - include:
-      file: /changes/create_table_field_work_equipment.sql
+      file: changes/create_table_work_equipment.sql
       relativeToChangelogFile: true
 
   - include:
-      file: /changes/create_table_field_work_machineries.sql
+      file: changes/create_table_work_machineries.sql
       relativeToChangelogFile: true
 
   - include:
-      file: /changes/create_table_field_work_employees.sql
+      file: changes/create_table_work_employees.sql
       relativeToChangelogFile: true
 
     # inserting data
 
   - include:
-      file: /changes/insert_data_to_positions_table.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/insert_data_to_crops_table.sql
-      relativeToChangelogFile: true
-
-  - include:
       file: changes/insert_data_to_fields_table.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: changes/insert_data_to_work_types_table.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/insert_data_to_machinery_types_table.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/insert_data_to_status_codes_table.sql
-      relativeToChangelogFile: true
-
-  - include:
-      file: /changes/insert_data_to_equipment_types_table.sql
       relativeToChangelogFile: true

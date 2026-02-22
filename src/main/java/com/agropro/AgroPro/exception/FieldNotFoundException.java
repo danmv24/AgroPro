@@ -3,7 +3,7 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class FieldNotFoundException extends RuntimeException {
+public class FieldNotFoundException extends NotFoundException {
 
     private final Long fieldId;
 

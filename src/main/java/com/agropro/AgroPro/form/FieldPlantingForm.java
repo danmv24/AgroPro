@@ -1,18 +1,25 @@
 package com.agropro.AgroPro.form;
 
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
-@Builder
 public class FieldPlantingForm {
 
+    @NotNull(message = "Поле должно быть указано")
     private Long fieldId;
 
-    private Long cropId;
+    @NotBlank(message = "Культура должна быть указана")
+    private String cropType;
 
-    private Integer plantingYear;
+    @NotNull(message = "Дата посева должен быть указан")
+    private LocalDate plantingDate;
 
 }

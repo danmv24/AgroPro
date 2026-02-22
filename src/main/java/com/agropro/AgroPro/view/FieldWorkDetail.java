@@ -13,7 +13,7 @@ public class FieldWorkDetail {
 
     private final Long fieldWorkId;
 
-    private final String workTypeName;
+    private final String workType;
 
     private final String status;
 

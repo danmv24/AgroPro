@@ -1,5 +1,7 @@
 package com.agropro.AgroPro.model;
 
+import com.agropro.AgroPro.enums.EquipmentType;
+import com.agropro.AgroPro.enums.StatusCode;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -16,20 +18,19 @@ import java.time.LocalDate;
 public class Equipment {
 
     @Id
-    @Column("equipment_id")
-    private Long equipmentId;
+    private Long id;
 
     @Column("equipment_name")
     private String equipmentName;
 
-    @Column("equipment_type_id")
-    private Long equipmentTypeId;
+    @Column("equipment_type")
+    private EquipmentType equipmentType;
 
     @Column("inventory_number")
     private Integer inventoryNumber;
 
-    @Column("current_status_id")
-    private Long currentStatusId;
+    @Column("current_status")
+    private StatusCode currentStatus;
 
     @Column("purchase_date")
     private LocalDate purchaseDate;

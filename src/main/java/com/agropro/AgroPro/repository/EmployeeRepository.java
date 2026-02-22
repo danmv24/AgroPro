@@ -1,27 +1,44 @@
 package com.agropro.AgroPro.repository;
 
+import com.agropro.AgroPro.enums.EmployeePosition;
+import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Employee;
-import com.agropro.AgroPro.view.EmployeeBasicInfoView;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
-public interface EmployeeRepository {
-
-    void save(Employee employee);
+@Repository
+public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
     List<Employee> findAll();
 
-    List<EmployeeBasicInfoView> findEmployeesWherePaymentTypeIsHourly();
+    List<Employee> findEmployeesByPosition(EmployeePosition position);
 
-    boolean existsByEmployeeId(Long employeeId);
+    @Query("SELECT id FROM employees WHERE id IN (:employeeIds)")
+    Set<Long> findEmployeeIdsByIdIn(@Param("employeeIds") Set<Long> employeeIds);
 
-    List<EmployeeBasicInfoView> findEmployeesWherePositionIsMechanizator();
+    @Query("""
+        SELECT DISTINCT we.employee_id FROM work_employees AS we
+        INNER JOIN works AS w ON we.work_id = w.id
+        WHERE we.employee_id IN(:employeeIds)
+        AND w.status IN(:workStatuses)
+        AND (w.end_date > :startDateOfWork AND w.start_date < :endDateOfWork)
+    """)
+    List<Long> findConflictEmployeeIdsByDateTime(@Param("employeeIds") Set<Long> employeeIds,
+                                                 @Param("workStatuses") List<WorkStatus> workStatuses,
+                                                 @Param("startDateOfWork") Timestamp startDateOfWork,
+                                                 @Param("endDateOfWork") Timestamp endDateOfWork);
 
-    Set<Long> findExistingEmployeesByIds(Set<Long> employeeIds);
+    @Query("""
+        SELECT e.id, e.surname, e.name, e.patronymic, e.position, e.payment_type, e.salary, e.hire_date, e.gender FROM work_employees AS we
+        INNER JOIN employees AS e ON e.id = we.employee_id
+        WHERE we.work_id = :workId
+    """)
+    List<Employee> findEmployeesByFieldWorkId(@Param("workId") Long workId);
 
-    List<Long> findConflictEmployeeIdsByDateTime(Set<Long> employeeIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
-
-    List<EmployeeBasicInfoView> findEmployeesByFieldWorkId(Long workId);
 }

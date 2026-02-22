@@ -3,12 +3,12 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class CropNotFoundException extends RuntimeException {
+public class CropNotFoundException extends NotFoundException {
 
-    private final Long cropId;
+    private final String cropType;
 
-    public CropNotFoundException(Long cropId) {
-        super("Культура с id " + cropId + " не найдена");
-        this.cropId = cropId;
+    public CropNotFoundException(String cropType) {
+        super("Культура с названием '" + cropType + "' не найдена");
+        this.cropType = cropType;
     }
 }

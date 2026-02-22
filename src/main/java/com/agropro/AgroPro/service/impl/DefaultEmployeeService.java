@@ -1,19 +1,22 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.enums.EmployeePosition;
+import com.agropro.AgroPro.enums.WorkStatus;
+import com.agropro.AgroPro.exception.EmployeeNotAvailableException;
 import com.agropro.AgroPro.exception.EmployeeNotFoundException;
-import com.agropro.AgroPro.exception.PositionNotFoundException;
+import com.agropro.AgroPro.exception.EmptyCollectionException;
 import com.agropro.AgroPro.form.EmployeeForm;
 import com.agropro.AgroPro.mapper.EmployeeMapper;
 import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.EmployeeRepository;
 import com.agropro.AgroPro.service.EmployeeService;
-import com.agropro.AgroPro.service.PositionService;
 import com.agropro.AgroPro.view.EmployeeBasicInfoView;
 import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -24,15 +27,11 @@ import java.util.Set;
 public class DefaultEmployeeService implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final PositionService positionService;
 
     @Override
     @Transactional
-    public void addEmployee(EmployeeForm employeeForm) {
-        Long positionId = positionService.getPositionIdByPositionName(employeeForm.getPosition())
-                .orElseThrow(() -> new PositionNotFoundException("Должность не найдена: " + employeeForm.getPosition()));
-
-        employeeRepository.save(EmployeeMapper.toModel(employeeForm, positionId));
+    public void createEmployee(EmployeeForm employeeForm) {
+        employeeRepository.save(EmployeeMapper.toModel(employeeForm));
     }
 
     @Override
@@ -40,31 +39,31 @@ public class DefaultEmployeeService implements EmployeeService {
         List<Employee> employees = employeeRepository.findAll();
 
         return employees.stream()
-                .map(employee -> {
-                    String positionName = positionService.getPositionNameByPositionId(employee.getPositionId())
-                            .orElseThrow(() -> new PositionNotFoundException("Не найдена должность с id:" + employee.getPositionId()));
-                    return EmployeeMapper.toView(employee, positionName);
-                })
+                .map(EmployeeMapper::toView)
                 .toList();
     }
 
-    @Override
-    public List<EmployeeBasicInfoView> getHourlyPaidEmployees() {
-        return employeeRepository.findEmployeesWherePaymentTypeIsHourly();
-    }
+//    @Override
+//    public List<EmployeeBasicInfoView> getHourlyPaidEmployees() {
+//        return employeeRepository.findEmployeesByPaymentType(PaymentType.HOURLY);
+//    }
 
     @Override
     public List<EmployeeBasicInfoView> getMechanizators() {
-        return employeeRepository.findEmployeesWherePositionIsMechanizator();
+        List<Employee> employees = employeeRepository.findEmployeesByPosition(EmployeePosition.MACHINE_OPERATOR);
+
+        return employees.stream()
+                .map(EmployeeMapper::toBasicInfoView)
+                .toList();
     }
 
     @Override
     public void validateEmployeesExistByIds(Set<Long> employeeIds) {
         if (employeeIds == null || employeeIds.isEmpty()) {
-            throw new IllegalArgumentException("Отправлен пустой список работников для проверки на существование");
+            throw new EmptyCollectionException();
         }
 
-        Set<Long> existingIds = employeeRepository.findExistingEmployeesByIds(employeeIds);
+        Set<Long> existingIds = employeeRepository.findEmployeeIdsByIdIn(employeeIds);
 
         if (existingIds.size() != employeeIds.size()) {
             Set<Long> missingIds = new HashSet<>(employeeIds);
@@ -77,19 +76,26 @@ public class DefaultEmployeeService implements EmployeeService {
     @Override
     public void validateEmployeesAvailability(Set<Long> employeeIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork) {
         if (employeeIds == null || employeeIds.isEmpty()) {
-            return;
+            throw new EmptyCollectionException();
         }
+        
+        List<WorkStatus> fieldWorkStatuses = List.of(WorkStatus.PLANNED, WorkStatus.IN_PROGRESS);
 
-        List<Long> conflictEmployeeIds = employeeRepository.findConflictEmployeeIdsByDateTime(employeeIds, startDateOfWork, endDateOfWork);
+        List<Long> conflictEmployeeIds = employeeRepository.findConflictEmployeeIdsByDateTime(employeeIds,
+                fieldWorkStatuses, Timestamp.valueOf(startDateOfWork), Timestamp.valueOf(endDateOfWork));
 
         if (!conflictEmployeeIds.isEmpty()) {
-            throw new RuntimeException("Пока что заглушка");
+            throw new EmployeeNotAvailableException(conflictEmployeeIds);
         }
     }
 
     @Override
     public List<EmployeeBasicInfoView> getEmployeesByFieldWorkId(Long workId) {
-        return employeeRepository.findEmployeesByFieldWorkId(workId);
+        List<Employee> employees = employeeRepository.findEmployeesByFieldWorkId(workId);
+
+        return employees.stream()
+                .map(EmployeeMapper::toBasicInfoView)
+                .toList();
     }
 
 }

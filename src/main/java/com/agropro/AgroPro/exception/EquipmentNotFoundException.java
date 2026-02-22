@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Set;
 
 @Getter
-public class EquipmentNotFoundException extends RuntimeException {
+public class EquipmentNotFoundException extends NotFoundException {
 
     private final Set<Long> missingIds;
 

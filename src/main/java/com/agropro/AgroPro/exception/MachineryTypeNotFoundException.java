@@ -3,12 +3,12 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class MachineryTypeNotFoundException extends RuntimeException {
+public class MachineryTypeNotFoundException extends NotFoundException {
 
-    private final Long machineryTypeId;
+    private final String machineryType;
 
-    public MachineryTypeNotFoundException(Long machineryTypeId) {
-        super("Тип машины с id = " + machineryTypeId + " не найден");
-        this.machineryTypeId = machineryTypeId;
+    public MachineryTypeNotFoundException(String machineryType) {
+        super("Тип машины с названием '" + machineryType + "' не найден");
+        this.machineryType = machineryType;
     }
 }

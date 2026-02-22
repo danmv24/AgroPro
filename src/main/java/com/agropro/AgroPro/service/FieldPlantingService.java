@@ -1,14 +1,13 @@
 package com.agropro.AgroPro.service;
 
-import com.agropro.AgroPro.form.FieldPlantingForm;
-import com.agropro.AgroPro.view.FieldPlantingView;
-
-import java.util.List;
+import java.time.LocalDate;
 
 public interface FieldPlantingService {
 
-    void addFieldPlanting(FieldPlantingForm fieldForm);
+    void createFieldPlanting(Long fieldId, String cropType, LocalDate plantingDate);
 
-    List<FieldPlantingView> getFieldPlantingsByFieldId(Long fieldId);
+    void addHarvestDate(Long fieldId, LocalDate harvestDate);
+
+//    List<FieldPlantingView> getFieldPlantingsByFieldId(Long fieldId);
 
 }

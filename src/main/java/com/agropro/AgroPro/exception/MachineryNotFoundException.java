@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Set;
 
 @Getter
-public class MachineryNotFoundException extends RuntimeException {
+public class MachineryNotFoundException extends NotFoundException {
 
     private final Set<Long> missingIds;
 

@@ -1,9 +1,12 @@
 package com.agropro.AgroPro.model;
 
+import com.agropro.AgroPro.enums.CropType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.LocalDate;
 
 @Table(name = "field_plantings")
 @Getter
@@ -19,9 +22,12 @@ public class FieldPlanting {
     @Column("field_id")
     private Long fieldId;
 
-    @Column("crop_id")
-    private Long cropId;
+    @Column("crop_type")
+    private CropType cropType;
 
-    @Column("planting_year")
-    private Integer plantingYear;
+    @Column("planting_date")
+    private LocalDate plantingDate;
+
+    @Column("harvest_date")
+    private LocalDate harvestDate;
 }

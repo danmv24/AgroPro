@@ -1,5 +1,7 @@
 package com.agropro.AgroPro.model;
 
+import com.agropro.AgroPro.enums.EmployeePosition;
+import com.agropro.AgroPro.enums.Gender;
 import com.agropro.AgroPro.enums.PaymentType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -18,7 +20,7 @@ import java.time.LocalDate;
 public class Employee {
 
     @Id
-    private Long employeeId;
+    private Long id;
 
     @Column("surname")
     private String surname;
@@ -29,14 +31,17 @@ public class Employee {
     @Column("patronymic")
     private String patronymic;
 
-    @Column("position_id")
-    private Long positionId;
+    @Column("position")
+    private EmployeePosition position;
 
     @Column("payment_type")
     private PaymentType paymentType;
 
     @Column("salary")
     private BigDecimal salary;
+
+    @Column("gender")
+    private Gender gender;
 
     @Column("hire_date")
     private LocalDate hireDate;
