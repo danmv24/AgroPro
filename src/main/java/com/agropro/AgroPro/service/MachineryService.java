@@ -22,7 +22,7 @@ public interface MachineryService {
 
     void validateMachineriesAvailability(Set<Long> machineryIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
-    List<MachineryBasicInfoView> getMachineriesByFieldWorkId(Long workId);
+    List<MachineryBasicInfoView> getMachineriesByWorkId(Long workId);
 
     void changeMachineryStatusByWorkIds(Set<Long> workIds, StatusCode statusCode, LocalDateTime changedAt);
 

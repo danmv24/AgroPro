@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,11 @@ public class DefaultFieldPlantingService implements FieldPlantingService {
         fieldPlanting.setHarvestDate(harvestDate);
 
         fieldPlantingRepository.save(fieldPlanting);
+    }
+
+    @Override
+    public List<FieldPlanting> getPlantingsByIdsAndDate(Set<Long> fieldIds, LocalDate date) {
+        return fieldPlantingRepository.findAllByIdAndDate(fieldIds, date);
     }
 
 //    @Override

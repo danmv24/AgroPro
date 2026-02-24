@@ -10,10 +10,7 @@ import com.agropro.AgroPro.mapper.WorkEmployeeMapper;
 import com.agropro.AgroPro.mapper.WorkEquipmentMapper;
 import com.agropro.AgroPro.mapper.WorkMachineryMapper;
 import com.agropro.AgroPro.mapper.WorkMapper;
-import com.agropro.AgroPro.model.Work;
-import com.agropro.AgroPro.model.WorkEmployee;
-import com.agropro.AgroPro.model.WorkEquipment;
-import com.agropro.AgroPro.model.WorkMachinery;
+import com.agropro.AgroPro.model.*;
 import com.agropro.AgroPro.repository.WorkEmployeeRepository;
 import com.agropro.AgroPro.repository.WorkEquipmentRepository;
 import com.agropro.AgroPro.repository.WorkMachineryRepository;
@@ -26,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -69,18 +68,34 @@ public class DefaultWorkService implements WorkService {
 
     @Override
     public List<WorkBasicInfoView> getWorks() {
-        return workRepository.findAllBasicInfo();
+        List<Work> works = workRepository.findAll();
+        Set<Long> fieldIds = works.stream()
+                .map(Work::getFieldId)
+                .collect(Collectors.toSet());
 
+        Map<Long, Field> fieldsById = fieldService.getFieldsByIds(fieldIds).stream()
+                .collect(Collectors.toMap(
+                        Field::getId, Function.identity()
+                ));
+
+        return works.stream()
+                .map(work -> {
+                    Field field = fieldsById.get(work.getFieldId());
+
+                    return WorkMapper.toBasicInfoView(work, field);
+                }).toList();
     }
 
     @Override
     public WorkView getWork(Long workId) {
-        FieldWorkDetail fieldWorkDetail = workRepository.findFieldWorkDetailByFieldWorkId(workId).orElseThrow(() -> new WorkNotFoundException(workId));
-        List<EmployeeBasicInfoView> employees = employeeService.getEmployeesByFieldWorkId(workId);
-        List<MachineryBasicInfoView> machineries = machineryService.getMachineriesByFieldWorkId(workId);
-        List<EquipmentBasicInfoView> equipment = equipmentService.getEquipmentByFieldWorkId(workId);
+        Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
+        Field field = fieldService.getFieldById(work.getFieldId());
 
-        return WorkMapper.toView(fieldWorkDetail, employees, machineries, equipment);
+        List<EmployeeBasicInfoView> employees = employeeService.getEmployeesByWorkId(workId);
+        List<MachineryBasicInfoView> machineries = machineryService.getMachineriesByWorkId(workId);
+        List<EquipmentBasicInfoView> equipment = equipmentService.getEquipmentByWorkId(workId);
+
+        return WorkMapper.toView(work, field, employees, machineries, equipment);
     }
 
     @Override

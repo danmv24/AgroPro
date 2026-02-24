@@ -90,7 +90,7 @@ public class DefaultEmployeeService implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeBasicInfoView> getEmployeesByFieldWorkId(Long workId) {
+    public List<EmployeeBasicInfoView> getEmployeesByWorkId(Long workId) {
         List<Employee> employees = employeeRepository.findEmployeesByFieldWorkId(workId);
 
         return employees.stream()

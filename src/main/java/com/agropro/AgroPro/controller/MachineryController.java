@@ -26,7 +26,7 @@ public class MachineryController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<MachineryView> getAllMachineries() {
         return machineryService.getMachineries();
     }

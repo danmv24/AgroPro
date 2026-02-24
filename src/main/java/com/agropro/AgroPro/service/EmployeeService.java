@@ -13,8 +13,6 @@ public interface EmployeeService {
     void createEmployee(EmployeeForm employeeForm);
 
     List<EmployeeView> getEmployees();
-//
-//    List<EmployeeBasicInfoView> getHourlyPaidEmployees();
 
     List<EmployeeBasicInfoView> getMechanizators();
 
@@ -22,5 +20,5 @@ public interface EmployeeService {
 
     void validateEmployeesAvailability(Set<Long> employeeIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
-    List<EmployeeBasicInfoView> getEmployeesByFieldWorkId(Long workId);
+    List<EmployeeBasicInfoView> getEmployeesByWorkId(Long workId);
 }

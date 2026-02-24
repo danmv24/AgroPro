@@ -4,13 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Builder
 @Getter
-@RequiredArgsConstructor
-public class EquipmentStatusView {
+public class FieldBasicView {
 
-    private final Long equipmentId;
+    private final Long fieldId;
 
-    private final String currentStatus;
+    private final Integer fieldNumber;
 
 }

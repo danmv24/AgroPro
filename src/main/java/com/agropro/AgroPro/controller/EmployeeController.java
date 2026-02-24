@@ -25,7 +25,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<EmployeeView> getAllEmployees() {
         return employeeService.getEmployees();
     }

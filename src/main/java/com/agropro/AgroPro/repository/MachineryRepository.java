@@ -4,7 +4,7 @@ import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Machinery;
 import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface MachineryRepository extends CrudRepository<Machinery, Long> {
-
-    List<Machinery> findAll();
+public interface MachineryRepository extends ListCrudRepository<Machinery, Long> {
 
     List<Machinery> findAllByIdIn(Set<Long> machineryIds);
 

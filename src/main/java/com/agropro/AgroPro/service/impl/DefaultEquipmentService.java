@@ -115,7 +115,7 @@ public class DefaultEquipmentService implements EquipmentService {
     }
 
     @Override
-    public List<EquipmentBasicInfoView> getEquipmentByFieldWorkId(Long workId) {
+    public List<EquipmentBasicInfoView> getEquipmentByWorkId(Long workId) {
         List<Equipment> equipment = equipmentRepository.findEquipmentByWorkId(workId);
 
         return equipment.stream()

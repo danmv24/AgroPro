@@ -106,7 +106,7 @@ public class DefaultMachineryService implements MachineryService {
     }
 
     @Override
-    public List<MachineryBasicInfoView> getMachineriesByFieldWorkId(Long workId) {
+    public List<MachineryBasicInfoView> getMachineriesByWorkId(Long workId) {
         List<Machinery> machineries = machineryRepository.findMachineryByWorkId(workId);
 
         return machineries.stream()

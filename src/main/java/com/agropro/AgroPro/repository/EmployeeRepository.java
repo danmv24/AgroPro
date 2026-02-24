@@ -4,7 +4,7 @@ import com.agropro.AgroPro.enums.EmployeePosition;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Employee;
 import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-
-    List<Employee> findAll();
+public interface EmployeeRepository extends ListCrudRepository<Employee, Long> {
 
     List<Employee> findEmployeesByPosition(EmployeePosition position);
 

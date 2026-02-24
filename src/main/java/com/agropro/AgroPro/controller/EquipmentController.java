@@ -25,7 +25,7 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<EquipmentView> getAllEquipment() {
         return equipmentService.getAllEquipment();
     }

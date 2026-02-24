@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/field-works")
+@RequestMapping("/api/works")
 public class WorkController {
 
     private final WorkService fieldWorkService;
@@ -26,7 +26,7 @@ public class WorkController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<WorkBasicInfoView> getWorks() {
         return fieldWorkService.getWorks();
     }

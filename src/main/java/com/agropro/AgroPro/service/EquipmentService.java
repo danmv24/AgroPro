@@ -24,7 +24,7 @@ public interface EquipmentService {
 
     void validateEquipmentAvailability(Set<Long> equipmentIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
-    List<EquipmentBasicInfoView> getEquipmentByFieldWorkId(Long workId);
+    List<EquipmentBasicInfoView> getEquipmentByWorkId(Long workId);
 
     void changeEquipmentStatusByWorkIds(Set<Long> workIds, StatusCode statusCode, LocalDateTime changedAt);
 
