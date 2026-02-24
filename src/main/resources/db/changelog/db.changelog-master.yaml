@@ -46,8 +46,20 @@ databaseChangeLog:
       file: changes/create_table_work_employees.sql
       relativeToChangelogFile: true
 
+  - include:
+      file: changes/create_table_expense_categories.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/create_table_expenses.sql
+      relativeToChangelogFile: true
+
     # inserting data
 
   - include:
       file: changes/insert_data_to_fields_table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/insert_data_to_expense_categories_table.sql
       relativeToChangelogFile: true
