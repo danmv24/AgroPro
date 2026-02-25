@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class FieldWorkDetail {
 
-    private final Long fieldWorkId;
+    private final Long workId;
 
     private final String workType;
 

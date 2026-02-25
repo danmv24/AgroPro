@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class WorkStatusSheduler {
 
-    private final WorkService fieldWorkService;
+    private final WorkService workService;
 
     @Scheduled(fixedRate = 60000)
     public void updateFieldWorkStatuses() {
         try {
-            fieldWorkService.updateStatuses();
+            workService.updateStatuses();
             log.info("Обновление завершено");
         } catch (Exception e) {
             log.error("Ошибка при обновлении", e);

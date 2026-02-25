@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class FieldBasicView {
 
-    private final Long fieldId;
+    private final Long id;
 
     private final Integer fieldNumber;
 

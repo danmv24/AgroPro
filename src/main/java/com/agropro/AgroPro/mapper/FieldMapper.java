@@ -9,7 +9,7 @@ public class FieldMapper {
 
     public static FieldBasicView toBasicView(Field field) {
         return FieldBasicView.builder()
-                .fieldId(field.getId())
+                .id(field.getId())
                 .fieldNumber(field.getFieldNumber())
                 .build();
     }
@@ -18,7 +18,7 @@ public class FieldMapper {
         return FieldView.builder()
                 .id(field.getId())
                 .fieldNumber(field.getFieldNumber())
-                .cropType(fieldPlanting.getCropType().getCropType())
+                .cropType(fieldPlanting != null ? fieldPlanting.getCropType().getCropType() : null)
                 .area(field.getArea())
                 .build();
     }

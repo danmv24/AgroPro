@@ -21,8 +21,8 @@ public class WorkController {
     private final WorkService fieldWorkService;
 
     @PostMapping("/add")
-    public ResponseEntity<Void> planWork(@Valid @RequestBody WorkForm fieldWorkForm) {
-        fieldWorkService.createWork(fieldWorkForm);
+    public ResponseEntity<Void> planWork(@Valid @RequestBody WorkForm workForm) {
+        fieldWorkService.createWork(workForm);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

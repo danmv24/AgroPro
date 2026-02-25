@@ -26,7 +26,7 @@ public class WorkMapper {
     public static WorkView toView(Work work, Field field, List<EmployeeBasicInfoView> employees,
                                   List<MachineryBasicInfoView> machineries, List<EquipmentBasicInfoView> equipment) {
         return WorkView.builder()
-                .fieldWorkId(work.getId())
+                .id(work.getId())
                 .workType(work.getWorkType().getWorkType())
                 .status(work.getStatus().getWorkStatus())
                 .fieldNumber(field.getFieldNumber())

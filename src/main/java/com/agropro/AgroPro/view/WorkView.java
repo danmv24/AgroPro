@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 public class WorkView {
 
-    private final Long fieldWorkId;
+    private final Long id;
 
     private final String workType;
 

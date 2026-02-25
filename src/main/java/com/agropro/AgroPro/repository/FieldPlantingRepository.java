@@ -29,8 +29,8 @@ public interface FieldPlantingRepository extends ListCrudRepository<FieldPlantin
     @Query("""
         SELECT id, field_id, crop_type, planting_date, harvest_date FROM field_plantings
         WHERE field_id IN (:fieldIds)
-        AND planting_date <= : date
-        AND (harvest_date IS NULL OR harvest_date >= :date)
+        AND planting_date <= :date
+        AND (harvest_date IS NULL OR harvest_date > :date)
     """)
     List<FieldPlanting> findAllByIdAndDate(@Param("fieldIds") Set<Long> fieldIds, @Param("date") LocalDate date);
 
