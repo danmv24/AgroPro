@@ -1,14 +1,13 @@
 package com.agropro.AgroPro.enums;
 
 import com.agropro.AgroPro.exception.WorkTypeNotFoundException;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @RequiredArgsConstructor
-@Getter
 public enum WorkType {
 
     PLOWING("Пахота"),
@@ -19,22 +18,19 @@ public enum WorkType {
     HARVESTING("Уборка урожая"),
     WATERING("Полив");
 
-    private final String workType;
+    private final String workTypeName;
 
-    private static final Map<String, WorkType> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (WorkType workType : WorkType.values()) {
-            ENUM_MAP.put(workType.getWorkType(), workType);
-        }
+    @JsonValue
+    public String getWorkTypeName() {
+        return workTypeName;
     }
 
-    public static WorkType fromString(String workType) {
-        WorkType fieldWorkType = ENUM_MAP.get(workType);
-        if (fieldWorkType == null) {
-            throw new WorkTypeNotFoundException(workType);
-        }
-        return fieldWorkType;
+    @JsonCreator
+    public static WorkType fromString(String value) {
+        return Arrays.stream(WorkType.values())
+                .filter(wt -> wt.getWorkTypeName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new WorkTypeNotFoundException(value));
     }
 
 }

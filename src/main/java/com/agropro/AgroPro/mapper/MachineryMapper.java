@@ -1,6 +1,5 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.enums.MachineryType;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.form.MachineryForm;
 import com.agropro.AgroPro.model.Machinery;
@@ -13,7 +12,7 @@ public class MachineryMapper {
         return Machinery.builder()
                 .machineryName(machineryForm.getMachineryName())
                 .inventoryNumber(machineryForm.getInventoryNumber())
-                .machineryType(MachineryType.fromString(machineryForm.getMachineryType()))
+                .machineryType(machineryForm.getMachineryType())
                 .licensePlate(machineryForm.getLicensePlate())
                 .currentStatus(StatusCode.IDLE)
                 .purchaseDate(machineryForm.getPurchaseDate())
@@ -23,10 +22,10 @@ public class MachineryMapper {
     public static MachineryView toView(Machinery machinery) {
         return MachineryView.builder()
                 .machineryName(machinery.getMachineryName())
-                .machineryType(machinery.getMachineryType().getMachineryType())
+                .machineryType(machinery.getMachineryType())
                 .inventoryNumber(machinery.getInventoryNumber())
                 .licencePlate(machinery.getLicensePlate())
-                .statusCode(machinery.getCurrentStatus().getStatus())
+                .statusCode(machinery.getCurrentStatus().getStatusName())
                 .build();
     }
 
@@ -34,7 +33,7 @@ public class MachineryMapper {
         return MachineryBasicInfoView.builder()
                 .machineryId(machinery.getId())
                 .machineryName(machinery.getMachineryName())
-                .machineryType(machinery.getMachineryType().getMachineryType())
+                .machineryType(machinery.getMachineryType())
                 .licensePlate(machinery.getLicensePlate())
                 .build();
     }

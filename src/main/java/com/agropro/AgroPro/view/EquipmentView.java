@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.view;
 
+import com.agropro.AgroPro.enums.EquipmentType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ public class EquipmentView {
 
     private final String equipmentName;
 
-    private final String equipmentType;
+    private final EquipmentType equipmentType;
 
     private final Integer inventoryNumber;
 

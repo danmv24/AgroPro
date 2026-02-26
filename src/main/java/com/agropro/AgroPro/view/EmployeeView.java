@@ -1,6 +1,9 @@
 package com.agropro.AgroPro.view;
 
-import lombok.*;
+import com.agropro.AgroPro.enums.EmployeePosition;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -15,7 +18,7 @@ public class EmployeeView {
 
     private final String patronymic;
 
-    private final String position;
+    private final EmployeePosition position;
 
     private final String paymentType;
 

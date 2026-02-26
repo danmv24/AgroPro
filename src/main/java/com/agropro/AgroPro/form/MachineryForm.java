@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.form;
 
+import com.agropro.AgroPro.enums.MachineryType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,8 +18,8 @@ public class MachineryForm {
     @NotBlank(message = "Название техники должно быть указано")
     private String machineryName;
 
-    @NotBlank(message = "Тип техники должен быть указан")
-    private String machineryType;
+    @NotNull(message = "Тип техники должен быть указан")
+    private MachineryType machineryType;
 
     @Positive
     @NotNull(message = "Инвентарный номер должен быть указан")

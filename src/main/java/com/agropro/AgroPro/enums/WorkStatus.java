@@ -1,10 +1,11 @@
 package com.agropro.AgroPro.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -12,20 +13,21 @@ public enum WorkStatus {
 
     PLANNED("Запланировано"),
     IN_PROGRESS("В процессе"),
-    COMPLETED("Завершено"),
+    COMPLETED("Завершена"),
     CANCELLED("Отменена");
 
-    private final String workStatus;
+    private final String workStatusName;
 
-    private static final Map<String, WorkStatus> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (WorkStatus workStatus : WorkStatus.values()) {
-            ENUM_MAP.put(workStatus.getWorkStatus(), workStatus);
-        }
+    @JsonValue
+    public String getWorkStatusName() {
+        return workStatusName;
     }
 
-    public static WorkStatus fromString(String workStatus) {
-        return ENUM_MAP.get(workStatus);
+    @JsonCreator
+    public static WorkStatus fromString(String value) {
+        return Arrays.stream(WorkStatus.values())
+                .filter(ws -> ws.getWorkStatusName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow();
     }
 }

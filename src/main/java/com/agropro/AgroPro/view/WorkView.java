@@ -1,5 +1,7 @@
 package com.agropro.AgroPro.view;
 
+import com.agropro.AgroPro.enums.WorkStatus;
+import com.agropro.AgroPro.enums.WorkType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +16,9 @@ public class WorkView {
 
     private final Long id;
 
-    private final String workType;
+    private final WorkType workType;
 
-    private final String status;
+    private final WorkStatus status;
 
     private final Integer fieldNumber;
 

@@ -1,6 +1,5 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.enums.EquipmentType;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.exception.*;
@@ -160,10 +159,10 @@ public class DefaultEquipmentService implements EquipmentService {
             throw new EquipmentCannotBeModifiedException(equipment.getId());
         }
 
-        StatusCode newStatusCode = StatusCode.fromString(equipmentUpdateForm.getStatus());
+        StatusCode newStatusCode = equipmentUpdateForm.getStatus();
 
         equipment.setEquipmentName(equipmentUpdateForm.getEquipmentName());
-        equipment.setEquipmentType(EquipmentType.fromString(equipmentUpdateForm.getEquipmentType()));
+        equipment.setEquipmentType(equipmentUpdateForm.getEquipmentType());
         equipment.setInventoryNumber(equipmentUpdateForm.getInventoryNumber());
         equipment.setPurchaseDate(equipmentUpdateForm.getPurchaseDate());
 

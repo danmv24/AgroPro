@@ -1,11 +1,12 @@
 package com.agropro.AgroPro.enums;
 
 import com.agropro.AgroPro.exception.GenderNotFoundException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 @Getter
@@ -14,22 +15,19 @@ public enum Gender {
     MALE("Мужской"),
     FEMALE("Женский");
 
-    private final String gender;
+    private final String genderName;
 
-    private static final Map<String, Gender> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (Gender g : Gender.values()) {
-            ENUM_MAP.put(g.getGender(), g);
-        }
+    @JsonValue
+    public String getGenderName() {
+        return genderName;
     }
 
-    public static Gender fromString(String gender) {
-        Gender g = ENUM_MAP.get(gender);
-        if (g == null) {
-            throw new GenderNotFoundException(gender);
-        }
-        return g;
+    @JsonCreator
+    public static Gender fromString(String value) {
+        return Arrays.stream(Gender.values())
+                .filter(g -> g.getGenderName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new GenderNotFoundException(value));
     }
 
 }

@@ -1,11 +1,12 @@
 package com.agropro.AgroPro.enums;
 
 import com.agropro.AgroPro.exception.CropNotFoundException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -19,22 +20,19 @@ public enum CropType {
     APPLES("Яблоки"),
     PURE_STEAM("Чистый пар");
 
-    private final String cropType;
+    private final String cropTypeName;
 
-    private static final Map<String, CropType> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (CropType crop : CropType.values()) {
-            ENUM_MAP.put(crop.getCropType(), crop);
-        }
+    @JsonValue
+    public String getCropTypeName() {
+        return cropTypeName;
     }
 
-    public static CropType fromString(String cropType) {
-        CropType crop = ENUM_MAP.get(cropType);
-        if (crop == null) {
-            throw new CropNotFoundException(cropType);
-        }
-        return crop;
+    @JsonCreator
+    public static CropType fromString(String value) {
+        return Arrays.stream(CropType.values())
+                .filter(ct -> ct.getCropTypeName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new CropNotFoundException(value));
     }
 
 }

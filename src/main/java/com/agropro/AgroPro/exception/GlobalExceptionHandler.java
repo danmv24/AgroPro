@@ -114,4 +114,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    @ExceptionHandler(WorkResultNotAllowedException.class)
+    public ResponseEntity<ErrorResponse> handlerWorkResultNotAllowedException(WorkResultNotAllowedException ex,
+                                                                              HttpServletRequest request) {
+        log.warn("409 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.CONFLICT, request, now);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
 }

@@ -54,6 +54,10 @@ databaseChangeLog:
       file: changes/create_table_expenses.sql
       relativeToChangelogFile: true
 
+  - include:
+      file: changes/create_table_work_results.sql
+      relativeToChangelogFile: true
+
     # inserting data
 
   - include:

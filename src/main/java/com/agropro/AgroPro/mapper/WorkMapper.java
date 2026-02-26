@@ -1,25 +1,25 @@
 package com.agropro.AgroPro.mapper;
 
 import com.agropro.AgroPro.enums.WorkStatus;
-import com.agropro.AgroPro.enums.WorkType;
 import com.agropro.AgroPro.form.WorkForm;
 import com.agropro.AgroPro.model.Field;
 import com.agropro.AgroPro.model.Work;
 import com.agropro.AgroPro.view.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
 public class WorkMapper {
 
-    public static Work toModel(WorkForm fieldWorkForm) {
+    public static Work toModel(WorkForm workForm) {
         return Work.builder()
-                .fieldId(fieldWorkForm.getFieldId())
-                .workType(WorkType.fromString(fieldWorkForm.getWorkType()))
-                .description(StringUtils.defaultIfBlank(fieldWorkForm.getDescription(), "Нет описания"))
-                .startDate(fieldWorkForm.getStartDate())
+                .fieldId(workForm.getFieldId())
+                .workType(workForm.getWorkType())
+                .description(StringUtils.defaultIfBlank(workForm.getDescription(), "Нет описания"))
+                .startDate(workForm.getStartDate())
                 .status(WorkStatus.PLANNED)
-                .endDate(fieldWorkForm.getEndDate())
+                .endDate(workForm.getEndDate())
                 .build();
     }
 
@@ -27,8 +27,8 @@ public class WorkMapper {
                                   List<MachineryBasicInfoView> machineries, List<EquipmentBasicInfoView> equipment) {
         return WorkView.builder()
                 .id(work.getId())
-                .workType(work.getWorkType().getWorkType())
-                .status(work.getStatus().getWorkStatus())
+                .workType(work.getWorkType())
+                .status(work.getStatus())
                 .fieldNumber(field.getFieldNumber())
                 .description(work.getDescription())
                 .startDate(work.getStartDate())
@@ -39,15 +39,28 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkBasicInfoView toBasicInfoView(Work work, Field field) {
+    public static WorkBasicInfoView toBasicInfoView(Work work, Field field, boolean hasResult) {
         return WorkBasicInfoView.builder()
                 .id(work.getId())
-                .workType(work.getWorkType().getWorkType())
+                .workType(work.getWorkType())
                 .fieldNumber(field.getFieldNumber())
-                .status(work.getStatus().getWorkStatus())
+                .status(work.getStatus())
                 .startDate(work.getStartDate())
                 .endDate(work.getEndDate())
+                .hasResult(hasResult)
                 .build();
     }
+
+    public static WorkByStatusView toWorkByStatusView(Slice<WorkBasicInfoView> planned,
+                                                      Slice<WorkBasicInfoView> inProgress,
+                                                      Slice<WorkBasicInfoView> completed) {
+        return WorkByStatusView.builder()
+                .planned(planned)
+                .inProgress(inProgress)
+                .completed(completed)
+                .build();
+    }
+
+
 
 }

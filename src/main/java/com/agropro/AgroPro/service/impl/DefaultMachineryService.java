@@ -1,6 +1,5 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.enums.MachineryType;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.exception.*;
@@ -148,10 +147,10 @@ public class DefaultMachineryService implements MachineryService {
             throw new MachineryCannotBeModifiedException(machinery.getId());
         }
 
-        StatusCode newStatusCode = StatusCode.fromString(machineryUpdateForm.getStatus());
+        StatusCode newStatusCode = machineryUpdateForm.getStatus();
 
         machinery.setMachineryName(machineryUpdateForm.getMachineryName());
-        machinery.setMachineryType(MachineryType.fromString(machineryUpdateForm.getMachineryType()));
+        machinery.setMachineryType(machineryUpdateForm.getMachineryType());
         machinery.setLicensePlate(machineryUpdateForm.getLicensePlate());
         machinery.setInventoryNumber(machineryUpdateForm.getInventoryNumber());
         machinery.setPurchaseDate(machineryUpdateForm.getPurchaseDate());

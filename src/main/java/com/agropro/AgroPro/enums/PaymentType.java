@@ -1,11 +1,12 @@
 package com.agropro.AgroPro.enums;
 
 import com.agropro.AgroPro.exception.PaymentTypeNotFoundException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -13,22 +14,19 @@ public enum PaymentType {
     FIXED("Фиксированная"),
     HOURLY("Почасовая");
 
-    private final String paymentType;
+    private final String paymentTypeName;
 
-    private static final Map<String, PaymentType> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (PaymentType paymentType : PaymentType.values()) {
-            ENUM_MAP.put(paymentType.getPaymentType(), paymentType);
-        }
+    @JsonValue
+    public String getPaymentTypeName() {
+        return paymentTypeName;
     }
 
-    public static PaymentType fromString(String paymentType) {
-        PaymentType paymentTypeName = ENUM_MAP.get(paymentType);
-        if (paymentTypeName == null) {
-            throw new PaymentTypeNotFoundException(paymentType);
-        }
-        return paymentTypeName;
+    @JsonCreator
+    public static PaymentType fromString(String value) {
+        return Arrays.stream(PaymentType.values())
+                .filter(pt -> pt.getPaymentTypeName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new PaymentTypeNotFoundException(value));
     }
 
 }

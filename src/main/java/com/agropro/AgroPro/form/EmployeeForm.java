@@ -1,6 +1,8 @@
 package com.agropro.AgroPro.form;
 
 
+import com.agropro.AgroPro.enums.EmployeePosition;
+import com.agropro.AgroPro.enums.PaymentType;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,11 +28,11 @@ public class EmployeeForm {
     @Size(min = 2, max = 70, message = "Длина отчества должна быть от 2 до 30 символов")
     private String patronymic;
 
-    @NotBlank(message = "Должность должна быть выбрана")
-    private String position;
+    @NotNull(message = "Должность должна быть выбрана")
+    private EmployeePosition position;
 
-    @NotBlank(message = "Тип оплаты должен быть выбран")
-    private String paymentType;
+    @NotNull(message = "Тип оплаты должен быть выбран")
+    private PaymentType paymentType;
 
     @NotNull(message = "Зарплата/ставка должна быть указана")
     @Positive(message = "Зарплата должна быть больше 0")

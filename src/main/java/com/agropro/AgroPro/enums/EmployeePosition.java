@@ -1,11 +1,12 @@
 package com.agropro.AgroPro.enums;
 
 import com.agropro.AgroPro.exception.PositionNotFoundException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -18,22 +19,19 @@ public enum EmployeePosition {
     TECHNOLOGIST("Технолог"),
     MACHINE_OPERATOR("Механизатор");
 
-    private final String position;
+    private final String positionName;
 
-    private static final Map<String, EmployeePosition> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (EmployeePosition employeePosition : EmployeePosition.values()) {
-            ENUM_MAP.put(employeePosition.getPosition(), employeePosition);
-        }
+    @JsonValue
+    public String getPositionName() {
+        return positionName;
     }
 
-    public static EmployeePosition fromString(String position) {
-        EmployeePosition employeePosition = ENUM_MAP.get(position);
-        if (employeePosition == null) {
-            throw new PositionNotFoundException(position);
-        }
-        return employeePosition;
+    @JsonCreator
+    public static EmployeePosition fromString(String value) {
+        return Arrays.stream(EmployeePosition.values())
+                .filter(position -> position.getPositionName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new PositionNotFoundException(value));
     }
 
 }

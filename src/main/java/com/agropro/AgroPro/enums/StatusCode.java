@@ -1,11 +1,12 @@
 package com.agropro.AgroPro.enums;
 
 import com.agropro.AgroPro.exception.StatusCodeNotFoundException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 @Getter
@@ -16,22 +17,19 @@ public enum StatusCode {
     IDLE("Простой"),
     DECOMMISSIONED("Списана");
 
-    private final String status;
+    private final String statusName;
 
-    private static final Map<String, StatusCode> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (StatusCode status : StatusCode.values()) {
-            ENUM_MAP.put(status.getStatus(), status);
-        }
+    @JsonValue
+    public String getStatusName() {
+        return statusName;
     }
 
-    public static StatusCode fromString(String status) {
-        StatusCode statusCode = ENUM_MAP.get(status);
-        if (statusCode == null) {
-            throw new StatusCodeNotFoundException(status);
-        }
-        return statusCode;
+    @JsonCreator
+    public static StatusCode fromString(String value) {
+        return Arrays.stream(StatusCode.values())
+                .filter(sc -> sc.getStatusName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new StatusCodeNotFoundException(value));
     }
 
 }

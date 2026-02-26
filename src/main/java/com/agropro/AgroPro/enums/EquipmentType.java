@@ -1,11 +1,12 @@
 package com.agropro.AgroPro.enums;
 
 import com.agropro.AgroPro.exception.EquipmentTypeNotFoundException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -21,22 +22,19 @@ public enum EquipmentType {
     PLOW("Плуг");
 
 
-    private final String equipmentType;
+    private final String equipmentTypeName;
 
-    private static final Map<String, EquipmentType> ENUM_MAP = new HashMap<>();
-
-    static {
-        for (EquipmentType equipmentType : EquipmentType.values()) {
-            ENUM_MAP.put(equipmentType.getEquipmentType(), equipmentType);
-        }
+    @JsonValue
+    public String getEquipmentTypeName() {
+        return equipmentTypeName;
     }
 
-    public static EquipmentType fromString(String equipmentType) {
-        EquipmentType equipmentTypeName = ENUM_MAP.get(equipmentType);
-        if (equipmentTypeName == null) {
-            throw new EquipmentTypeNotFoundException(equipmentType);
-        }
-        return equipmentTypeName;
+    @JsonCreator
+    public static EquipmentType fromString(String value) {
+        return Arrays.stream(EquipmentType.values())
+                .filter(et -> et.getEquipmentTypeName().equalsIgnoreCase(value.trim()))
+                .findFirst()
+                .orElseThrow(() -> new EquipmentTypeNotFoundException(value));
     }
     
 }

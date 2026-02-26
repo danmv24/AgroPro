@@ -13,7 +13,7 @@ public class MachineryStatusConflictException extends StatusConflictException {
     private final StatusCode expectedStatus;
 
     public MachineryStatusConflictException(List<Long> machineryIds, List<Integer> inventoryNumbers, StatusCode expectedStatus) {
-        super("Техника с инвентарными номерами " + inventoryNumbers + " не может быть переведена в статус '" + expectedStatus.getStatus() + "'");
+        super("Техника с инвентарными номерами " + inventoryNumbers + " не может быть переведена в статус '" + expectedStatus.getStatusName() + "'");
         this.machineryIds = machineryIds;
         this.expectedStatus = expectedStatus;
         this.inventoryNumbers = inventoryNumbers;
