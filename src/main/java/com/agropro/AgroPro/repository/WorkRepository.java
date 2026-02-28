@@ -29,7 +29,6 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
     """)
     List<Work> findWorksToCompleted(@Param("status") WorkStatus status, @Param("now") LocalDateTime now);
 
-
     Slice<Work> findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(@Param("status") WorkStatus status,
                                                                               @Param("startDate") LocalDateTime startDate,
                                                                               @Param("endDate") LocalDateTime endDate, Pageable pageable);
