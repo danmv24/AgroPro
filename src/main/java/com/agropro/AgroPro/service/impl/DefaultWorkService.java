@@ -128,9 +128,12 @@ public class DefaultWorkService implements WorkService {
         LocalDateTime endDate = weekStart.plusDays(7).atStartOfDay();
         Pageable pageable = PageRequest.of(page, size, Sort.by("endDate").descending());
 
-        Slice<Work> planned = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(WorkStatus.PLANNED, startDate, endDate, pageable);
-        Slice<Work> inProgress = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(WorkStatus.IN_PROGRESS, startDate, endDate, pageable);
-        Slice<Work> completed = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(WorkStatus.COMPLETED, startDate, endDate, pageable);
+        Slice<Work> planned = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(
+                WorkStatus.PLANNED, startDate, endDate, pageable);
+        Slice<Work> inProgress = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(
+                WorkStatus.IN_PROGRESS, startDate, endDate, pageable);
+        Slice<Work> completed = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(
+                WorkStatus.COMPLETED, startDate, endDate, pageable);
 
         Slice<WorkBasicInfoView> plannedView = linkWorksWithFieldAndResultInfo(planned, false);
         Slice<WorkBasicInfoView> inProgressView = linkWorksWithFieldAndResultInfo(inProgress, false);
