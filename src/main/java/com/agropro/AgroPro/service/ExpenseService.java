@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.service;
 
-import com.agropro.AgroPro.form.ExpenseForm;
-import com.agropro.AgroPro.view.ExpenseView;
+import com.agropro.AgroPro.dto.request.ExpenseForm;
+import com.agropro.AgroPro.dto.response.ExpenseResponse;
 
 import java.util.List;
 
@@ -11,6 +11,6 @@ public interface ExpenseService {
 
     void updateExpense(Long id, ExpenseForm expenseForm);
 
-    List<ExpenseView> getExpenses();
+    List<ExpenseResponse> getExpenses();
 
 }

@@ -1,10 +1,10 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.request.EquipmentForm;
+import com.agropro.AgroPro.dto.response.EquipmentBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.EquipmentResponse;
 import com.agropro.AgroPro.enums.StatusCode;
-import com.agropro.AgroPro.form.EquipmentForm;
 import com.agropro.AgroPro.model.Equipment;
-import com.agropro.AgroPro.view.EquipmentBasicInfoView;
-import com.agropro.AgroPro.view.EquipmentView;
 
 public class EquipmentMapper {
 
@@ -18,8 +18,8 @@ public class EquipmentMapper {
                 .build();
     }
 
-    public static EquipmentView toView(Equipment equipment) {
-        return EquipmentView.builder()
+    public static EquipmentResponse toView(Equipment equipment) {
+        return EquipmentResponse.builder()
                 .equipmentName(equipment.getEquipmentName())
                 .equipmentType(equipment.getEquipmentType())
                 .inventoryNumber(equipment.getInventoryNumber())
@@ -27,8 +27,8 @@ public class EquipmentMapper {
                 .build();
     }
 
-    public static EquipmentBasicInfoView toBasicInfoView(Equipment equipment) {
-        return EquipmentBasicInfoView.builder()
+    public static EquipmentBasicInfoResponse toBasicInfoView(Equipment equipment) {
+        return EquipmentBasicInfoResponse.builder()
                 .equipmentId(equipment.getId())
                 .equipmentName(equipment.getEquipmentName())
                 .equipmentType(equipment.getEquipmentType())

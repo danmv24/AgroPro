@@ -1,5 +1,8 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.request.WorkForm;
+import com.agropro.AgroPro.dto.request.WorkResultForm;
+import com.agropro.AgroPro.dto.response.*;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.enums.WorkType;
@@ -7,14 +10,10 @@ import com.agropro.AgroPro.exception.WorkCannotBeCancelledException;
 import com.agropro.AgroPro.exception.WorkNotFoundException;
 import com.agropro.AgroPro.exception.WorkResultNotAllowedException;
 import com.agropro.AgroPro.exception.WorkResultValidationException;
-import com.agropro.AgroPro.form.WorkForm;
-import com.agropro.AgroPro.form.WorkResultForm;
-import com.agropro.AgroPro.form.WorkUpdateForm;
 import com.agropro.AgroPro.mapper.*;
 import com.agropro.AgroPro.model.*;
 import com.agropro.AgroPro.repository.*;
 import com.agropro.AgroPro.service.*;
-import com.agropro.AgroPro.view.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -123,7 +122,7 @@ public class DefaultWorkService implements WorkService {
 //    }
 
     @Override
-    public WorkByStatusView getWorksByStatus(LocalDate weekStart, int page, int size) {
+    public WorkByStatusResponse getWorksByStatus(LocalDate weekStart, int page, int size) {
         LocalDateTime startDate = weekStart.atStartOfDay();
         LocalDateTime endDate = weekStart.plusDays(7).atStartOfDay();
         Pageable pageable = PageRequest.of(page, size, Sort.by("endDate").descending());
@@ -135,14 +134,14 @@ public class DefaultWorkService implements WorkService {
         Slice<Work> completed = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(
                 WorkStatus.COMPLETED, startDate, endDate, pageable);
 
-        Slice<WorkBasicInfoView> plannedView = linkWorksWithFieldAndResultInfo(planned, false);
-        Slice<WorkBasicInfoView> inProgressView = linkWorksWithFieldAndResultInfo(inProgress, false);
-        Slice<WorkBasicInfoView> completedView = linkWorksWithFieldAndResultInfo(completed, true);
+        Slice<WorkBasicInfoResponse> plannedView = linkWorksWithFieldAndResultInfo(planned, false);
+        Slice<WorkBasicInfoResponse> inProgressView = linkWorksWithFieldAndResultInfo(inProgress, false);
+        Slice<WorkBasicInfoResponse> completedView = linkWorksWithFieldAndResultInfo(completed, true);
 
         return WorkMapper.toWorkByStatusView(plannedView, inProgressView, completedView);
     }
 
-    private Slice<WorkBasicInfoView> linkWorksWithFieldAndResultInfo(Slice<Work> works, boolean checkResults) {
+    private Slice<WorkBasicInfoResponse> linkWorksWithFieldAndResultInfo(Slice<Work> works, boolean checkResults) {
         Set<Long> fieldIds = works.stream()
                 .map(Work::getFieldId)
                 .collect(Collectors.toSet());
@@ -167,13 +166,13 @@ public class DefaultWorkService implements WorkService {
     }
 
     @Override
-    public WorkView getWorkDetail(Long workId) {
+    public WorkResponse getWorkDetail(Long workId) {
         Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
         Field field = fieldService.getFieldById(work.getFieldId());
 
-        List<EmployeeBasicInfoView> employees = employeeService.getEmployeesByWorkId(workId);
-        List<MachineryBasicInfoView> machineries = machineryService.getMachineriesByWorkId(workId);
-        List<EquipmentBasicInfoView> equipment = equipmentService.getEquipmentByWorkId(workId);
+        List<EmployeeBasicInfoResponse> employees = employeeService.getEmployeesByWorkId(workId);
+        List<MachineryBasicInfoResponse> machineries = machineryService.getMachineriesByWorkId(workId);
+        List<EquipmentBasicInfoResponse> equipment = equipmentService.getEquipmentByWorkId(workId);
 
         return WorkMapper.toView(work, field, employees, machineries, equipment);
     }
@@ -237,11 +236,11 @@ public class DefaultWorkService implements WorkService {
         workResultRepository.save(WorkResultMapper.toModel(workId, workResultForm));
     }
 
-    @Override
-    public void updateWork(Long workId, WorkUpdateForm workUpdateForm) {
-        Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
-
-    }
+//    @Override
+//    public void updateWork(Long workId, WorkUpdateForm workUpdateForm) {
+//        Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
+//
+//    }
 
     private void validateEntitiesExist(WorkForm workForm) {
         employeeService.validateEmployeesExistByIds(workForm.getEmployeeIds());
@@ -293,18 +292,13 @@ public class DefaultWorkService implements WorkService {
                 }
             }
             case HARVESTING -> {
-                if (workResultForm.getHarvestAmount() == null) {
+                if (workResultForm.getYield() == null) {
                     throw new WorkResultValidationException("Для уборки необходимо указать объем урожая");
                 }
             }
             case FERTILIZING -> {
-                if (workResultForm.getFertilizerType() == null || workResultForm.getFertilizerAmount() == null) {
+                if (workResultForm.getFertilizerType() == null || workResultForm.getFertilizersUsed() == null) {
                     throw new WorkResultValidationException("Необходимо указать тип и количество удобрений");
-                }
-            }
-            case WATERING -> {
-                if (workResultForm.getWaterAmount() == null) {
-                    throw new WorkResultValidationException("Необходимо указать объем воды");
                 }
             }
         }

@@ -1,10 +1,9 @@
 package com.agropro.AgroPro.service;
 
-import com.agropro.AgroPro.form.WorkForm;
-import com.agropro.AgroPro.form.WorkResultForm;
-import com.agropro.AgroPro.form.WorkUpdateForm;
-import com.agropro.AgroPro.view.WorkByStatusView;
-import com.agropro.AgroPro.view.WorkView;
+import com.agropro.AgroPro.dto.request.WorkForm;
+import com.agropro.AgroPro.dto.request.WorkResultForm;
+import com.agropro.AgroPro.dto.response.WorkByStatusResponse;
+import com.agropro.AgroPro.dto.response.WorkResponse;
 
 import java.time.LocalDate;
 
@@ -14,7 +13,7 @@ public interface WorkService {
 
 //    List<WorkBasicInfoView> getWorks();
 
-    WorkView getWorkDetail(Long workId);
+    WorkResponse getWorkDetail(Long workId);
 
     void cancelWork(Long workId);
 
@@ -22,9 +21,9 @@ public interface WorkService {
 
     void createResult(Long workId, WorkResultForm workResultForm);
 
-    void updateWork(Long workId, WorkUpdateForm workUpdateForm);
+//    void updateWork(Long workId, WorkUpdateForm workUpdateForm);
 
 //    Slice<WorkBasicInfoView> getCompletedWorksForWeek(LocalDate weekStart, int page, int size);
 
-    WorkByStatusView getWorksByStatus(LocalDate weekStart, int page, int size);
+    WorkByStatusResponse getWorksByStatus(LocalDate weekStart, int page, int size);
 }

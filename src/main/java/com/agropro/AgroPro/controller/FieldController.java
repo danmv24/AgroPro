@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.controller;
 
+import com.agropro.AgroPro.dto.response.FieldResponse;
 import com.agropro.AgroPro.service.FieldService;
-import com.agropro.AgroPro.view.FieldView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ public class FieldController {
     private final FieldService fieldService;
 
     @GetMapping
-    public List<FieldView> getFieldPlantings(@RequestParam(required = false) LocalDate date) {
+    public List<FieldResponse> getFieldPlantings(@RequestParam(required = false) LocalDate date) {
         LocalDate requiredDate = date != null ? date : LocalDate.now();
         return fieldService.getFieldsWithCropByDate(requiredDate);
     }

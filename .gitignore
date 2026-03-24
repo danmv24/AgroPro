@@ -38,3 +38,6 @@ out/
 
 # Database env
 ./db.env
+
+# Minio env
+./minio.env

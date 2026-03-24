@@ -1,17 +1,17 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.request.EmployeeForm;
+import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.EmployeeResponse;
 import com.agropro.AgroPro.enums.EmployeePosition;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.exception.EmployeeNotAvailableException;
 import com.agropro.AgroPro.exception.EmployeeNotFoundException;
 import com.agropro.AgroPro.exception.EmptyCollectionException;
-import com.agropro.AgroPro.form.EmployeeForm;
 import com.agropro.AgroPro.mapper.EmployeeMapper;
 import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.EmployeeRepository;
 import com.agropro.AgroPro.service.EmployeeService;
-import com.agropro.AgroPro.view.EmployeeBasicInfoView;
-import com.agropro.AgroPro.view.EmployeeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ public class DefaultEmployeeService implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeView> getEmployees() {
+    public List<EmployeeResponse> getEmployees() {
         List<Employee> employees = employeeRepository.findAll();
 
         return employees.stream()
@@ -49,7 +49,7 @@ public class DefaultEmployeeService implements EmployeeService {
 //    }
 
     @Override
-    public List<EmployeeBasicInfoView> getMechanizators() {
+    public List<EmployeeBasicInfoResponse> getMechanizators() {
         List<Employee> employees = employeeRepository.findEmployeesByPosition(EmployeePosition.MACHINE_OPERATOR);
 
         return employees.stream()
@@ -90,7 +90,7 @@ public class DefaultEmployeeService implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeBasicInfoView> getEmployeesByWorkId(Long workId) {
+    public List<EmployeeBasicInfoResponse> getEmployeesByWorkId(Long workId) {
         List<Employee> employees = employeeRepository.findEmployeesByFieldWorkId(workId);
 
         return employees.stream()

@@ -1,17 +1,17 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.request.MachineryForm;
+import com.agropro.AgroPro.dto.request.MachineryUpdateForm;
+import com.agropro.AgroPro.dto.response.MachineryBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.MachineryResponse;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.exception.*;
-import com.agropro.AgroPro.form.MachineryForm;
-import com.agropro.AgroPro.form.MachineryUpdateForm;
 import com.agropro.AgroPro.mapper.MachineryMapper;
 import com.agropro.AgroPro.model.Machinery;
 import com.agropro.AgroPro.repository.MachineryRepository;
 import com.agropro.AgroPro.service.MachineryService;
 import com.agropro.AgroPro.service.MachineryStatusHistoryService;
-import com.agropro.AgroPro.view.MachineryBasicInfoView;
-import com.agropro.AgroPro.view.MachineryView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +40,7 @@ public class DefaultMachineryService implements MachineryService {
     }
 
     @Override
-    public List<MachineryView> getMachineries() {
+    public List<MachineryResponse> getMachineries() {
         List<Machinery> machineries = machineryRepository.findAll();
 
         return machineries.stream()
@@ -105,7 +105,7 @@ public class DefaultMachineryService implements MachineryService {
     }
 
     @Override
-    public List<MachineryBasicInfoView> getMachineriesByWorkId(Long workId) {
+    public List<MachineryBasicInfoResponse> getMachineriesByWorkId(Long workId) {
         List<Machinery> machineries = machineryRepository.findMachineryByWorkId(workId);
 
         return machineries.stream()

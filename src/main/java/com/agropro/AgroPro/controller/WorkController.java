@@ -1,11 +1,10 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.form.WorkForm;
-import com.agropro.AgroPro.form.WorkResultForm;
-import com.agropro.AgroPro.form.WorkUpdateForm;
+import com.agropro.AgroPro.dto.request.WorkForm;
+import com.agropro.AgroPro.dto.request.WorkResultForm;
+import com.agropro.AgroPro.dto.response.WorkByStatusResponse;
+import com.agropro.AgroPro.dto.response.WorkResponse;
 import com.agropro.AgroPro.service.WorkService;
-import com.agropro.AgroPro.view.WorkByStatusView;
-import com.agropro.AgroPro.view.WorkView;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,7 +32,7 @@ public class WorkController {
 //    }
 
     @GetMapping("/{workId}")
-    public WorkView getWork(@PathVariable("workId") Long workId) {
+    public WorkResponse getWork(@PathVariable("workId") Long workId) {
         return workService.getWorkDetail(workId);
     }
 
@@ -50,16 +49,16 @@ public class WorkController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/edit/{workId}")
-    public ResponseEntity<Void> editWork(@PathVariable("workId") Long workId, @Valid @RequestBody WorkUpdateForm workUpdateForm) {
-        workService.updateWork(workId, workUpdateForm);
-        return ResponseEntity.ok().build();
-    }
+//    @PutMapping("/edit/{workId}")
+//    public ResponseEntity<Void> editWork(@PathVariable("workId") Long workId, @Valid @RequestBody WorkUpdateForm workUpdateForm) {
+//        workService.updateWork(workId, workUpdateForm);
+//        return ResponseEntity.ok().build();
+//    }
 
     @GetMapping
-    public WorkByStatusView getWorksForWeek(@RequestParam LocalDate weekStart,
-                                            @RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "15") int size) {
+    public WorkByStatusResponse getWorksForWeek(@RequestParam LocalDate weekStart,
+                                                @RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "15") int size) {
         return workService.getWorksByStatus(weekStart, page, size);
     }
 

@@ -22,4 +22,7 @@ public class ExpenseCategory {
     @Column("category_name")
     private String categoryName;
 
+    @Column("unit")
+    private String unit;
+
 }

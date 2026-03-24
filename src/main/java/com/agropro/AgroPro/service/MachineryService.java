@@ -1,10 +1,10 @@
 package com.agropro.AgroPro.service;
 
+import com.agropro.AgroPro.dto.request.MachineryForm;
+import com.agropro.AgroPro.dto.request.MachineryUpdateForm;
+import com.agropro.AgroPro.dto.response.MachineryBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.MachineryResponse;
 import com.agropro.AgroPro.enums.StatusCode;
-import com.agropro.AgroPro.form.MachineryForm;
-import com.agropro.AgroPro.form.MachineryUpdateForm;
-import com.agropro.AgroPro.view.MachineryBasicInfoView;
-import com.agropro.AgroPro.view.MachineryView;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +14,7 @@ public interface MachineryService {
 
     void createMachinery(MachineryForm machineryForm);
 
-    List<MachineryView> getMachineries();
+    List<MachineryResponse> getMachineries();
 
     void validateMachineriesExistByIds(Set<Long> machineryIds);
 
@@ -22,7 +22,7 @@ public interface MachineryService {
 
     void validateMachineriesAvailability(Set<Long> machineryIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
-    List<MachineryBasicInfoView> getMachineriesByWorkId(Long workId);
+    List<MachineryBasicInfoResponse> getMachineriesByWorkId(Long workId);
 
     void changeMachineryStatusByWorkIds(Set<Long> workIds, StatusCode statusCode, LocalDateTime changedAt);
 

@@ -28,16 +28,13 @@ public class WorkResult {
     @Column("seeds_used")
     private BigDecimal seedsUsed;
 
-    @Column("harvest_amount")
-    private BigDecimal harvestAmount;
+    @Column("yield")
+    private BigDecimal yield;
 
     @Column("fertilizer_type")
     private FertilizerType fertilizerType;
 
-    @Column("fertilizer_amount")
-    private BigDecimal fertilizerAmount;
-
-    @Column("water_amount")
-    private BigDecimal waterAmount;
+    @Column("fertilizers_used")
+    private BigDecimal fertilizersUsed;
 
 }

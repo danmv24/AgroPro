@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.response.FieldResponse;
 import com.agropro.AgroPro.exception.FieldNotFoundException;
 import com.agropro.AgroPro.mapper.FieldMapper;
 import com.agropro.AgroPro.model.Field;
@@ -7,7 +8,6 @@ import com.agropro.AgroPro.model.FieldPlanting;
 import com.agropro.AgroPro.repository.FieldRepository;
 import com.agropro.AgroPro.service.FieldPlantingService;
 import com.agropro.AgroPro.service.FieldService;
-import com.agropro.AgroPro.view.FieldView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class DefaultFieldService implements FieldService {
     private final FieldPlantingService fieldPlantingService;
 
     @Override
-    public List<FieldView> getFieldsWithCropByDate(LocalDate date) {
+    public List<FieldResponse> getFieldsWithCropByDate(LocalDate date) {
         List<Field> fields = fieldRepository.findAll();
 
         Set<Long> fieldIds = fields.stream()

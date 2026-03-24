@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.service;
 
-import com.agropro.AgroPro.form.EmployeeForm;
-import com.agropro.AgroPro.view.EmployeeBasicInfoView;
-import com.agropro.AgroPro.view.EmployeeView;
+import com.agropro.AgroPro.dto.request.EmployeeForm;
+import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.EmployeeResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,13 +12,13 @@ public interface EmployeeService {
 
     void createEmployee(EmployeeForm employeeForm);
 
-    List<EmployeeView> getEmployees();
+    List<EmployeeResponse> getEmployees();
 
-    List<EmployeeBasicInfoView> getMechanizators();
+    List<EmployeeBasicInfoResponse> getMechanizators();
 
     void validateEmployeesExistByIds(Set<Long> employeeIds);
 
     void validateEmployeesAvailability(Set<Long> employeeIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
-    List<EmployeeBasicInfoView> getEmployeesByWorkId(Long workId);
+    List<EmployeeBasicInfoResponse> getEmployeesByWorkId(Long workId);
 }

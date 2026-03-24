@@ -1,10 +1,10 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.request.MachineryForm;
+import com.agropro.AgroPro.dto.response.MachineryBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.MachineryResponse;
 import com.agropro.AgroPro.enums.StatusCode;
-import com.agropro.AgroPro.form.MachineryForm;
 import com.agropro.AgroPro.model.Machinery;
-import com.agropro.AgroPro.view.MachineryBasicInfoView;
-import com.agropro.AgroPro.view.MachineryView;
 
 public class MachineryMapper {
 
@@ -19,8 +19,8 @@ public class MachineryMapper {
                 .build();
     }
 
-    public static MachineryView toView(Machinery machinery) {
-        return MachineryView.builder()
+    public static MachineryResponse toView(Machinery machinery) {
+        return MachineryResponse.builder()
                 .machineryName(machinery.getMachineryName())
                 .machineryType(machinery.getMachineryType())
                 .inventoryNumber(machinery.getInventoryNumber())
@@ -29,8 +29,8 @@ public class MachineryMapper {
                 .build();
     }
 
-    public static MachineryBasicInfoView toBasicInfoView(Machinery machinery) {
-        return MachineryBasicInfoView.builder()
+    public static MachineryBasicInfoResponse toBasicInfoView(Machinery machinery) {
+        return MachineryBasicInfoResponse.builder()
                 .machineryId(machinery.getId())
                 .machineryName(machinery.getMachineryName())
                 .machineryType(machinery.getMachineryType())

@@ -1,9 +1,9 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.form.MachineryForm;
-import com.agropro.AgroPro.form.MachineryUpdateForm;
+import com.agropro.AgroPro.dto.request.MachineryForm;
+import com.agropro.AgroPro.dto.request.MachineryUpdateForm;
+import com.agropro.AgroPro.dto.response.MachineryResponse;
 import com.agropro.AgroPro.service.MachineryService;
-import com.agropro.AgroPro.view.MachineryView;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class MachineryController {
     }
 
     @GetMapping
-    public List<MachineryView> getAllMachineries() {
+    public List<MachineryResponse> getAllMachineries() {
         return machineryService.getMachineries();
     }
 

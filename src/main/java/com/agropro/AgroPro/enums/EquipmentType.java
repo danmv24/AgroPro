@@ -3,12 +3,10 @@ package com.agropro.AgroPro.enums;
 import com.agropro.AgroPro.exception.EquipmentTypeNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
-@Getter
 @RequiredArgsConstructor
 public enum EquipmentType {
 
@@ -19,7 +17,10 @@ public enum EquipmentType {
     MOWER("Косилка"),
     FERTILIZER_DISPENSER("Распределитель удобрений"),
     SPRAYER("Опрыскиватель"),
-    PLOW("Плуг");
+    PLOW("Плуг"),
+    HARROW("Борона"),
+    ROLLING_RINKS("Прикатывающие катки"),
+    IRRIGATION_SYSTEM("Поливная установка");
 
 
     private final String equipmentTypeName;

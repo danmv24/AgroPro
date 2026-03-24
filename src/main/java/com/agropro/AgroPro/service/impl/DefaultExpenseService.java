@@ -1,14 +1,14 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.request.ExpenseForm;
+import com.agropro.AgroPro.dto.response.ExpenseResponse;
 import com.agropro.AgroPro.exception.ExpenseNotFoundException;
-import com.agropro.AgroPro.form.ExpenseForm;
 import com.agropro.AgroPro.mapper.ExpenseMapper;
 import com.agropro.AgroPro.model.Expense;
 import com.agropro.AgroPro.model.ExpenseCategory;
 import com.agropro.AgroPro.repository.ExpenseRepository;
 import com.agropro.AgroPro.service.ExpenseCategoryService;
 import com.agropro.AgroPro.service.ExpenseService;
-import com.agropro.AgroPro.view.ExpenseView;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseView> getExpenses() {
+    public List<ExpenseResponse> getExpenses() {
         List<Expense> expenses = expenseRepository.findAll();
 
         Set<Long> categoryIds = expenses.stream()

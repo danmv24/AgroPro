@@ -1,10 +1,10 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.request.WorkForm;
+import com.agropro.AgroPro.dto.response.*;
 import com.agropro.AgroPro.enums.WorkStatus;
-import com.agropro.AgroPro.form.WorkForm;
 import com.agropro.AgroPro.model.Field;
 import com.agropro.AgroPro.model.Work;
-import com.agropro.AgroPro.view.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Slice;
 
@@ -23,9 +23,9 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkView toView(Work work, Field field, List<EmployeeBasicInfoView> employees,
-                                  List<MachineryBasicInfoView> machineries, List<EquipmentBasicInfoView> equipment) {
-        return WorkView.builder()
+    public static WorkResponse toView(Work work, Field field, List<EmployeeBasicInfoResponse> employees,
+                                      List<MachineryBasicInfoResponse> machineries, List<EquipmentBasicInfoResponse> equipment) {
+        return WorkResponse.builder()
                 .id(work.getId())
                 .workType(work.getWorkType())
                 .status(work.getStatus())
@@ -39,8 +39,8 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkBasicInfoView toBasicInfoView(Work work, Field field, boolean hasResult) {
-        return WorkBasicInfoView.builder()
+    public static WorkBasicInfoResponse toBasicInfoView(Work work, Field field, boolean hasResult) {
+        return WorkBasicInfoResponse.builder()
                 .id(work.getId())
                 .workType(work.getWorkType())
                 .fieldNumber(field.getFieldNumber())
@@ -51,10 +51,10 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkByStatusView toWorkByStatusView(Slice<WorkBasicInfoView> planned,
-                                                      Slice<WorkBasicInfoView> inProgress,
-                                                      Slice<WorkBasicInfoView> completed) {
-        return WorkByStatusView.builder()
+    public static WorkByStatusResponse toWorkByStatusView(Slice<WorkBasicInfoResponse> planned,
+                                                          Slice<WorkBasicInfoResponse> inProgress,
+                                                          Slice<WorkBasicInfoResponse> completed) {
+        return WorkByStatusResponse.builder()
                 .planned(planned)
                 .inProgress(inProgress)
                 .completed(completed)

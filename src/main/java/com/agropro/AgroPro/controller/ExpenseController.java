@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.form.ExpenseForm;
+import com.agropro.AgroPro.dto.request.ExpenseForm;
+import com.agropro.AgroPro.dto.response.ExpenseResponse;
 import com.agropro.AgroPro.service.ExpenseService;
-import com.agropro.AgroPro.view.ExpenseView;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public List<ExpenseView> getExpenses() {
+    public List<ExpenseResponse> getExpenses() {
         return expenseService.getExpenses();
     }
 

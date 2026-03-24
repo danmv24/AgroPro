@@ -1,10 +1,10 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.request.EmployeeForm;
+import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.EmployeeResponse;
 import com.agropro.AgroPro.enums.Gender;
-import com.agropro.AgroPro.form.EmployeeForm;
 import com.agropro.AgroPro.model.Employee;
-import com.agropro.AgroPro.view.EmployeeBasicInfoView;
-import com.agropro.AgroPro.view.EmployeeView;
 
 public class EmployeeMapper {
 
@@ -21,8 +21,8 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public static EmployeeView toView(Employee employee) {
-        return EmployeeView.builder()
+    public static EmployeeResponse toView(Employee employee) {
+        return EmployeeResponse.builder()
                 .surname(employee.getSurname())
                 .name(employee.getName())
                 .patronymic(employee.getPatronymic())
@@ -32,8 +32,8 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public static EmployeeBasicInfoView toBasicInfoView(Employee employee) {
-        return EmployeeBasicInfoView.builder()
+    public static EmployeeBasicInfoResponse toBasicInfoView(Employee employee) {
+        return EmployeeBasicInfoResponse.builder()
                 .employeeId(employee.getId())
                 .surname(employee.getSurname())
                 .name(employee.getName())

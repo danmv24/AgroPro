@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.form.EmployeeForm;
+import com.agropro.AgroPro.dto.request.EmployeeForm;
+import com.agropro.AgroPro.dto.response.EmployeeResponse;
 import com.agropro.AgroPro.service.EmployeeService;
-import com.agropro.AgroPro.view.EmployeeView;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<EmployeeView> getAllEmployees() {
+    public List<EmployeeResponse> getAllEmployees() {
         return employeeService.getEmployees();
     }
 

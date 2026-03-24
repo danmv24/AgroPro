@@ -1,17 +1,17 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.request.EquipmentForm;
+import com.agropro.AgroPro.dto.request.EquipmentUpdateForm;
+import com.agropro.AgroPro.dto.response.EquipmentBasicInfoResponse;
+import com.agropro.AgroPro.dto.response.EquipmentResponse;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.exception.*;
-import com.agropro.AgroPro.form.EquipmentForm;
-import com.agropro.AgroPro.form.EquipmentUpdateForm;
 import com.agropro.AgroPro.mapper.EquipmentMapper;
 import com.agropro.AgroPro.model.Equipment;
 import com.agropro.AgroPro.repository.EquipmentRepository;
 import com.agropro.AgroPro.service.EquipmentService;
 import com.agropro.AgroPro.service.EquipmentStatusHistoryService;
-import com.agropro.AgroPro.view.EquipmentBasicInfoView;
-import com.agropro.AgroPro.view.EquipmentView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +40,7 @@ public class DefaultEquipmentService implements EquipmentService {
     }
 
     @Override
-    public List<EquipmentView> getAllEquipment() {
+    public List<EquipmentResponse> getAllEquipment() {
         List<Equipment> equipment = equipmentRepository.findAll();
 
         return equipment.stream()
@@ -49,7 +49,7 @@ public class DefaultEquipmentService implements EquipmentService {
     }
 
     @Override
-    public List<EquipmentBasicInfoView> getIdleEquipment() {
+    public List<EquipmentBasicInfoResponse> getIdleEquipment() {
         List<Equipment> equipment = equipmentRepository.findEquipmentByCurrentStatus(StatusCode.IDLE);
 
         return equipment.stream()
@@ -114,7 +114,7 @@ public class DefaultEquipmentService implements EquipmentService {
     }
 
     @Override
-    public List<EquipmentBasicInfoView> getEquipmentByWorkId(Long workId) {
+    public List<EquipmentBasicInfoResponse> getEquipmentByWorkId(Long workId) {
         List<Equipment> equipment = equipmentRepository.findEquipmentByWorkId(workId);
 
         return equipment.stream()

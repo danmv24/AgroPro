@@ -1,9 +1,9 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.form.EquipmentForm;
-import com.agropro.AgroPro.form.EquipmentUpdateForm;
+import com.agropro.AgroPro.dto.request.EquipmentForm;
+import com.agropro.AgroPro.dto.request.EquipmentUpdateForm;
+import com.agropro.AgroPro.dto.response.EquipmentResponse;
 import com.agropro.AgroPro.service.EquipmentService;
-import com.agropro.AgroPro.view.EquipmentView;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class EquipmentController {
     }
 
     @GetMapping
-    public List<EquipmentView> getAllEquipment() {
+    public List<EquipmentResponse> getAllEquipment() {
         return equipmentService.getAllEquipment();
     }
 

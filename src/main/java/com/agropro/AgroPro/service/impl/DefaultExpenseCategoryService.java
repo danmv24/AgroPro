@@ -1,11 +1,11 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.response.ExpenseCategoryResponse;
 import com.agropro.AgroPro.exception.ExpenseCategoryNotFound;
 import com.agropro.AgroPro.mapper.ExpenseCategoryMapper;
 import com.agropro.AgroPro.model.ExpenseCategory;
 import com.agropro.AgroPro.repository.ExpenseCategoryRepository;
 import com.agropro.AgroPro.service.ExpenseCategoryService;
-import com.agropro.AgroPro.view.ExpenseCategoryView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class DefaultExpenseCategoryService implements ExpenseCategoryService {
     }
 
     @Override
-    public List<ExpenseCategoryView> getCategories() {
+    public List<ExpenseCategoryResponse> getCategories() {
         List<ExpenseCategory> categories = categoryRepository.findAll();
 
         return categories.stream()

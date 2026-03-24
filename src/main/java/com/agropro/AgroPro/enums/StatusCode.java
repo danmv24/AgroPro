@@ -3,13 +3,11 @@ package com.agropro.AgroPro.enums;
 import com.agropro.AgroPro.exception.StatusCodeNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
 @RequiredArgsConstructor
-@Getter
 public enum StatusCode {
 
     IN_OPERATION("В работе"),

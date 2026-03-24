@@ -29,6 +29,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.liquibase:liquibase-core'
     implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.3'
+    implementation("io.minio:minio:8.6.0")
+    implementation 'org.jxls:jxls:2.14.0'
+    implementation 'org.jxls:jxls-poi:2.14.0'
 
 	compileOnly 'org.projectlombok:lombok'
 

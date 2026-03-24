@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.form.WorkResultForm;
+import com.agropro.AgroPro.dto.request.WorkResultForm;
 import com.agropro.AgroPro.model.WorkResult;
 
 public class WorkResultMapper {
@@ -10,10 +10,9 @@ public class WorkResultMapper {
                 .workId(workId)
                 .fuelUsed(workResultForm.getFuelUsed())
                 .seedsUsed(workResultForm.getSeedsUsed())
-                .harvestAmount(workResultForm.getHarvestAmount())
+                .yield(workResultForm.getYield())
                 .fertilizerType(workResultForm.getFertilizerType())
-                .fertilizerAmount(workResultForm.getFertilizerAmount())
-                .waterAmount(workResultForm.getWaterAmount())
+                .fertilizersUsed(workResultForm.getFertilizersUsed())
                 .build();
     }
 

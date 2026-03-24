@@ -3,12 +3,10 @@ package com.agropro.AgroPro.enums;
 import com.agropro.AgroPro.exception.MachineryTypeNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
-@Getter
 @RequiredArgsConstructor
 public enum MachineryType {
 
@@ -16,7 +14,9 @@ public enum MachineryType {
     COMBINE_HARVESTER("Комбайн"),
     TRUCK("Грузовик"),
     TRANSPORT_VEHICLE("Легковой транспорт"),
-    FORKLIFT("Погрузчик");
+    FORKLIFT("Погрузчик"),
+    HAY_HARVESTER("Сеноуборочная машина");
+
 
     private final String machineryTypeName;
 

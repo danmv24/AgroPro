@@ -16,7 +16,9 @@ public enum WorkType {
     SOWING("Посев"),
     FERTILIZING("Внесение удобрений"),
     HARVESTING("Уборка урожая"),
-    WATERING("Полив");
+    WATERING("Полив"),
+    GARDENING_WORK("Садовые работы"),
+    GENERAL_WORK("Общехозяйственные работы");
 
     private final String workTypeName;
 
