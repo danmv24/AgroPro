@@ -2,8 +2,7 @@ package com.agropro.AgroPro.service;
 
 import com.agropro.AgroPro.dto.request.ExpenseForm;
 import com.agropro.AgroPro.dto.response.ExpenseResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Slice;
 
 public interface ExpenseService {
 
@@ -11,6 +10,6 @@ public interface ExpenseService {
 
     void updateExpense(Long id, ExpenseForm expenseForm);
 
-    List<ExpenseResponse> getExpenses();
+    Slice<ExpenseResponse> getExpenses(int page, int size);
 
 }

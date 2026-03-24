@@ -11,9 +11,12 @@ import com.agropro.AgroPro.service.ExpenseCategoryService;
 import com.agropro.AgroPro.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -47,21 +50,20 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseResponse> getExpenses() {
-        List<Expense> expenses = expenseRepository.findAll();
+    public Slice<ExpenseResponse> getExpenses(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("expenseDate").descending());
+        Slice<Expense> expenses = expenseRepository.findAll(pageable);
 
         Set<Long> categoryIds = expenses.stream()
-                .map(Expense::getId)
+                .map(Expense::getCategoryId)
                 .collect(Collectors.toSet());
 
         Map<Long, ExpenseCategory> categoriesById = categoryService.getExpenseCategoriesByIds(categoryIds).stream()
                 .collect(Collectors.toMap(ExpenseCategory::getId, Function.identity()));
 
-        return expenses.stream()
-                .map(expense -> {
-                    ExpenseCategory category = categoriesById.get(expense.getCategoryId());
-
-                    return ExpenseMapper.toView(expense, category);
-                }).toList();
+        return expenses.map(expense -> {
+            ExpenseCategory category = categoriesById.get(expense.getCategoryId());
+            return ExpenseMapper.toView(expense, category);
+        });
     }
 }

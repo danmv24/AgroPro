@@ -5,11 +5,10 @@ import com.agropro.AgroPro.dto.response.ExpenseResponse;
 import com.agropro.AgroPro.service.ExpenseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -31,8 +30,9 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public List<ExpenseResponse> getExpenses() {
-        return expenseService.getExpenses();
+    public Slice<ExpenseResponse> getExpenses(@RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "15") int size) {
+        return expenseService.getExpenses(page, size);
     }
 
 }
