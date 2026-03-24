@@ -2,7 +2,7 @@ package com.agropro.AgroPro.generator.impl;
 
 import com.agropro.AgroPro.aggregator.impl.ApkFiveReportAggregator;
 import com.agropro.AgroPro.dto.internal.ApkFiveReportData;
-import com.agropro.AgroPro.dto.request.ReportForm;
+import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.enums.ReportType;
 import com.agropro.AgroPro.generator.ReportGenerator;
 import com.agropro.AgroPro.projection.EmployeePositionCount;
@@ -31,7 +31,7 @@ public class ApkFiveReportGenerator implements ReportGenerator {
     }
 
     @Override
-    public byte[] generate(ReportForm form) {
+    public byte[] generate(ReportRequest form) {
         ApkFiveReportData data = aggregator.collectData(form.getStartDate(), form.getEndDate());
 
         try (InputStream reportTemplate = new ClassPathResource("reports/apk_5.xlsx").getInputStream()) {

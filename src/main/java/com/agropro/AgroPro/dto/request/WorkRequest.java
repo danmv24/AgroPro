@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-public class WorkUpdateForm {
+public class WorkRequest {
 
     @NotNull(message = "Тип работы должен быть указан")
     private WorkType workType;

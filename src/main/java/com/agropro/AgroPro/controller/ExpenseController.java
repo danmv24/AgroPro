@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.dto.request.ExpenseForm;
+import com.agropro.AgroPro.dto.request.ExpenseRequest;
+import com.agropro.AgroPro.dto.request.ExpenseUpdateRequest;
 import com.agropro.AgroPro.dto.response.ExpenseResponse;
 import com.agropro.AgroPro.service.ExpenseService;
 import jakarta.validation.Valid;
@@ -18,13 +19,13 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addExpense(@Valid @RequestBody ExpenseForm expenseForm) {
-        expenseService.createExpense(expenseForm);
+    public ResponseEntity<Void> addExpense(@Valid @RequestBody ExpenseRequest expenseRequest) {
+        expenseService.createExpense(expenseRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Void> editExpense(@PathVariable(value = "id") Long id, @Valid @RequestBody ExpenseForm expenseForm) {
+    public ResponseEntity<Void> editExpense(@PathVariable(value = "id") Long id, @Valid @RequestBody ExpenseUpdateRequest expenseForm) {
         expenseService.updateExpense(id, expenseForm);
         return ResponseEntity.ok().build();
     }

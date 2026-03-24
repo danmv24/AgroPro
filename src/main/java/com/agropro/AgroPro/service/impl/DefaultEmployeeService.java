@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.dto.request.EmployeeForm;
+import com.agropro.AgroPro.dto.request.EmployeeRequest;
 import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
 import com.agropro.AgroPro.enums.EmployeePosition;
@@ -13,6 +13,9 @@ import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.EmployeeRepository;
 import com.agropro.AgroPro.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,17 +33,16 @@ public class DefaultEmployeeService implements EmployeeService {
 
     @Override
     @Transactional
-    public void createEmployee(EmployeeForm employeeForm) {
+    public void createEmployee(EmployeeRequest employeeForm) {
         employeeRepository.save(EmployeeMapper.toModel(employeeForm));
     }
 
     @Override
-    public List<EmployeeResponse> getEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
+    public Slice<EmployeeResponse> getEmployees(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<Employee> employees = employeeRepository.findAll(pageable);
 
-        return employees.stream()
-                .map(EmployeeMapper::toView)
-                .toList();
+        return employees.map(EmployeeMapper::toView);
     }
 
 //    @Override

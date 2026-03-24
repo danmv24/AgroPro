@@ -4,6 +4,8 @@ import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Machinery;
 import com.agropro.AgroPro.projection.MachineryTypeCount;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,8 @@ import java.util.Set;
 public interface MachineryRepository extends ListCrudRepository<Machinery, Long> {
 
     List<Machinery> findAllByIdIn(Set<Long> machineryIds);
+
+    Slice<Machinery> findAll(Pageable pageable);
 
     @Query("""
         SELECT m.id, m.machinery_type, m.machinery_name, m.inventory_number, m.license_plate, m.current_status, m.purchase_date

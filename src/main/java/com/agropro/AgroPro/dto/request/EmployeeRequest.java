@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class EmployeeForm {
+public class EmployeeRequest {
 
     @NotBlank(message = "Фамилия должна быть указана")
     @Size(min = 2, max = 60, message = "Длина фамилии должна быть от 2 до 60 символов")

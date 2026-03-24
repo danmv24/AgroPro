@@ -2,7 +2,7 @@ package com.agropro.AgroPro.generator.impl;
 
 import com.agropro.AgroPro.aggregator.impl.ApkNineReportAggregator;
 import com.agropro.AgroPro.dto.internal.ApkNineReportData;
-import com.agropro.AgroPro.dto.request.ReportForm;
+import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.enums.ReportType;
 import com.agropro.AgroPro.generator.ReportGenerator;
 import com.agropro.AgroPro.projection.CropArea;
@@ -30,7 +30,7 @@ public class ApkNineReportGenerator implements ReportGenerator {
     }
 
     @Override
-    public byte[] generate(ReportForm form) {
+    public byte[] generate(ReportRequest form) {
         ApkNineReportData data = aggregator.collectData(form.getStartDate(), form.getEndDate());
 
         try (InputStream reportTemplate = new ClassPathResource("reports/apk_9.xlsx").getInputStream()) {

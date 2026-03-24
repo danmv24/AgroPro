@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.dto.request.EmployeeForm;
+import com.agropro.AgroPro.dto.request.EmployeeRequest;
 import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
 import com.agropro.AgroPro.enums.Gender;
@@ -8,7 +8,7 @@ import com.agropro.AgroPro.model.Employee;
 
 public class EmployeeMapper {
 
-    public static Employee toModel(EmployeeForm employeeForm) {
+    public static Employee toModel(EmployeeRequest employeeForm) {
         return Employee.builder()
                 .surname(employeeForm.getSurname())
                 .name(employeeForm.getName())

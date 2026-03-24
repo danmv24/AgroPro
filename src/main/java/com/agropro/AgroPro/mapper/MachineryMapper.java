@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.dto.request.MachineryForm;
+import com.agropro.AgroPro.dto.request.MachineryRequest;
 import com.agropro.AgroPro.dto.response.MachineryBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MachineryResponse;
 import com.agropro.AgroPro.enums.StatusCode;
@@ -8,14 +8,14 @@ import com.agropro.AgroPro.model.Machinery;
 
 public class MachineryMapper {
 
-    public static Machinery toModel(MachineryForm machineryForm) {
+    public static Machinery toModel(MachineryRequest machineryRequest) {
         return Machinery.builder()
-                .machineryName(machineryForm.getMachineryName())
-                .inventoryNumber(machineryForm.getInventoryNumber())
-                .machineryType(machineryForm.getMachineryType())
-                .licensePlate(machineryForm.getLicensePlate())
+                .machineryName(machineryRequest.getMachineryName())
+                .inventoryNumber(machineryRequest.getInventoryNumber())
+                .machineryType(machineryRequest.getMachineryType())
+                .licensePlate(machineryRequest.getLicensePlate())
                 .currentStatus(StatusCode.IDLE)
-                .purchaseDate(machineryForm.getPurchaseDate())
+                .purchaseDate(machineryRequest.getPurchaseDate())
                 .build();
     }
 

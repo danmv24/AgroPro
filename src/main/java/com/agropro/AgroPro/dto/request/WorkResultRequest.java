@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class WorkResultForm {
+public class WorkResultRequest {
 
     @Positive
     @NotNull

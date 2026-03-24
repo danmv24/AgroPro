@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExpenseForm {
+public class ExpenseUpdateRequest {
 
     @NotNull(message = "Категория затрат должна быть выбрана")
     private Long categoryId;

@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.dto.request.EquipmentForm;
-import com.agropro.AgroPro.dto.request.EquipmentUpdateForm;
+import com.agropro.AgroPro.dto.request.EquipmentRequest;
+import com.agropro.AgroPro.dto.request.EquipmentUpdateRequest;
 import com.agropro.AgroPro.dto.response.EquipmentBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EquipmentResponse;
 import com.agropro.AgroPro.enums.StatusCode;
@@ -13,6 +13,9 @@ import com.agropro.AgroPro.repository.EquipmentRepository;
 import com.agropro.AgroPro.service.EquipmentService;
 import com.agropro.AgroPro.service.EquipmentStatusHistoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,30 +35,21 @@ public class DefaultEquipmentService implements EquipmentService {
 
     @Override
     @Transactional
-    public void createEquipment(EquipmentForm equipmentForm) {
+    public void createEquipment(EquipmentRequest equipmentRequest) {
         LocalDateTime changedAt = LocalDateTime.now();
-        Equipment equipment = equipmentRepository.save(EquipmentMapper.toModel(equipmentForm));
+        Equipment equipment = equipmentRepository.save(EquipmentMapper.toModel(equipmentRequest));
 
         equipmentStatusHistoryService.createHistoryRecord(equipment, changedAt);
     }
 
     @Override
-    public List<EquipmentResponse> getAllEquipment() {
-        List<Equipment> equipment = equipmentRepository.findAll();
+    public Slice<EquipmentResponse> getAllEquipment(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<Equipment> equipment = equipmentRepository.findAll(pageable);
 
-        return equipment.stream()
-                .map(EquipmentMapper::toView)
-                .toList();
+        return equipment.map(EquipmentMapper::toView);
     }
 
-    @Override
-    public List<EquipmentBasicInfoResponse> getIdleEquipment() {
-        List<Equipment> equipment = equipmentRepository.findEquipmentByCurrentStatus(StatusCode.IDLE);
-
-        return equipment.stream()
-                .map(EquipmentMapper::toBasicInfoView)
-                .toList();
-    }
 
     @Override
     public void validateEquipmentExistByIds(Set<Long> equipmentIds) {
@@ -152,19 +146,19 @@ public class DefaultEquipmentService implements EquipmentService {
 
     @Override
     @Transactional
-    public void updateEquipment(Long id, EquipmentUpdateForm equipmentUpdateForm) {
+    public void updateEquipment(Long id, EquipmentUpdateRequest equipmentUpdateRequest) {
         Equipment equipment = equipmentRepository.findById(id).orElseThrow(() -> new EquipmentNotFoundException(Set.of(id)));
 
         if (equipment.getCurrentStatus() == StatusCode.DECOMMISSIONED) {
             throw new EquipmentCannotBeModifiedException(equipment.getId());
         }
 
-        StatusCode newStatusCode = equipmentUpdateForm.getStatus();
+        StatusCode newStatusCode = equipmentUpdateRequest.getStatus();
 
-        equipment.setEquipmentName(equipmentUpdateForm.getEquipmentName());
-        equipment.setEquipmentType(equipmentUpdateForm.getEquipmentType());
-        equipment.setInventoryNumber(equipmentUpdateForm.getInventoryNumber());
-        equipment.setPurchaseDate(equipmentUpdateForm.getPurchaseDate());
+        equipment.setEquipmentName(equipmentUpdateRequest.getEquipmentName());
+        equipment.setEquipmentType(equipmentUpdateRequest.getEquipmentType());
+        equipment.setInventoryNumber(equipmentUpdateRequest.getInventoryNumber());
+        equipment.setPurchaseDate(equipmentUpdateRequest.getPurchaseDate());
 
         if (equipment.getCurrentStatus() != newStatusCode) {
             equipment.setCurrentStatus(newStatusCode);

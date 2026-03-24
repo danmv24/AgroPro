@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.dto.request.WorkForm;
+import com.agropro.AgroPro.dto.request.WorkRequest;
 import com.agropro.AgroPro.dto.response.*;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Field;
@@ -12,14 +12,14 @@ import java.util.List;
 
 public class WorkMapper {
 
-    public static Work toModel(WorkForm workForm) {
+    public static Work toModel(WorkRequest workRequest) {
         return Work.builder()
-                .fieldId(workForm.getFieldId())
-                .workType(workForm.getWorkType())
-                .description(StringUtils.defaultIfBlank(workForm.getDescription(), "Нет описания"))
-                .startDate(workForm.getStartDate())
+                .fieldId(workRequest.getFieldId())
+                .workType(workRequest.getWorkType())
+                .description(StringUtils.defaultIfBlank(workRequest.getDescription(), "Нет описания"))
+                .startDate(workRequest.getStartDate())
                 .status(WorkStatus.PLANNED)
-                .endDate(workForm.getEndDate())
+                .endDate(workRequest.getEndDate())
                 .build();
     }
 

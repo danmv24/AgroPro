@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.dto.request.ReportForm;
+import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.dto.response.ReportDownloadResponse;
 import com.agropro.AgroPro.dto.response.ReportResponse;
 import com.agropro.AgroPro.model.Report;
@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 
 public class ReportMapper {
 
-    public static Report toModel(ReportForm reportForm, String filename, LocalDateTime createdAt) {
+    public static Report toModel(ReportRequest reportRequest, String filename, LocalDateTime createdAt) {
         return Report.builder()
-                .reportType(reportForm.getReportType())
-                .startDate(reportForm.getStartDate())
-                .endDate(reportForm.getEndDate())
+                .reportType(reportRequest.getReportType())
+                .startDate(reportRequest.getStartDate())
+                .endDate(reportRequest.getEndDate())
                 .createdAt(createdAt)
                 .filename(filename)
                 .build();

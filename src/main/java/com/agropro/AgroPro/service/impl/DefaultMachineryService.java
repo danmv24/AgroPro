@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.dto.request.MachineryForm;
-import com.agropro.AgroPro.dto.request.MachineryUpdateForm;
+import com.agropro.AgroPro.dto.request.MachineryRequest;
+import com.agropro.AgroPro.dto.request.MachineryUpdateRequest;
 import com.agropro.AgroPro.dto.response.MachineryBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MachineryResponse;
 import com.agropro.AgroPro.enums.StatusCode;
@@ -13,6 +13,9 @@ import com.agropro.AgroPro.repository.MachineryRepository;
 import com.agropro.AgroPro.service.MachineryService;
 import com.agropro.AgroPro.service.MachineryStatusHistoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,20 +35,19 @@ public class DefaultMachineryService implements MachineryService {
 
     @Transactional
     @Override
-    public void createMachinery(MachineryForm machineryForm) {
+    public void createMachinery(MachineryRequest machineryRequest) {
         LocalDateTime now = LocalDateTime.now();
-        Machinery machinery = machineryRepository.save(MachineryMapper.toModel(machineryForm));
+        Machinery machinery = machineryRepository.save(MachineryMapper.toModel(machineryRequest));
 
         machineryStatusHistoryService.createHistoryRecord(machinery, now);
     }
 
     @Override
-    public List<MachineryResponse> getMachineries() {
-        List<Machinery> machineries = machineryRepository.findAll();
+    public Slice<MachineryResponse> getMachineries(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Slice<Machinery> machineries = machineryRepository.findAll(pageable);
 
-        return machineries.stream()
-                .map(MachineryMapper::toView)
-                .toList();
+        return machineries.map(MachineryMapper::toView);
     }
 
     @Override
@@ -140,20 +142,20 @@ public class DefaultMachineryService implements MachineryService {
 
     @Override
     @Transactional
-    public void updateMachinery(Long id, MachineryUpdateForm machineryUpdateForm) {
+    public void updateMachinery(Long id, MachineryUpdateRequest machineryUpdateRequest) {
         Machinery machinery = machineryRepository.findById(id).orElseThrow(() -> new MachineryNotFoundException(Set.of(id)));
 
         if (machinery.getCurrentStatus() == StatusCode.DECOMMISSIONED) {
             throw new MachineryCannotBeModifiedException(machinery.getId());
         }
 
-        StatusCode newStatusCode = machineryUpdateForm.getStatus();
+        StatusCode newStatusCode = machineryUpdateRequest.getStatus();
 
-        machinery.setMachineryName(machineryUpdateForm.getMachineryName());
-        machinery.setMachineryType(machineryUpdateForm.getMachineryType());
-        machinery.setLicensePlate(machineryUpdateForm.getLicensePlate());
-        machinery.setInventoryNumber(machineryUpdateForm.getInventoryNumber());
-        machinery.setPurchaseDate(machineryUpdateForm.getPurchaseDate());
+        machinery.setMachineryName(machineryUpdateRequest.getMachineryName());
+        machinery.setMachineryType(machineryUpdateRequest.getMachineryType());
+        machinery.setLicensePlate(machineryUpdateRequest.getLicensePlate());
+        machinery.setInventoryNumber(machineryUpdateRequest.getInventoryNumber());
+        machinery.setPurchaseDate(machineryUpdateRequest.getPurchaseDate());
 
         if (newStatusCode != machinery.getCurrentStatus()) {
             machinery.setCurrentStatus(newStatusCode);

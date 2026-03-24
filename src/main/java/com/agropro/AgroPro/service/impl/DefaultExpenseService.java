@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.dto.request.ExpenseForm;
+import com.agropro.AgroPro.dto.request.ExpenseRequest;
+import com.agropro.AgroPro.dto.request.ExpenseUpdateRequest;
 import com.agropro.AgroPro.dto.response.ExpenseResponse;
 import com.agropro.AgroPro.exception.ExpenseNotFoundException;
 import com.agropro.AgroPro.mapper.ExpenseMapper;
@@ -30,14 +31,14 @@ public class DefaultExpenseService implements ExpenseService {
     private final ExpenseCategoryService categoryService;
 
     @Override
-    public void createExpense(ExpenseForm expenseForm) {
-        ExpenseCategory category = categoryService.getExpenseCategoryById(expenseForm.getCategoryId());
+    public void createExpense(ExpenseRequest expenseRequest) {
+        ExpenseCategory category = categoryService.getExpenseCategoryById(expenseRequest.getCategoryId());
 
-        expenseRepository.save(ExpenseMapper.toModel(expenseForm, category.getId()));
+        expenseRepository.save(ExpenseMapper.toModel(expenseRequest, category.getId()));
     }
 
     @Override
-    public void updateExpense(Long id, ExpenseForm expenseForm) {
+    public void updateExpense(Long id, ExpenseUpdateRequest expenseForm) {
         Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
 
         ExpenseCategory category = categoryService.getExpenseCategoryById(expenseForm.getCategoryId());

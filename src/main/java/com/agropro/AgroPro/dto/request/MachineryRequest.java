@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class MachineryForm {
+public class MachineryRequest {
 
     @NotBlank(message = "Название техники должно быть указано")
     private String machineryName;

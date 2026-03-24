@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.dto.request.ReportForm;
+import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.dto.response.ReportDownloadResponse;
 import com.agropro.AgroPro.dto.response.ReportResponse;
 import com.agropro.AgroPro.service.ReportService;
@@ -21,8 +21,8 @@ public class ReportController {
     private final ReportService reportService;
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createReport(@Valid @RequestBody ReportForm reportForm) {
-        reportService.createReport(reportForm);
+    public ResponseEntity<Void> createReport(@Valid @RequestBody ReportRequest reportRequest) {
+        reportService.createReport(reportRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

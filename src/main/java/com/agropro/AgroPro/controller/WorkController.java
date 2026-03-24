@@ -1,17 +1,17 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.dto.request.WorkForm;
-import com.agropro.AgroPro.dto.request.WorkResultForm;
-import com.agropro.AgroPro.dto.response.WorkByStatusResponse;
+import com.agropro.AgroPro.dto.request.WorkRequest;
+import com.agropro.AgroPro.dto.request.WorkResultRequest;
+import com.agropro.AgroPro.dto.response.WorkBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.WorkResponse;
+import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.service.WorkService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,15 +21,10 @@ public class WorkController {
     private final WorkService workService;
 
     @PostMapping("/add")
-    public ResponseEntity<Void> planWork(@Valid @RequestBody WorkForm workForm) {
-        workService.createWork(workForm);
+    public ResponseEntity<Void> planWork(@Valid @RequestBody WorkRequest workRequest) {
+        workService.createWork(workRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-//    @GetMapping
-//    public List<WorkBasicInfoView> getWorks() {
-//        return workService.getWorks();
-//    }
 
     @GetMapping("/{workId}")
     public WorkResponse getWork(@PathVariable("workId") Long workId) {
@@ -44,8 +39,8 @@ public class WorkController {
 
     @PostMapping("/result/{workId}")
     public ResponseEntity<Void> addWorkResult(@PathVariable("workId") Long workId,
-                                              @Valid @RequestBody WorkResultForm workResultForm) {
-        workService.createResult(workId, workResultForm);
+                                              @Valid @RequestBody WorkResultRequest workResultRequest) {
+        workService.createResult(workId, workResultRequest);
         return ResponseEntity.ok().build();
     }
 
@@ -55,11 +50,22 @@ public class WorkController {
 //        return ResponseEntity.ok().build();
 //    }
 
-    @GetMapping
-    public WorkByStatusResponse getWorksForWeek(@RequestParam LocalDate weekStart,
-                                                @RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "15") int size) {
-        return workService.getWorksByStatus(weekStart, page, size);
+    @GetMapping("/planned")
+    public Slice<WorkBasicInfoResponse> getPlannedWorks(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "15") int size) {
+        return workService.getWorksByStatus(WorkStatus.PLANNED, page, size);
+    }
+
+    @GetMapping("/in-progress")
+    public Slice<WorkBasicInfoResponse> getInProgressWorks(@RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "15") int size) {
+        return workService.getWorksByStatus(WorkStatus.IN_PROGRESS, page, size);
+    }
+
+    @GetMapping("/completed")
+    public Slice<WorkBasicInfoResponse> getCompletedWorks(@RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "15") int size) {
+        return workService.getWorksByStatus(WorkStatus.COMPLETED, page, size);
     }
 
 }

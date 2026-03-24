@@ -1,8 +1,9 @@
 package com.agropro.AgroPro.service;
 
-import com.agropro.AgroPro.dto.request.EmployeeForm;
+import com.agropro.AgroPro.dto.request.EmployeeRequest;
 import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.Set;
 
 public interface EmployeeService {
 
-    void createEmployee(EmployeeForm employeeForm);
+    void createEmployee(EmployeeRequest employeeForm);
 
-    List<EmployeeResponse> getEmployees();
+    Slice<EmployeeResponse> getEmployees(int page, int size);
 
     List<EmployeeBasicInfoResponse> getMechanizators();
 

@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
 import com.agropro.AgroPro.component.ReportFactory;
-import com.agropro.AgroPro.dto.request.ReportForm;
+import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.dto.response.ReportDownloadResponse;
 import com.agropro.AgroPro.dto.response.ReportResponse;
 import com.agropro.AgroPro.enums.ReportType;
@@ -40,16 +40,16 @@ public class DefaultReportService implements ReportService {
 
     @Override
     @Transactional
-    public void createReport(ReportForm reportForm) {
-        ReportGenerator generator = reportFactory.getGenerator(reportForm.getReportType());
+    public void createReport(ReportRequest reportRequest) {
+        ReportGenerator generator = reportFactory.getGenerator(reportRequest.getReportType());
 
-        byte[] file = generator.generate(reportForm);
-        String filename = generateFileName(reportForm.getReportType());
+        byte[] file = generator.generate(reportRequest);
+        String filename = generateFileName(reportRequest.getReportType());
 
-        storageService.uploadFile(file, filename, reportForm.getReportType());
+        storageService.uploadFile(file, filename, reportRequest.getReportType());
 
         LocalDateTime createdAt = LocalDateTime.now();
-        reportRepository.save(ReportMapper.toModel(reportForm, filename, createdAt));
+        reportRepository.save(ReportMapper.toModel(reportRequest, filename, createdAt));
 
     }
 

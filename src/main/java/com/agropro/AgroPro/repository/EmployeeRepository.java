@@ -5,6 +5,8 @@ import com.agropro.AgroPro.enums.Gender;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.projection.EmployeePositionCount;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +21,8 @@ import java.util.Set;
 public interface EmployeeRepository extends ListCrudRepository<Employee, Long> {
 
     List<Employee> findEmployeesByPosition(EmployeePosition position);
+
+    Slice<Employee> findAll(Pageable pageable);
 
     @Query("SELECT id FROM employees WHERE id IN (:employeeIds)")
     Set<Long> findEmployeeIdsByIdIn(@Param("employeeIds") Set<Long> employeeIds);

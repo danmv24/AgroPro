@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.dto.request.WorkForm;
-import com.agropro.AgroPro.dto.request.WorkResultForm;
+import com.agropro.AgroPro.dto.request.WorkRequest;
+import com.agropro.AgroPro.dto.request.WorkResultRequest;
 import com.agropro.AgroPro.dto.response.*;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
@@ -22,7 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -49,99 +48,37 @@ public class DefaultWorkService implements WorkService {
 
     @Override
     @Transactional
-    public void createWork(WorkForm workForm) {
-        validateEntitiesExist(workForm);
-        validateAvailability(workForm);
+    public void createWork(WorkRequest workRequest) {
+        validateEntitiesExist(workRequest);
+        validateAvailability(workRequest);
 
-        Work work = workRepository.save(WorkMapper.toModel(workForm));
+        Work work = workRepository.save(WorkMapper.toModel(workRequest));
 
-        linkEntities(work.getId(), workForm);
+        linkEntities(work.getId(), workRequest);
 
         if (work.getWorkType() == WorkType.SOWING) {
-            if (workForm.getCropName() == null || workForm.getCropName().isBlank()) {
+            if (workRequest.getCropName() == null || workRequest.getCropName().isBlank()) {
                 throw new IllegalArgumentException("Для посева необходимо указать культуру");
             }
-            fieldPlantingService.createFieldPlanting(work.getFieldId(), workForm.getCropName(), work.getEndDate().toLocalDate());
+            fieldPlantingService.createFieldPlanting(work.getFieldId(), workRequest.getCropName(), work.getEndDate().toLocalDate());
         }
 
         if (work.getWorkType() == WorkType.HARVESTING) {
-            fieldPlantingService.addHarvestDate(work.getFieldId(), workForm.getEndDate().toLocalDate());
+            fieldPlantingService.addHarvestDate(work.getFieldId(), workRequest.getEndDate().toLocalDate());
         }
     }
 
-//    @Override
-//    public List<WorkBasicInfoView> getWorks() {
-//        List<Work> works = workRepository.findAll();
-//        Set<Long> fieldIds = works.stream()
-//                .map(Work::getFieldId)
-//                .collect(Collectors.toSet());
-//
-//        Map<Long, Field> fieldsById = fieldService.getFieldsByIds(fieldIds).stream()
-//                .collect(Collectors.toMap(
-//                        Field::getId, Function.identity()
-//                ));
-//
-//        return works.stream()
-//                .map(work -> {
-//                    Field field = fieldsById.get(work.getFieldId());
-//
-//                    return WorkMapper.toBasicInfoView(work, field, false);
-//                }).toList();
-//    }
-
-//    @Override
-//    public Slice<WorkBasicInfoView> getCompletedWorksForWeek(LocalDate weekStart, int page, int size) {
-//        LocalDateTime startDate = weekStart.atStartOfDay();
-//        LocalDateTime endDate = weekStart.plusDays(7).atStartOfDay();
-//        Pageable pageable = PageRequest.of(page, size, Sort.by("endDate").descending());
-//
-//        Slice<Work> works = workRepository.findCompletedWorksByDateRange(WorkStatus.COMPLETED, startDate, endDate, pageable);
-//
-//        Set<Long> fieldIds = works.stream()
-//                .map(Work::getFieldId)
-//                .collect(Collectors.toSet());
-//
-//        Map<Long, Field> fieldsById = fieldService.getFieldsByIds(fieldIds).stream()
-//                .collect(Collectors.toMap(
-//                        Field::getId, Function.identity()
-//                ));
-//
-//        Set<Long> workIds = works.stream()
-//                .map(Work::getId)
-//                .collect(Collectors.toSet());
-//
-//        Set<Long> workIdsWithResult = workResultRepository.findExistingResultWorkIds(workIds);
-//
-//        return works.map(work -> {
-//            Field field = fieldsById.get(work.getFieldId());
-//            boolean hasResult = workIdsWithResult.contains(work.getId());
-//
-//            return WorkMapper.toBasicInfoView(work, field, hasResult);
-//        });
-//
-//    }
-
     @Override
-    public WorkByStatusResponse getWorksByStatus(LocalDate weekStart, int page, int size) {
-        LocalDateTime startDate = weekStart.atStartOfDay();
-        LocalDateTime endDate = weekStart.plusDays(7).atStartOfDay();
+    public Slice<WorkBasicInfoResponse> getWorksByStatus(WorkStatus workStatus, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("endDate").descending());
 
-        Slice<Work> planned = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(
-                WorkStatus.PLANNED, startDate, endDate, pageable);
-        Slice<Work> inProgress = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(
-                WorkStatus.IN_PROGRESS, startDate, endDate, pageable);
-        Slice<Work> completed = workRepository.findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(
-                WorkStatus.COMPLETED, startDate, endDate, pageable);
+        Slice<Work> works = workRepository.findWorksByStatus(workStatus, pageable);
+        boolean isNeedResult = workStatus == WorkStatus.COMPLETED;
 
-        Slice<WorkBasicInfoResponse> plannedView = linkWorksWithFieldAndResultInfo(planned, false);
-        Slice<WorkBasicInfoResponse> inProgressView = linkWorksWithFieldAndResultInfo(inProgress, false);
-        Slice<WorkBasicInfoResponse> completedView = linkWorksWithFieldAndResultInfo(completed, true);
-
-        return WorkMapper.toWorkByStatusView(plannedView, inProgressView, completedView);
+        return linkFieldAndResultInfo(works, isNeedResult);
     }
 
-    private Slice<WorkBasicInfoResponse> linkWorksWithFieldAndResultInfo(Slice<Work> works, boolean checkResults) {
+    private Slice<WorkBasicInfoResponse> linkFieldAndResultInfo(Slice<Work> works, boolean checkResults) {
         Set<Long> fieldIds = works.stream()
                 .map(Work::getFieldId)
                 .collect(Collectors.toSet());
@@ -224,16 +161,16 @@ public class DefaultWorkService implements WorkService {
     }
 
     @Override
-    public void createResult(Long workId, WorkResultForm workResultForm) {
+    public void createResult(Long workId, WorkResultRequest workResultRequest) {
         Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
 
         if (work.getStatus() != WorkStatus.COMPLETED) {
             throw new WorkResultNotAllowedException(workId, work.getStatus());
         }
 
-        validateByWorkType(work.getWorkType(), workResultForm);
+        validateByWorkType(work.getWorkType(), workResultRequest);
 
-        workResultRepository.save(WorkResultMapper.toModel(workId, workResultForm));
+        workResultRepository.save(WorkResultMapper.toModel(workId, workResultRequest));
     }
 
 //    @Override
@@ -242,35 +179,35 @@ public class DefaultWorkService implements WorkService {
 //
 //    }
 
-    private void validateEntitiesExist(WorkForm workForm) {
-        employeeService.validateEmployeesExistByIds(workForm.getEmployeeIds());
-        machineryService.validateMachineriesExistByIds(workForm.getMachineryIds());
-        if (workForm.getEquipmentIds() != null && !workForm.getEquipmentIds().isEmpty()) {
-            equipmentService.validateEquipmentExistByIds(workForm.getEquipmentIds());
+    private void validateEntitiesExist(WorkRequest workRequest) {
+        employeeService.validateEmployeesExistByIds(workRequest.getEmployeeIds());
+        machineryService.validateMachineriesExistByIds(workRequest.getMachineryIds());
+        if (workRequest.getEquipmentIds() != null && !workRequest.getEquipmentIds().isEmpty()) {
+            equipmentService.validateEquipmentExistByIds(workRequest.getEquipmentIds());
         }
 
-        fieldService.validateFieldExistsById(workForm.getFieldId());
+        fieldService.validateFieldExistsById(workRequest.getFieldId());
     }
 
-    private void validateAvailability(WorkForm workForm) {
-        employeeService.validateEmployeesAvailability(workForm.getEmployeeIds(), workForm.getStartDate(), workForm.getEndDate());
-        machineryService.validateMachineriesAvailability(workForm.getMachineryIds(), workForm.getStartDate(), workForm.getEndDate());
-        if (workForm.getEquipmentIds() != null && !workForm.getEquipmentIds().isEmpty()) {
-            equipmentService.validateEquipmentAvailability(workForm.getEquipmentIds(), workForm.getStartDate(), workForm.getEndDate());
+    private void validateAvailability(WorkRequest workRequest) {
+        employeeService.validateEmployeesAvailability(workRequest.getEmployeeIds(), workRequest.getStartDate(), workRequest.getEndDate());
+        machineryService.validateMachineriesAvailability(workRequest.getMachineryIds(), workRequest.getStartDate(), workRequest.getEndDate());
+        if (workRequest.getEquipmentIds() != null && !workRequest.getEquipmentIds().isEmpty()) {
+            equipmentService.validateEquipmentAvailability(workRequest.getEquipmentIds(), workRequest.getStartDate(), workRequest.getEndDate());
         }
     }
 
-    private void linkEntities(Long workId, WorkForm workForm) {
-        List<WorkEmployee> employees = workForm.getEmployeeIds().stream()
+    private void linkEntities(Long workId, WorkRequest workRequest) {
+        List<WorkEmployee> employees = workRequest.getEmployeeIds().stream()
                 .map(employeeId -> WorkEmployeeMapper.toModel(workId, employeeId))
                 .toList();
 
-        List<WorkMachinery> machineries = workForm.getMachineryIds().stream()
+        List<WorkMachinery> machineries = workRequest.getMachineryIds().stream()
                 .map(machineryId -> WorkMachineryMapper.toModel(workId, machineryId))
                 .toList();
 
-        if (workForm.getEquipmentIds() != null && !workForm.getEquipmentIds().isEmpty()) {
-            List<WorkEquipment> equipment = workForm.getEquipmentIds().stream()
+        if (workRequest.getEquipmentIds() != null && !workRequest.getEquipmentIds().isEmpty()) {
+            List<WorkEquipment> equipment = workRequest.getEquipmentIds().stream()
                     .map(equipmentId -> WorkEquipmentMapper.toModel(workId, equipmentId))
                     .toList();
             workEquipmentRepository.saveAll(equipment);
@@ -280,24 +217,24 @@ public class DefaultWorkService implements WorkService {
         workMachineryRepository.saveAll(machineries);
     }
 
-    private void validateByWorkType(WorkType workType, WorkResultForm workResultForm) {
-        if (workResultForm.getFuelUsed() == null) {
+    private void validateByWorkType(WorkType workType, WorkResultRequest workResultRequest) {
+        if (workResultRequest.getFuelUsed() == null) {
             throw new WorkResultValidationException("Не указан расход топлива");
         }
 
         switch (workType) {
             case SOWING -> {
-                if (workResultForm.getSeedsUsed() == null) {
+                if (workResultRequest.getSeedsUsed() == null) {
                     throw new WorkResultValidationException("Для посева необходимо указать расход семян");
                 }
             }
             case HARVESTING -> {
-                if (workResultForm.getYield() == null) {
+                if (workResultRequest.getYield() == null) {
                     throw new WorkResultValidationException("Для уборки необходимо указать объем урожая");
                 }
             }
             case FERTILIZING -> {
-                if (workResultForm.getFertilizerType() == null || workResultForm.getFertilizersUsed() == null) {
+                if (workResultRequest.getFertilizerType() == null || workResultRequest.getFertilizersUsed() == null) {
                     throw new WorkResultValidationException("Необходимо указать тип и количество удобрений");
                 }
             }

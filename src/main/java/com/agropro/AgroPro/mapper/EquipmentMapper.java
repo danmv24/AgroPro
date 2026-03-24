@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.dto.request.EquipmentForm;
+import com.agropro.AgroPro.dto.request.EquipmentRequest;
 import com.agropro.AgroPro.dto.response.EquipmentBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EquipmentResponse;
 import com.agropro.AgroPro.enums.StatusCode;
@@ -8,13 +8,13 @@ import com.agropro.AgroPro.model.Equipment;
 
 public class EquipmentMapper {
 
-    public static Equipment toModel(EquipmentForm equipmentForm) {
+    public static Equipment toModel(EquipmentRequest equipmentRequest) {
         return Equipment.builder()
-                .equipmentName(equipmentForm.getEquipmentName())
-                .equipmentType(equipmentForm.getEquipmentType())
-                .inventoryNumber(equipmentForm.getInventoryNumber())
+                .equipmentName(equipmentRequest.getEquipmentName())
+                .equipmentType(equipmentRequest.getEquipmentType())
+                .inventoryNumber(equipmentRequest.getInventoryNumber())
                 .currentStatus(StatusCode.IDLE)
-                .purchaseDate(equipmentForm.getPurchaseDate())
+                .purchaseDate(equipmentRequest.getPurchaseDate())
                 .build();
     }
 

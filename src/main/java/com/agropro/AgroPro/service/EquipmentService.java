@@ -1,10 +1,11 @@
 package com.agropro.AgroPro.service;
 
-import com.agropro.AgroPro.dto.request.EquipmentForm;
-import com.agropro.AgroPro.dto.request.EquipmentUpdateForm;
+import com.agropro.AgroPro.dto.request.EquipmentRequest;
+import com.agropro.AgroPro.dto.request.EquipmentUpdateRequest;
 import com.agropro.AgroPro.dto.response.EquipmentBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EquipmentResponse;
 import com.agropro.AgroPro.enums.StatusCode;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,15 +13,11 @@ import java.util.Set;
 
 public interface EquipmentService {
 
-    void createEquipment(EquipmentForm equipmentForm);
+    void createEquipment(EquipmentRequest equipmentRequest);
 
-    List<EquipmentResponse> getAllEquipment();
-
-    List<EquipmentBasicInfoResponse> getIdleEquipment();
+    Slice<EquipmentResponse> getAllEquipment(int page, int size);
 
     void validateEquipmentExistByIds(Set<Long> equipmentIds);
-
-//    void validateEquipmentStatus(Set<Long> equipmentIds);
 
     void validateEquipmentAvailability(Set<Long> equipmentIds, LocalDateTime startDateOfWork, LocalDateTime endDateOfWork);
 
@@ -28,5 +25,5 @@ public interface EquipmentService {
 
     void changeEquipmentStatusByWorkIds(Set<Long> workIds, StatusCode statusCode, LocalDateTime changedAt);
 
-    void updateEquipment(Long id, EquipmentUpdateForm equipmentUpdateForm);
+    void updateEquipment(Long id, EquipmentUpdateRequest equipmentUpdateRequest);
 }

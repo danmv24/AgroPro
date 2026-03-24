@@ -37,6 +37,8 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
                                                                               @Param("endDate") LocalDateTime endDate,
                                                                               Pageable pageable);
 
+    Slice<Work> findWorksByStatus(WorkStatus workStatus, Pageable pageable);
+
     @Query("""
         SELECT SUM(EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600 ) AS total_hours
         FROM works AS w

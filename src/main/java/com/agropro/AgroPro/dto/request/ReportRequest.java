@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReportForm {
+public class ReportRequest {
 
     @NotNull(message = "Тип отчёта должен быть указан")
     private ReportType reportType;

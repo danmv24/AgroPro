@@ -3,7 +3,7 @@ package com.agropro.AgroPro.generator.impl;
 import com.agropro.AgroPro.aggregator.impl.ApkSeventeenReportAggregator;
 import com.agropro.AgroPro.dto.internal.ApkSeventeenReportData;
 import com.agropro.AgroPro.dto.internal.TypeYearStat;
-import com.agropro.AgroPro.dto.request.ReportForm;
+import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.enums.EquipmentType;
 import com.agropro.AgroPro.enums.MachineryType;
 import com.agropro.AgroPro.enums.ReportType;
@@ -34,7 +34,7 @@ public class ApkSeventeenReportGenerator implements ReportGenerator {
     }
 
     @Override
-    public byte[] generate(ReportForm form) {
+    public byte[] generate(ReportRequest form) {
         ApkSeventeenReportData data = aggregator.collectData(form.getStartDate(), form.getEndDate());
 
         try (InputStream reportTemplate = new ClassPathResource("reports/apk_17.xlsx").getInputStream()) {
