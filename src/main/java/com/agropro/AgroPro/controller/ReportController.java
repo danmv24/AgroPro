@@ -1,15 +1,17 @@
 package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.dto.request.ReportForm;
+import com.agropro.AgroPro.dto.response.ReportDownloadResponse;
+import com.agropro.AgroPro.dto.response.ReportResponse;
 import com.agropro.AgroPro.service.ReportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Slice;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +24,29 @@ public class ReportController {
     public ResponseEntity<Void> createReport(@Valid @RequestBody ReportForm reportForm) {
         reportService.createReport(reportForm);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping
+    public Slice<ReportResponse> getAllReports(@RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "15") int size) {
+        return reportService.getReports(page, size);
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadReport(@PathVariable(name = "id") Long id) {
+        ReportDownloadResponse response = reportService.downloadReport(id);
+        ContentDisposition contentDisposition = ContentDisposition.attachment().filename(response.getFilename(), StandardCharsets.UTF_8).build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(response.getResource());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteReport(@PathVariable(name = "id") Long id) {
+        reportService.deleteReport(id);
+        return ResponseEntity.ok().build();
     }
 
 }
