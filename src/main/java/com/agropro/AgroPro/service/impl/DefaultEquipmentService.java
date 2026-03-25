@@ -123,7 +123,7 @@ public class DefaultEquipmentService implements EquipmentService {
             throw new EmptyCollectionException();
         }
 
-        List<Equipment> equipment = equipmentRepository.findAllByWorkIds(workIds);
+        List<Equipment> equipment = equipmentRepository.findAllByWorkIdIn(workIds);
         if (equipment.isEmpty()) {
             return;
         }

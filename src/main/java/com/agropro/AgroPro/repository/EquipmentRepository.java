@@ -1,6 +1,5 @@
 package com.agropro.AgroPro.repository;
 
-import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Equipment;
 import com.agropro.AgroPro.projection.EquipmentTypeCount;
@@ -29,18 +28,10 @@ public interface EquipmentRepository extends ListCrudRepository<Equipment, Long>
         INNER JOIN work_equipment AS we ON e.id = we.equipment_id
         WHERE we.work_id IN (:workIds)
     """)
-    List<Equipment> findAllByWorkIds(@Param("workIds") Set<Long> workIds);
-
-    List<Equipment> findEquipmentByCurrentStatus(StatusCode currentStatus);
+    List<Equipment> findAllByWorkIdIn(@Param("workIds") Set<Long> workIds);
 
     @Query("SELECT id FROM equipment WHERE id IN(:equipmentIds)")
     Set<Long> findEquipmentIdsByIdIn(@Param("equipmentIds") Set<Long> equipmentIds);
-
-    @Query("""
-        SELECT id, current_status, inventory_number, equipment_type, purchase_date, equipment_name FROM equipment
-        WHERE id IN (:equipmentIds)
-    """)
-    List<Equipment> findStatusesByIdIn(@Param("equipmentIds") Set<Long> equipmentIds);
 
     @Query("""
         SELECT DISTINCT e.id, e.equipment_name, e.equipment_type, e.inventory_number, e.purchase_date, e.current_status
@@ -94,7 +85,7 @@ public interface EquipmentRepository extends ListCrudRepository<Equipment, Long>
         FROM equipment AS e
         INNER JOIN equipment_status_history AS esh ON esh.equipment_id = e.id
         WHERE esh.status = 'DECOMMISSIONED'
-        AND esh.changed_at::date BETWEEN :startDate AND :endDate
+        AND esh.changed_at::date >= :startDate AND esh.changed_at::date <= :endDate
         GROUP BY e.equipment_type
     """)
     List<EquipmentTypeCount> countDecommissionedEquipmentByEquipmentTypeAndBetweenDate(@Param("startDate") LocalDate startDate,
@@ -115,7 +106,5 @@ public interface EquipmentRepository extends ListCrudRepository<Equipment, Long>
         GROUP BY e.equipment_type
     """)
     List<EquipmentTypeCount> countEquipmentByEquipmentTypeAtEndDate(@Param("endDate") LocalDate endDate);
-
-
 
 }

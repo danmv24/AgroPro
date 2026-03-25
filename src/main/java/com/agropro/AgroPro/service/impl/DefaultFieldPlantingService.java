@@ -43,7 +43,7 @@ public class DefaultFieldPlantingService implements FieldPlantingService {
 
     @Override
     public List<FieldPlanting> getPlantingsByIdsAndDate(Set<Long> fieldIds, LocalDate date) {
-        return fieldPlantingRepository.findAllByIdAndDate(fieldIds, date);
+        return fieldPlantingRepository.findAllByFieldIdsAndDate(fieldIds, date);
     }
 
     private void validateFieldExistsById(Long fieldId) {

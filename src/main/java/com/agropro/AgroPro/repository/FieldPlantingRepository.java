@@ -15,8 +15,6 @@ import java.util.Set;
 @Repository
 public interface FieldPlantingRepository extends ListCrudRepository<FieldPlanting, Long> {
 
-//    List<FieldPlanting> findFieldPlantingsByFieldId(Long fieldId);
-
     @Query("""
         SELECT id, field_id, crop_type, planting_date, harvest_date
         FROM field_plantings
@@ -33,7 +31,7 @@ public interface FieldPlantingRepository extends ListCrudRepository<FieldPlantin
         AND planting_date <= :date
         AND (harvest_date IS NULL OR harvest_date > :date)
     """)
-    List<FieldPlanting> findAllByIdAndDate(@Param("fieldIds") Set<Long> fieldIds, @Param("date") LocalDate date);
+    List<FieldPlanting> findAllByFieldIdsAndDate(@Param("fieldIds") Set<Long> fieldIds, @Param("date") LocalDate date);
 
 
     @Query("""
@@ -42,9 +40,9 @@ public interface FieldPlantingRepository extends ListCrudRepository<FieldPlantin
             THEN f.area
             ELSE 0
             END) AS harvested_area
-        FROM field_plantings fp
-        INNER JOIN fields f ON f.id = fp.field_id
-        WHERE fp.planting_date BETWEEN :startDate AND :endDate
+        FROM field_plantings AS fp
+        INNER JOIN fields AS f ON f.id = fp.field_id
+        WHERE fp.planting_date >= :startDate AND :endDate >= fp.planting_date
         GROUP BY fp.crop_type
     """)
     List<CropArea> findSownAndHarvestedAreas(@Param("startDate") LocalDate startDate,

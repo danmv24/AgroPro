@@ -32,11 +32,6 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
     """)
     List<Work> findWorksToCompleted(@Param("status") WorkStatus status, @Param("now") LocalDateTime now);
 
-    Slice<Work> findSliceByStatusAndEndDateGreaterThanEqualAndEndDateLessThan(@Param("status") WorkStatus status,
-                                                                              @Param("startDate") LocalDateTime startDate,
-                                                                              @Param("endDate") LocalDateTime endDate,
-                                                                              Pageable pageable);
-
     Slice<Work> findWorksByStatus(WorkStatus workStatus, Pageable pageable);
 
     @Query("""
@@ -71,8 +66,8 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
         FROM works AS w
         INNER JOIN field_plantings AS fp ON fp.field_id = w.field_id
         LEFT JOIN work_employees we ON we.work_id = w.id
-        LEFT JOIN employees e ON e.id = we.employee_id
-        LEFT JOIN work_results wr ON wr.work_id = w.id
+        LEFT JOIN employees AS e ON e.id = we.employee_id
+        LEFT JOIN work_results AS wr ON wr.work_id = w.id
         WHERE w.start_date <= :endDate AND w.end_date >= :startDate
         GROUP BY fp.crop_type
     """)
