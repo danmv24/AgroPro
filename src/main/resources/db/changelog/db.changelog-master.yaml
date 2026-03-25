@@ -72,3 +72,10 @@ databaseChangeLog:
   - include:
       file: changes/insert_data_to_expense_categories_table.sql
       relativeToChangelogFile: true
+
+
+    # indexes
+
+  - include:
+      file: changes/add_indexes.sql
+      relativeToChangelogFile: true
