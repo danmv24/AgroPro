@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.PaymentTypeNotFoundException;
+import com.agropro.AgroPro.exception.InvalidPaymentTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public enum PaymentType {
         return Arrays.stream(PaymentType.values())
                 .filter(pt -> pt.getPaymentTypeName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new PaymentTypeNotFoundException(value));
+                .orElseThrow(() -> new InvalidPaymentTypeException(value));
     }
 
 }

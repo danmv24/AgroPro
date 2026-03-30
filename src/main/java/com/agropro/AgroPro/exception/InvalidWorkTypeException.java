@@ -3,11 +3,11 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class WorkTypeNotFoundException extends NotFoundException {
+public class InvalidWorkTypeException extends InvalidEnumValueException {
 
     private final String workType;
 
-    public WorkTypeNotFoundException(String workType) {
+    public InvalidWorkTypeException(String workType) {
         super("Тип работы с названием '" + workType + "' не найден");
         this.workType = workType;
     }

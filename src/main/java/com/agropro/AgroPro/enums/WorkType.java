@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.WorkTypeNotFoundException;
+import com.agropro.AgroPro.exception.InvalidWorkTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public enum WorkType {
         return Arrays.stream(WorkType.values())
                 .filter(wt -> wt.getWorkTypeName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new WorkTypeNotFoundException(value));
+                .orElseThrow(() -> new InvalidWorkTypeException(value));
     }
 
 }

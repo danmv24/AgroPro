@@ -3,11 +3,11 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class MachineryTypeNotFoundException extends NotFoundException {
+public class InvalidMachineryTypeException extends InvalidEnumValueException {
 
     private final String machineryType;
 
-    public MachineryTypeNotFoundException(String machineryType) {
+    public InvalidMachineryTypeException(String machineryType) {
         super("Тип машины с названием '" + machineryType + "' не найден");
         this.machineryType = machineryType;
     }

@@ -3,11 +3,11 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class GenderNotFoundException extends NotFoundException {
+public class InvalidGenderException extends InvalidEnumValueException {
 
     private final String gender;
 
-    public GenderNotFoundException(String gender) {
+    public InvalidGenderException(String gender) {
         super("Пол не найден: " + gender);
         this.gender = gender;
     }

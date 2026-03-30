@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.ReportTypeNotFoundException;
+import com.agropro.AgroPro.exception.InvalidReportTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public enum ReportType {
         return Arrays.stream(ReportType.values())
                 .filter(rt -> rt.getReportTypeName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new ReportTypeNotFoundException(value));
+                .orElseThrow(() -> new InvalidReportTypeException(value));
     }
 
 }

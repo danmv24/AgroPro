@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.StatusCodeNotFoundException;
+import com.agropro.AgroPro.exception.InvalidStatusCodeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public enum StatusCode {
         return Arrays.stream(StatusCode.values())
                 .filter(sc -> sc.getStatusName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new StatusCodeNotFoundException(value));
+                .orElseThrow(() -> new InvalidStatusCodeException(value));
     }
 
 }

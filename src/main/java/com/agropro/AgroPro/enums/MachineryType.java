@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.MachineryTypeNotFoundException;
+import com.agropro.AgroPro.exception.InvalidMachineryTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public enum MachineryType {
         return Arrays.stream(MachineryType.values())
                 .filter(mt -> mt.getMachineryTypeName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new MachineryTypeNotFoundException(value));
+                .orElseThrow(() -> new InvalidMachineryTypeException(value));
     }
 
 }

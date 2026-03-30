@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.PositionNotFoundException;
+import com.agropro.AgroPro.exception.InvalidPositionException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -31,7 +31,7 @@ public enum EmployeePosition {
         return Arrays.stream(EmployeePosition.values())
                 .filter(position -> position.getPositionName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new PositionNotFoundException(value));
+                .orElseThrow(() -> new InvalidPositionException(value));
     }
 
 }

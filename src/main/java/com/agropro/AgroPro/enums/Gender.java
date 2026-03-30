@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.GenderNotFoundException;
+import com.agropro.AgroPro.exception.InvalidGenderException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public enum Gender {
         return Arrays.stream(Gender.values())
                 .filter(g -> g.getGenderName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new GenderNotFoundException(value));
+                .orElseThrow(() -> new InvalidGenderException(value));
     }
 
 }

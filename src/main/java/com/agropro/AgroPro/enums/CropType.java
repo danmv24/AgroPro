@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.CropNotFoundException;
+import com.agropro.AgroPro.exception.InvalidCropTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public enum CropType {
         return Arrays.stream(CropType.values())
                 .filter(ct -> ct.getCropTypeName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new CropNotFoundException(value));
+                .orElseThrow(() -> new InvalidCropTypeException(value));
     }
 
 }

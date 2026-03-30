@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.EquipmentTypeNotFoundException;
+import com.agropro.AgroPro.exception.InvalidEquipmentTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public enum EquipmentType {
         return Arrays.stream(EquipmentType.values())
                 .filter(et -> et.getEquipmentTypeName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new EquipmentTypeNotFoundException(value));
+                .orElseThrow(() -> new InvalidEquipmentTypeException(value));
     }
     
 }

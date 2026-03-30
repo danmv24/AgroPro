@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.enums;
 
-import com.agropro.AgroPro.exception.FertilizerTypeNotFoundException;
+import com.agropro.AgroPro.exception.InvalidFertilizerTypeException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
@@ -36,7 +36,7 @@ public enum FertilizerType {
         return Arrays.stream(FertilizerType.values())
                 .filter(ft -> ft.getFertilizerTypeName().equalsIgnoreCase(value.trim()))
                 .findFirst()
-                .orElseThrow(() -> new FertilizerTypeNotFoundException(value));
+                .orElseThrow(() -> new InvalidFertilizerTypeException(value));
     }
 
 }

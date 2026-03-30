@@ -3,11 +3,11 @@ package com.agropro.AgroPro.exception;
 import lombok.Getter;
 
 @Getter
-public class FertilizerTypeNotFoundException extends NotFoundException {
+public class InvalidFertilizerTypeException extends InvalidEnumValueException {
 
     private final String fertilizerTypeName;
 
-    public FertilizerTypeNotFoundException(String fertilizerTypeName) {
+    public InvalidFertilizerTypeException(String fertilizerTypeName) {
         super("Тип удобрения '" + fertilizerTypeName + "' не найден");
         this.fertilizerTypeName = fertilizerTypeName;
     }
