@@ -30,6 +30,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    @ExceptionHandler(InvalidEnumValueException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidEnumValue(InvalidEnumValueException ex, HttpServletRequest request) {
+        log.warn("400 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request, now);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
     @ExceptionHandler(WorkCannotBeCancelledException.class)
     public ResponseEntity<ErrorResponse> handleWorkCannotBeCancelledException(WorkCannotBeCancelledException ex,
                                                                               HttpServletRequest request) {
@@ -72,8 +82,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                       HttpServletRequest request) {
-        if (ex.getMostSpecificCause() instanceof NotFoundException) {
-            return handleNotFound((NotFoundException) ex.getMostSpecificCause(), request);
+        if (ex.getMostSpecificCause() instanceof InvalidEnumValueException) {
+            return handleInvalidEnumValue((InvalidEnumValueException) ex.getMostSpecificCause(), request);
         }
 
         log.warn("400 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
@@ -139,6 +149,39 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request, now);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(ResourceNotAvailableException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotAvailable(ResourceNotAvailableException ex,
+                                                                    HttpServletRequest request) {
+        log.warn("409 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.CONFLICT, request, now);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(WorkResultValidationException.class)
+    public ResponseEntity<ErrorResponse> handleWorkResultValidation(WorkResultValidationException ex,
+                                                                    HttpServletRequest request) {
+        log.warn("400 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request, now);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(EmptyCollectionException.class)
+    public ResponseEntity<ErrorResponse> handleEmptyCollectionException(EmptyCollectionException ex,
+                                                                        HttpServletRequest request) {
+        log.warn("400 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request, now);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
