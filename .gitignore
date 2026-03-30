@@ -41,3 +41,13 @@ out/
 
 # Minio env
 ./minio.env
+
+# Elastic env
+./elastic.env
+
+# Kibana env
+./kibana.env
+
+# Logstash env
+./logstash.env
+

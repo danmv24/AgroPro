@@ -3,7 +3,7 @@ services:
     image: postgres:18-bookworm
     container_name: postgres-agropro
     env_file:
-      - "./db.env"
+      - ./db.env
     ports:
       - "5432:5432"
     volumes:
@@ -18,7 +18,7 @@ services:
     image: minio/minio:latest
     container_name: minio-agropro
     env_file:
-      - "./minio.env"
+      - ./minio.env
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -31,6 +31,83 @@ services:
       timeout: 20s
       retries: 3
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: elasticsearch-agropro
+    env_file:
+      - ./elastic.env
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: true
+      ES_JAVA_OPTS: -Xms1g -Xmx1g
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - elk-agropro
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -u $$ELASTIC_USERNAME:$$ELASTIC_PASSWORD -f $$ELASTIC_URL || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: kibana-agropro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    env_file:
+      - ./kibana.env
+    ports:
+      - "5601:5601"
+    networks:
+      - elk-agropro
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.0
+    container_name: logstash-agropro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./filebeat_data:/usr/share/filebeat/data
+    environment:
+      LS_JAVA_OPTS: -Xms1g -Xmx1g
+    env_file:
+      - ./logstash.env
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    networks:
+      - elk-agropro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9600/_node/stats || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.0
+    container_name: filebeat-agropro
+    depends_on:
+      - logstash
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./logs:/app/logs:ro
+    networks:
+      - elk-agropro
+
 volumes:
   postgres_data:
   minio_data:
+  es_data:
+  kibana_data:
+
+networks:
+  elk-agropro:
+    driver: bridge

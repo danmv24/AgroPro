@@ -1,0 +1,12 @@
+log.level: info
+
+path.logs: /usr/share/logstash/logs
+
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: ["${ELASTICSEARCH_HOSTS}"]
+xpack.monitoring.elasticsearch.username: "${ELASTICSEARCH_USERNAME}"
+xpack.monitoring.elasticsearch.password: "${ELASTICSEARCH_PASSWORD}"
+xpack.monitoring.elasticsearch.ssl.verification_mode: none
+
+http.host: "0.0.0.0"
+http.port: 9600

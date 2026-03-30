@@ -1,0 +1,21 @@
+filebeat.inputs:
+  - type: log
+    id: agropro-app-log
+    enabled: true
+    paths:
+      - /app/logs/app.log
+    json:
+      keys_under_root: true
+      message_key: message
+      add_error_key: true
+    close_inactive: 10m
+    ignore_older: 120h
+    scan_frequency: 10s
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+logging:
+  level: info
+  to_files: false
+  to_stderr: true
