@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -68,15 +69,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
-        log.error("500 | {} {} | Exception: {} | Message: {}", request.getMethod(),
-                request.getRequestURI(), ex.getClass().getName(), ex.getMessage(), ex);
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                      HttpServletRequest request) {
+        if (ex.getMostSpecificCause() instanceof NotFoundException) {
+            return handleNotFound((NotFoundException) ex.getMostSpecificCause(), request);
+        }
+
+        log.warn("400 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
 
         LocalDateTime now = LocalDateTime.now();
-        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request, now);
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, request, now);
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
@@ -129,6 +134,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handlerStorageServiceException(StorageServiceException ex,
                                                                         HttpServletRequest request) {
         log.error("500 | Message: {}",  ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request, now);
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
+        log.error("500 | {} {} | Exception: {} | Message: {}", request.getMethod(),
+                request.getRequestURI(), ex.getClass().getName(), ex.getMessage(), ex);
 
         LocalDateTime now = LocalDateTime.now();
         ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request, now);
