@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
-        log.error("500 INTERNAL SERVER ERROR | {} {} | Exception: {} | Message: {}", request.getMethod(),
+        log.error("500 | {} {} | Exception: {} | Message: {}", request.getMethod(),
                 request.getRequestURI(), ex.getClass().getName(), ex.getMessage(), ex);
 
         LocalDateTime now = LocalDateTime.now();
@@ -128,7 +128,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(StorageServiceException.class)
     public ResponseEntity<ErrorResponse> handlerStorageServiceException(StorageServiceException ex,
                                                                         HttpServletRequest request) {
-        log.error("500 INTERNAL SERVER ERROR | Message: {}",  ex.getMessage());
+        log.error("500 | Message: {}",  ex.getMessage());
 
         LocalDateTime now = LocalDateTime.now();
         ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request, now);
