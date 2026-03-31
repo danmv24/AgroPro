@@ -7,10 +7,10 @@ import java.time.LocalDate;
 
 public class FieldPlantingMapper {
 
-    public static FieldPlanting toModel(Long fieldId, CropType cropType, LocalDate plantingDate) {
+    public static FieldPlanting toModel(Long fieldId, CropType crop, LocalDate plantingDate) {
         return FieldPlanting.builder()
                 .fieldId(fieldId)
-                .cropType(cropType)
+                .cropType(crop)
                 .plantingDate(plantingDate)
                 .build();
     }

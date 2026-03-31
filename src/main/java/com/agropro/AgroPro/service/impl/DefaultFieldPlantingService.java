@@ -22,10 +22,9 @@ public class DefaultFieldPlantingService implements FieldPlantingService {
     private final FieldRepository fieldRepository;
 
     @Override
-    public void createFieldPlanting(Long fieldId, String cropType, LocalDate plantingDate) {
+    public void createFieldPlanting(Long fieldId, CropType crop, LocalDate plantingDate) {
         validateFieldExistsById(fieldId);
 
-        CropType crop = CropType.fromString(cropType);
         fieldPlantingRepository.save(FieldPlantingMapper.toModel(fieldId, crop, plantingDate));
     }
 

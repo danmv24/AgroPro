@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service;
 
+import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.model.FieldPlanting;
 
 import java.time.LocalDate;
@@ -8,7 +9,7 @@ import java.util.Set;
 
 public interface FieldPlantingService {
 
-    void createFieldPlanting(Long fieldId, String cropType, LocalDate plantingDate);
+    void createFieldPlanting(Long fieldId, CropType crop, LocalDate plantingDate);
 
     void addHarvestDate(Long fieldId, LocalDate harvestDate);
 

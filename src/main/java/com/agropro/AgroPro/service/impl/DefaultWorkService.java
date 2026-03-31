@@ -57,10 +57,10 @@ public class DefaultWorkService implements WorkService {
         linkEntities(work.getId(), workRequest);
 
         if (work.getWorkType() == WorkType.SOWING) {
-            if (workRequest.getCropName() == null || workRequest.getCropName().isBlank()) {
+            if (workRequest.getCrop() == null) {
                 throw new IllegalArgumentException("Для посева необходимо указать культуру");
             }
-            fieldPlantingService.createFieldPlanting(work.getFieldId(), workRequest.getCropName(), work.getEndDate().toLocalDate());
+            fieldPlantingService.createFieldPlanting(work.getFieldId(), workRequest.getCrop(), work.getEndDate().toLocalDate());
         }
 
         if (work.getWorkType() == WorkType.HARVESTING) {
