@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.dto.request;
 
+import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.enums.WorkType;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,6 @@ public class WorkRequest {
     @NotNull
     private Set<Long> equipmentIds;
 
-    private String cropName;
+    private CropType crop;
 
 }
