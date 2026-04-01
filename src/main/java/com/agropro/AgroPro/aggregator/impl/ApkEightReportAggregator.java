@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.aggregator.impl;
 
-import com.agropro.AgroPro.aggregator.ReportDataAggregator;
+import com.agropro.AgroPro.aggregator.DataAggregator;
 import com.agropro.AgroPro.dto.internal.ApkEightReportData;
 import com.agropro.AgroPro.mapper.ReportDataMapper;
 import com.agropro.AgroPro.projection.ExpenseCategoryTotalAmount;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ApkEightReportAggregator implements ReportDataAggregator<ApkEightReportData> {
+public class ApkEightReportAggregator implements DataAggregator<ApkEightReportData> {
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
 

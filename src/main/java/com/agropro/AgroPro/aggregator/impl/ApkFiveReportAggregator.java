@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.aggregator.impl;
 
-import com.agropro.AgroPro.aggregator.ReportDataAggregator;
+import com.agropro.AgroPro.aggregator.DataAggregator;
 import com.agropro.AgroPro.dto.internal.ApkFiveReportData;
 import com.agropro.AgroPro.enums.Gender;
 import com.agropro.AgroPro.mapper.ReportDataMapper;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ApkFiveReportAggregator implements ReportDataAggregator<ApkFiveReportData> {
+public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportData> {
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
 

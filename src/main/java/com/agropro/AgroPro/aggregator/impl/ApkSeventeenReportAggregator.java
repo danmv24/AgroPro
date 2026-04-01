@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.aggregator.impl;
 
-import com.agropro.AgroPro.aggregator.ReportDataAggregator;
+import com.agropro.AgroPro.aggregator.DataAggregator;
 import com.agropro.AgroPro.dto.internal.ApkSeventeenReportData;
 import com.agropro.AgroPro.dto.internal.TypeYearStat;
 import com.agropro.AgroPro.enums.EquipmentType;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class ApkSeventeenReportAggregator implements ReportDataAggregator<ApkSeventeenReportData> {
+public class ApkSeventeenReportAggregator implements DataAggregator<ApkSeventeenReportData> {
 
     private final MachineryRepository machineryRepository;
 

@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.jxls:jxls:2.14.0'
     implementation 'org.jxls:jxls-poi:2.14.0'
     implementation 'net.logstash.logback:logstash-logback-encoder:9.0'
+    implementation 'com.google.ortools:ortools-java:9.15.6755'
 
 	compileOnly 'org.projectlombok:lombok'
 
