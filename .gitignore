@@ -51,3 +51,8 @@ out/
 # Logstash env
 ./logstash.env
 
+# Grafana env
+./grafana.env
+
+# Prometheus
+./prometheus.env
