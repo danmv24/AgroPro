@@ -52,6 +52,19 @@ services:
       timeout: 5s
       retries: 5
 
+  elasticsearch_exporter:
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:latest
+    container_name: elasticsearch-exporter-agropro
+    ports:
+      - "9114:9114"
+    networks:
+      - elk-agropro
+    command:
+      - '--es.uri=http://elastic:dkjneEAVt35dv@elasticsearch-agropro:9200'
+      - '--es.all'
+      - '--es.indices'
+
+
   kibana:
     image: docker.elastic.co/kibana/kibana:8.12.0
     container_name: kibana-agropro
@@ -115,6 +128,7 @@ services:
       - ./prometheus.env
     networks:
       - monitoring
+      - elk-agropro
 
   grafana:
     image: grafana/grafana:8.5.0
