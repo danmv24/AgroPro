@@ -57,12 +57,15 @@ services:
     container_name: elasticsearch-exporter-agropro
     ports:
       - "9114:9114"
+    env_file:
+      - ./elasticsearch_exporter.env
     networks:
       - elk-agropro
     command:
-      - '--es.uri=http://elastic:dkjneEAVt35dv@elasticsearch-agropro:9200'
+      - "--es.uri=http://elasticsearch-agropro:9200"
       - '--es.all'
       - '--es.indices'
+
 
 
   kibana:
