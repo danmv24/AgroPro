@@ -35,13 +35,6 @@ public class LoggingFilter implements Filter {
             long duration = System.currentTimeMillis() - startTime;
             MDC.put("responseTime", String.valueOf(duration));
             MDC.put("httpStatus", String.valueOf(httpResponse.getStatus()));
-
-            log.debug("Request completed | {} {} | Status: {} | {}ms",
-                    httpRequest.getMethod(),
-                    httpRequest.getRequestURI(),
-                    httpResponse.getStatus(),
-                    duration);
-
         } catch (Exception e) {
             log.error("Filter error | {} {}", httpRequest.getMethod(), httpRequest.getRequestURI(), e);
             throw e;
