@@ -26,13 +26,14 @@ public class MachineryController {
     }
 
     @GetMapping
-    public Slice<MachineryResponse> getAllMachineries(@RequestParam(defaultValue = "0") int page,
-                                                      @RequestParam(defaultValue = "15") int size) {
+    public Slice<MachineryResponse> getMachineries(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "15") int size) {
         return machineryService.getMachineries(page, size);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Void> editMachinery(@PathVariable Long id, @Valid @RequestBody MachineryUpdateRequest machineryUpdateRequest) {
+    public ResponseEntity<Void> editMachinery(@PathVariable Long id,
+                                              @Valid @RequestBody MachineryUpdateRequest machineryUpdateRequest) {
         machineryService.updateMachinery(id, machineryUpdateRequest);
         return ResponseEntity.ok().build();
     }

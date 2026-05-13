@@ -1,7 +1,7 @@
 CREATE TABLE "harvests" (
     id SERIAL PRIMARY KEY,
-    field_id INT NOT NULL,
-    harvest_date DATE NOT NULL,
-    quantity DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (field_id) REFERENCES fields(field_id)
-)
+    work_id BIGINT NOT NULL,
+    gross_harvest DECIMAL(14, 2) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE,
+    FOREIGN KEY (work_id) REFERENCES works(id)
+);

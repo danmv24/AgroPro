@@ -2,6 +2,7 @@ package com.agropro.AgroPro.repository;
 
 import com.agropro.AgroPro.model.FieldPlanting;
 import com.agropro.AgroPro.projection.CropArea;
+import com.agropro.AgroPro.projection.CropSownArea;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -33,12 +34,10 @@ public interface FieldPlantingRepository extends ListCrudRepository<FieldPlantin
     """)
     List<FieldPlanting> findAllByFieldIdsAndDate(@Param("fieldIds") Set<Long> fieldIds, @Param("date") LocalDate date);
 
-
     @Query("""
-        SELECT fp.crop_type, SUM(f.area) AS sown_area,SUM(CASE
-            WHEN fp.harvest_date IS NOT NULL AND fp.harvest_date BETWEEN :startDate AND :endDate
+        SELECT fp.crop_type, SUM(f.area) AS sown_area, SUM(CASE
+            WHEN fp.harvest_date IS NOT NULL AND fp.harvest_date >= :startDate AND fp.harvest_date <= :endDate
             THEN f.area
-            ELSE 0
             END) AS harvested_area
         FROM field_plantings AS fp
         INNER JOIN fields AS f ON f.id = fp.field_id
@@ -47,6 +46,16 @@ public interface FieldPlantingRepository extends ListCrudRepository<FieldPlantin
     """)
     List<CropArea> findSownAndHarvestedAreas(@Param("startDate") LocalDate startDate,
                                              @Param("endDate") LocalDate endDate);
+
+    @Query("""
+        SELECT fp.crop_type, SUM(f.area) AS sown_area
+        FROM field_plantings AS fp
+        INNER JOIN fields AS f ON fp.field_id = f.id
+        WHERE fp.planting_date >= :startDate AND :endDate >= fp.planting_date
+        GROUP BY fp.crop_type
+    """)
+    List<CropSownArea> findSownArea(@Param("startDate") LocalDate startDate,
+                                    @Param("endDate") LocalDate endDate);
 
 
 }

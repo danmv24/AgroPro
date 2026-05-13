@@ -2,7 +2,6 @@ package com.agropro.AgroPro.repository;
 
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Work;
-import com.agropro.AgroPro.projection.CropStatistic;
 import com.agropro.AgroPro.projection.WorkTypeHours;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -55,24 +54,24 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
     """)
     List<WorkTypeHours> findWorkTypeWithTotalHours(@Param("startDate") LocalDate startDate,
                                                    @Param("endDate") LocalDate endDate);
-
-    @Query("""
-        SELECT fp.crop_type,
-               COALESCE(SUM(wr.fuel_used), 0) AS fuel_used,
-               COALESCE(SUM(wr.seeds_used), 0) AS seeds_used,
-               COALESCE(SUM(wr.yield), 0) AS yield,
-               COALESCE(SUM(wr.fertilizers_used), 0) AS fertilizers_used,
-               SUM(e.salary * EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600) AS total_salary
-        FROM works AS w
-        INNER JOIN field_plantings AS fp ON fp.field_id = w.field_id
-        LEFT JOIN work_employees we ON we.work_id = w.id
-        LEFT JOIN employees AS e ON e.id = we.employee_id
-        LEFT JOIN work_results AS wr ON wr.work_id = w.id
-        WHERE w.start_date <= :endDate AND w.end_date >= :startDate
-        GROUP BY fp.crop_type
-    """)
-    List<CropStatistic> findCropStatisticsByPeriod(@Param("startDate") LocalDate startDate,
-                                                   @Param("endDate") LocalDate endDate);
+//
+//    @Query("""
+//        SELECT fp.crop_type,
+//               COALESCE(SUM(wr.fuel_used), 0) AS fuel_used,
+//               COALESCE(SUM(wr.seeds_used), 0) AS seeds_used,
+//               COALESCE(SUM(wr.yield), 0) AS yield,
+//               COALESCE(SUM(wr.fertilizers_used), 0) AS fertilizers_used,
+//               SUM(e.salary * EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600) AS total_salary
+//        FROM works AS w
+//        INNER JOIN field_plantings AS fp ON fp.field_id = w.field_id
+//        LEFT JOIN work_employees we ON we.work_id = w.id
+//        LEFT JOIN employees AS e ON e.id = we.employee_id
+//        LEFT JOIN work_results AS wr ON wr.work_id = w.id
+//        WHERE w.start_date <= :endDate AND w.end_date >= :startDate
+//        GROUP BY fp.crop_type
+//    """)
+//    List<CropStatistic> findCropStatisticsByPeriod(@Param("startDate") LocalDate startDate,
+//                                                   @Param("endDate") LocalDate endDate);
 
 //    @Query("""
 //    SELECT fp.crop_type,
@@ -84,7 +83,6 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
 //           SUM(f.area) AS sown_area,
 //           SUM(CASE WHEN fp.harvest_date IS NOT NULL AND fp.harvest_date BETWEEN :startDate AND :endDate
 //                    THEN f.area
-//                    ELSE 0
 //               END) AS harvested_area
 //    FROM works AS w
 //    INNER JOIN field_plantings AS fp ON fp.field_id = w.field_id

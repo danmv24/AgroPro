@@ -32,17 +32,18 @@ public class WorkController {
     }
 
     @PostMapping("/cancel/{workId}")
-    public ResponseEntity<Void> cancelFieldWork(@PathVariable("workId") Long workId) {
+    public ResponseEntity<Void> cancelWork(@PathVariable("workId") Long workId) {
         workService.cancelWork(workId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/result/{workId}")
+    @PostMapping("/{workId}/result")
     public ResponseEntity<Void> addWorkResult(@PathVariable("workId") Long workId,
                                               @Valid @RequestBody WorkResultRequest workResultRequest) {
         workService.createResult(workId, workResultRequest);
         return ResponseEntity.ok().build();
     }
+
 
 //    @PutMapping("/edit/{workId}")
 //    public ResponseEntity<Void> editWork(@PathVariable("workId") Long workId, @Valid @RequestBody WorkUpdateForm workUpdateForm) {
@@ -50,22 +51,11 @@ public class WorkController {
 //        return ResponseEntity.ok().build();
 //    }
 
-    @GetMapping("/planned")
-    public Slice<WorkBasicInfoResponse> getPlannedWorks(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "15") int size) {
-        return workService.getWorksByStatus(WorkStatus.PLANNED, page, size);
-    }
-
-    @GetMapping("/in-progress")
-    public Slice<WorkBasicInfoResponse> getInProgressWorks(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "15") int size) {
-        return workService.getWorksByStatus(WorkStatus.IN_PROGRESS, page, size);
-    }
-
-    @GetMapping("/completed")
-    public Slice<WorkBasicInfoResponse> getCompletedWorks(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "15") int size) {
-        return workService.getWorksByStatus(WorkStatus.COMPLETED, page, size);
+    @GetMapping
+    public Slice<WorkBasicInfoResponse> getWorks(@RequestParam WorkStatus status,
+                                                 @RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "15") int size) {
+        return workService.getWorksByStatus(status, page, size);
     }
 
 }

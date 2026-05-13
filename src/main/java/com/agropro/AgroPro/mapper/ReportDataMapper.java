@@ -44,10 +44,13 @@ public class ReportDataMapper {
                 .build();
     }
 
-    public static ApkNineReportData toNineReportData(List<CropArea> cropAreas, List<CropStatistic> cropStatistics) {
+    public static ApkNineReportData toNineReportData(List<CropArea> cropAreas, List<CropHarvest> cropHarvests,
+                                                     List<CropMaterialCost> cropMaterialCosts, List<CropLaborCost> cropLaborCosts) {
         return ApkNineReportData.builder()
                 .cropAreas(cropAreas)
-                .cropStatistics(cropStatistics)
+                .cropHarvests(cropHarvests)
+                .cropMaterialCosts(cropMaterialCosts)
+                .cropLaborCosts(cropLaborCosts)
                 .build();
     }
 

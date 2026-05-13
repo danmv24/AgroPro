@@ -38,12 +38,12 @@ public interface MachineryRepository extends ListCrudRepository<Machinery, Long>
         FROM work_machineries AS wm
         INNER JOIN works AS w ON wm.work_id = w.id
         INNER JOIN machineries AS m ON wm.machinery_id = m.id
-        WHERE wm.machinery_id IN(:machineryIds)
-        AND w.status IN(:fieldWorkStatuses)
+        WHERE wm.machinery_id IN (:machineryIds)
+        AND w.status IN (:workStatuses)
         AND (w.end_date > :startDateOfWork AND w.start_date < :endDateOfWork)
     """)
     List<Machinery> findConflictMachineryByStartDateAndEndDate(@Param("machineryIds") Set<Long> machineryIds,
-                                                  @Param("fieldWorkStatuses") List<WorkStatus> fieldWorkStatuses,
+                                                  @Param("workStatuses") List<WorkStatus> workStatuses,
                                                   @Param("startDateOfWork") Timestamp startDateOfWork,
                                                   @Param("endDateOfWork") Timestamp endDateOfWork);
 

@@ -1,8 +1,10 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.request.MaterialItem;
 import com.agropro.AgroPro.dto.request.WorkRequest;
 import com.agropro.AgroPro.dto.request.WorkResultRequest;
 import com.agropro.AgroPro.dto.response.*;
+import com.agropro.AgroPro.enums.MaterialType;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.enums.WorkType;
@@ -22,6 +24,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +43,15 @@ public class DefaultWorkService implements WorkService {
     private final EquipmentService equipmentService;
     private final FieldService fieldService;
     private final FieldPlantingService fieldPlantingService;
+    private final MaterialService materialService;
+    private final HarvestService harvestService;
 
     private final WorkRepository workRepository;
     private final WorkEmployeeRepository workEmployeeRepository;
     private final WorkEquipmentRepository workEquipmentRepository;
     private final WorkMachineryRepository workMachineryRepository;
     private final WorkResultRepository workResultRepository;
+    private final WorkMaterialUsageRepository workMaterialUsageRepository;
 
     @Override
     @Transactional
@@ -161,6 +168,7 @@ public class DefaultWorkService implements WorkService {
     }
 
     @Override
+    @Transactional
     public void createResult(Long workId, WorkResultRequest workResultRequest) {
         Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
 
@@ -168,9 +176,18 @@ public class DefaultWorkService implements WorkService {
             throw new WorkResultNotAllowedException(workId, work.getStatus());
         }
 
-        validateByWorkType(work.getWorkType(), workResultRequest);
+        for (MaterialItem materialItem : workResultRequest.getMaterialItems()) {
+            Material material = materialService.getMaterialById(materialItem.getId());
 
-        workResultRepository.save(WorkResultMapper.toModel(workId, workResultRequest));
+            validateMaterialCompatibility(work.getWorkType(), material.getMaterialType());
+
+            BigDecimal totalCost = materialItem.getQuantity().multiply(material.getCurrentPrice())
+                    .setScale(2, RoundingMode.UP);
+
+            workMaterialUsageRepository.save(WorkMaterialUsageMapper.toModel(materialItem, work.getId(), material, totalCost));
+        }
+
+        validateAndRecordHarvest(workId, work.getWorkType(), workResultRequest.getGrossHarvest());
     }
 
 //    @Override
@@ -178,6 +195,19 @@ public class DefaultWorkService implements WorkService {
 //        Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
 //
 //    }
+
+    private void validateAndRecordHarvest(Long workId, WorkType workType, BigDecimal grossHarvest) {
+        if (workType == WorkType.HARVESTING) {
+            if (grossHarvest == null) {
+                throw new WorkResultValidationException("Для уборки урожая необходимо указать валовый сбор");
+            }
+            harvestService.createHarvestRecord(workId, grossHarvest);
+        } else {
+            if (grossHarvest != null) {
+                throw new WorkResultValidationException("Валовый сбор указывается только для типа работы 'Уборка урожая'");
+            }
+        }
+    }
 
     private void validateEntitiesExist(WorkRequest workRequest) {
         employeeService.validateEmployeesExistByIds(workRequest.getEmployeeIds());
@@ -217,25 +247,18 @@ public class DefaultWorkService implements WorkService {
         workMachineryRepository.saveAll(machineries);
     }
 
-    private void validateByWorkType(WorkType workType, WorkResultRequest workResultRequest) {
-        if (workResultRequest.getFuelUsed() == null) {
-            throw new WorkResultValidationException("Не указан расход топлива");
-        }
+    private void validateMaterialCompatibility(WorkType workType, MaterialType materialType) {
+        if (materialType == MaterialType.FUEL) return;
 
         switch (workType) {
             case SOWING -> {
-                if (workResultRequest.getSeedsUsed() == null) {
+                if (materialType != MaterialType.SEEDS) {
                     throw new WorkResultValidationException("Для посева необходимо указать расход семян");
                 }
             }
-            case HARVESTING -> {
-                if (workResultRequest.getYield() == null) {
-                    throw new WorkResultValidationException("Для уборки необходимо указать объем урожая");
-                }
-            }
             case FERTILIZING -> {
-                if (workResultRequest.getFertilizerType() == null || workResultRequest.getFertilizersUsed() == null) {
-                    throw new WorkResultValidationException("Необходимо указать тип и количество удобрений");
+                if (materialType != MaterialType.FERTILIZER) {
+                    throw new WorkResultValidationException("Для уборки необходимо указать объем урожая");
                 }
             }
         }

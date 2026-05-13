@@ -16,7 +16,7 @@ public class WorkStatusSheduler {
     private final WorkService workService;
 
     @Scheduled(fixedRate = 60000)
-    public void updateFieldWorkStatuses() {
+    public void updateWorkStatuses() {
         try {
             workService.updateStatuses();
             log.info("Обновление завершено");

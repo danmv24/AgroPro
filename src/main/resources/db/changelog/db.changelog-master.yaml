@@ -66,6 +66,22 @@ databaseChangeLog:
       file: changes/create_table_product_sales.sql
       relativeToChangelogFile: true
 
+  - include:
+      file: changes/create_table_materials.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/create_table_work_material_usage.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/create_table_harvests.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: changes/create_table_production_plan.sql
+      relativeToChangelogFile: true
+
 
     # inserting data
 

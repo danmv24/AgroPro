@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode
 public class WorkResult {
 
     @Id
@@ -28,8 +29,8 @@ public class WorkResult {
     @Column("seeds_used")
     private BigDecimal seedsUsed;
 
-    @Column("yield")
-    private BigDecimal yield;
+    @Column("gross_harvest")
+    private BigDecimal grossHarvest;
 
     @Column("fertilizer_type")
     private FertilizerType fertilizerType;

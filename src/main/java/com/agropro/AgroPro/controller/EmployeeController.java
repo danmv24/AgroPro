@@ -25,8 +25,8 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public Slice<EmployeeResponse> getAllEmployees(@RequestParam(defaultValue = "0") int page,
-                                                   @RequestParam(defaultValue = "15") int size) {
+    public Slice<EmployeeResponse> getEmployees(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "15") int size) {
         return employeeService.getEmployees(page, size);
     }
 

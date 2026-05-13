@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode
 public class WorkMachinery {
 
     @Id

@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 @RequiredArgsConstructor
@@ -58,7 +59,7 @@ public class ApkFiveReportGenerator implements ReportGenerator {
     private void fillWorkingHours(Context context, double totalWorkingHours, List<WorkTypeHours> workTypeHours) {
         context.putVar("total_working_hours", totalWorkingHours);
         for (WorkTypeHours wth : workTypeHours) {
-            context.putVar(wth.getWorkType().name().toLowerCase(), wth);
+            context.putVar(wth.getWorkType().name().toLowerCase(Locale.ROOT), wth);
         }
     }
 
@@ -69,7 +70,7 @@ public class ApkFiveReportGenerator implements ReportGenerator {
 
     private void fillPositionCountData(Context context, List<EmployeePositionCount> positionCounts) {
         for (EmployeePositionCount positionCount : positionCounts) {
-            context.putVar(positionCount.getPosition().name().toLowerCase(), positionCount);
+            context.putVar(positionCount.getPosition().name().toLowerCase(Locale.ROOT), positionCount);
         }
 
     }

@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -70,26 +71,13 @@ public class ApkSeventeenReportGenerator implements ReportGenerator {
     }
 
     private void fillEquipmentData(Context context, Map<EquipmentType, TypeYearStat> equipmentTypeStat) {
-        context.putVar("plow", equipmentTypeStat.get(EquipmentType.PLOW));
-        context.putVar("seeder", equipmentTypeStat.get(EquipmentType.SEEDER));
-        context.putVar("cultivator", equipmentTypeStat.get(EquipmentType.CULTIVATOR));
-        context.putVar("diskator", equipmentTypeStat.get(EquipmentType.DISKATOR));
-        context.putVar("trailer", equipmentTypeStat.get(EquipmentType.TRAILER));
-        context.putVar("mower", equipmentTypeStat.get(EquipmentType.MOWER));
-        context.putVar("fertilizerDispenser", equipmentTypeStat.get(EquipmentType.FERTILIZER_DISPENSER));
-        context.putVar("sprayer", equipmentTypeStat.get(EquipmentType.SPRAYER));
-        context.putVar("harrow", equipmentTypeStat.get(EquipmentType.HARROW));
-        context.putVar("rollingRinks", equipmentTypeStat.get(EquipmentType.ROLLING_RINKS));
-        context.putVar("irrigationSystem", equipmentTypeStat.get(EquipmentType.IRRIGATION_SYSTEM));
+        equipmentTypeStat.forEach(((equipmentType, stat) ->
+                context.putVar(equipmentType.name().toLowerCase(Locale.ROOT), stat)));
     }
 
     private void fillMachineryData(Context context, Map<MachineryType, TypeYearStat> machineryTypeStat) {
-        context.putVar("tractor", machineryTypeStat.get(MachineryType.TRACTOR));
-        context.putVar("combine", machineryTypeStat.get(MachineryType.COMBINE_HARVESTER));
-        context.putVar("truck", machineryTypeStat.get(MachineryType.TRUCK));
-        context.putVar("transport", machineryTypeStat.get(MachineryType.TRANSPORT_VEHICLE));
-        context.putVar("forklift", machineryTypeStat.get(MachineryType.FORKLIFT));
-        context.putVar("hayHarvester", machineryTypeStat.get(MachineryType.HAY_HARVESTER));
+        machineryTypeStat.forEach(((machineryType, stat) ->
+                context.putVar(machineryType.name().toLowerCase(Locale.ROOT), stat)));
     }
 
 

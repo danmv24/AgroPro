@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Work {
 
     @Id

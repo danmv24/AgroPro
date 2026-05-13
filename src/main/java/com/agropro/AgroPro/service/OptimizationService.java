@@ -1,10 +1,10 @@
 package com.agropro.AgroPro.service;
 
 import com.agropro.AgroPro.dto.request.OptimizationRequest;
-import com.agropro.AgroPro.dto.response.OptimizationResponse;
+import com.agropro.AgroPro.dto.response.ProductionPlanResponse;
 
 public interface OptimizationService {
 
-    OptimizationResponse createOptimization(OptimizationRequest optimizationRequest);
+    ProductionPlanResponse createOptimization(OptimizationRequest optimizationRequest);
 
 }

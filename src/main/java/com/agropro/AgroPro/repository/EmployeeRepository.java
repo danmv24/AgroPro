@@ -40,7 +40,8 @@ public interface EmployeeRepository extends ListCrudRepository<Employee, Long> {
                                                  @Param("endDateOfWork") Timestamp endDateOfWork);
 
     @Query("""
-        SELECT e.id, e.surname, e.name, e.patronymic, e.position, e.payment_type, e.salary, e.hire_date, e.gender FROM work_employees AS we
+        SELECT e.id, e.surname, e.name, e.patronymic, e.position, e.payment_type, e.salary, e.hire_date, e.gender
+        FROM work_employees AS we
         INNER JOIN employees AS e ON e.id = we.employee_id
         WHERE we.work_id = :workId
     """)

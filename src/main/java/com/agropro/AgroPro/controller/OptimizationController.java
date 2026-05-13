@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.dto.request.OptimizationRequest;
-import com.agropro.AgroPro.dto.response.OptimizationResponse;
+import com.agropro.AgroPro.dto.response.ProductionPlanResponse;
 import com.agropro.AgroPro.service.OptimizationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class OptimizationController {
     private final OptimizationService optimizationService;
 
     @PostMapping
-    public OptimizationResponse createOptimization(@Valid @RequestBody OptimizationRequest optimizationRequest) {
+    public ProductionPlanResponse createOptimization(@Valid @RequestBody OptimizationRequest optimizationRequest) {
         return optimizationService.createOptimization(optimizationRequest);
     }
 

@@ -27,8 +27,8 @@ public class ReportController {
     }
 
     @GetMapping
-    public Slice<ReportResponse> getAllReports(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "15") int size) {
+    public Slice<ReportResponse> getReports(@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "15") int size) {
         return reportService.getReports(page, size);
     }
 

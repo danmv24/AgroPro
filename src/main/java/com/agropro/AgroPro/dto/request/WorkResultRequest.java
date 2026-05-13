@@ -1,29 +1,23 @@
 package com.agropro.AgroPro.dto.request;
 
-import com.agropro.AgroPro.enums.FertilizerType;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class WorkResultRequest {
 
+    @NotEmpty(message = "Список материалов не должен быть пустым")
+    private List<MaterialItem> materialItems;
+
     @Positive
-    @NotNull
-    private BigDecimal fuelUsed;
-
-    private BigDecimal seedsUsed;
-
-    private BigDecimal yield;
-
-    private FertilizerType fertilizerType;
-
-    private BigDecimal fertilizersUsed;
+    private BigDecimal grossHarvest;
 
 }
