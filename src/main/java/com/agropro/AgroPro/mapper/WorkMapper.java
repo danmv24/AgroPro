@@ -6,7 +6,6 @@ import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.model.Field;
 import com.agropro.AgroPro.model.Work;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -23,8 +22,9 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkResponse toView(Work work, Field field, List<EmployeeBasicInfoResponse> employees,
-                                      List<MachineryBasicInfoResponse> machineries, List<EquipmentBasicInfoResponse> equipment) {
+    public static WorkResponse toResponse(Work work, Field field, List<EmployeeBasicInfoResponse> employees,
+                                          List<MachineryBasicInfoResponse> machineries, List<EquipmentBasicInfoResponse> equipment,
+                                          WorkResultResponse resultResponse) {
         return WorkResponse.builder()
                 .id(work.getId())
                 .workType(work.getWorkType())
@@ -36,6 +36,7 @@ public class WorkMapper {
                 .employees(employees)
                 .machineries(machineries)
                 .equipment(equipment)
+                .resultResponse(resultResponse)
                 .build();
     }
 
@@ -50,16 +51,13 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkByStatusResponse toWorkByStatusView(Slice<WorkBasicInfoResponse> planned,
-                                                          Slice<WorkBasicInfoResponse> inProgress,
-                                                          Slice<WorkBasicInfoResponse> completed) {
-        return WorkByStatusResponse.builder()
-                .planned(planned)
-                .inProgress(inProgress)
-                .completed(completed)
+    public static WorkResultResponse toWorkResultResponse(List<WorkMaterialUsageResponse> materials,
+                                                          HarvestResponse harvestResponse) {
+        return WorkResultResponse.builder()
+                .materials(materials)
+                .harvest(harvestResponse)
                 .build();
     }
-
 
 
 }

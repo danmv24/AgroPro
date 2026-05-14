@@ -3,6 +3,7 @@ package com.agropro.AgroPro.service.impl;
 import com.agropro.AgroPro.dto.request.MaterialRequest;
 import com.agropro.AgroPro.dto.request.MaterialUpdateRequest;
 import com.agropro.AgroPro.dto.response.MaterialResponse;
+import com.agropro.AgroPro.exception.EmptyCollectionException;
 import com.agropro.AgroPro.exception.MaterialNotFoundException;
 import com.agropro.AgroPro.mapper.MaterialMapper;
 import com.agropro.AgroPro.model.Material;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +49,15 @@ public class DefaultMaterialService implements MaterialService {
     @Override
     public Material getMaterialById(Long id) {
         return materialRepository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id));
+    }
+
+    @Override
+    public List<Material> getMaterialsByIds(Set<Long> materialIds) {
+        if (materialIds == null || materialIds.isEmpty()) {
+            throw new EmptyCollectionException();
+        }
+
+        return materialRepository.findAllByIdIn(materialIds);
     }
 
 }

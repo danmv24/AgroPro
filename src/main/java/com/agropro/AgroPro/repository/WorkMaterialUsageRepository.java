@@ -27,4 +27,5 @@ public interface WorkMaterialUsageRepository extends ListCrudRepository<WorkMate
     List<CropMaterialCost> findCostsByCropTypeAndMaterialTypeBetweenDateRange(@Param("startDate") LocalDate startDate,
                                                                               @Param("endDate") LocalDate endDate);
 
+    List<WorkMaterialUsage> findByWorkId(Long workId);
 }

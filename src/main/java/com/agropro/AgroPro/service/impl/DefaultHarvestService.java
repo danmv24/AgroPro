@@ -1,7 +1,10 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.response.HarvestResponse;
+import com.agropro.AgroPro.exception.HarvestNotFoundException;
 import com.agropro.AgroPro.exception.HarvestValidationException;
 import com.agropro.AgroPro.mapper.HarvestMapper;
+import com.agropro.AgroPro.model.Harvest;
 import com.agropro.AgroPro.repository.HarvestRepository;
 import com.agropro.AgroPro.service.HarvestService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,13 @@ public class DefaultHarvestService implements HarvestService {
 
         LocalDateTime now = LocalDateTime.now();
         harvestRepository.save(HarvestMapper.toModel(workId, grossHarvest, now));
+    }
+
+    @Override
+    public HarvestResponse getHarvestByWorkId(Long workId) {
+        Harvest harvest = harvestRepository.findByWorkId(workId).orElseThrow(() -> new HarvestNotFoundException(workId));
+
+        return HarvestMapper.toResponse(harvest);
     }
 
 

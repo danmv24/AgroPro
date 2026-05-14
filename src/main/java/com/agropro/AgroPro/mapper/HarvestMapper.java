@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.response.HarvestResponse;
 import com.agropro.AgroPro.model.Harvest;
 
 import java.math.BigDecimal;
@@ -15,4 +16,9 @@ public class HarvestMapper {
                 .build();
     }
 
+    public static HarvestResponse toResponse(Harvest harvest) {
+        return HarvestResponse.builder()
+                .grossHarvest(harvest.getGrossHarvest())
+                .build();
+    }
 }

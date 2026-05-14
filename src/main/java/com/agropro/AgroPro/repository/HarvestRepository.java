@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HarvestRepository extends ListCrudRepository<Harvest, Long> {
@@ -24,4 +25,5 @@ public interface HarvestRepository extends ListCrudRepository<Harvest, Long> {
     List<CropHarvest> findTotalHarvestByCropTypeAndDateRange(@Param("startDate") LocalDate startDate,
                                                              @Param("endDate") LocalDate endDate);
 
+    Optional<Harvest> findByWorkId(Long workId);
 }

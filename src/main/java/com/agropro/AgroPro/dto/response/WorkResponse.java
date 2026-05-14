@@ -30,6 +30,8 @@ public class WorkResponse {
 
     private final List<EquipmentBasicInfoResponse> equipment;
 
+    private final WorkResultResponse resultResponse;
+
     private final LocalDateTime startDate;
 
     private final LocalDateTime endDate;

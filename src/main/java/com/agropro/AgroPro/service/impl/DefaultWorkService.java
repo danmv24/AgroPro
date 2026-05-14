@@ -45,12 +45,12 @@ public class DefaultWorkService implements WorkService {
     private final FieldPlantingService fieldPlantingService;
     private final MaterialService materialService;
     private final HarvestService harvestService;
+    private final WorkMaterialUsageService workMaterialUsageService;
 
     private final WorkRepository workRepository;
     private final WorkEmployeeRepository workEmployeeRepository;
     private final WorkEquipmentRepository workEquipmentRepository;
     private final WorkMachineryRepository workMachineryRepository;
-    private final WorkResultRepository workResultRepository;
     private final WorkMaterialUsageRepository workMaterialUsageRepository;
 
     @Override
@@ -98,8 +98,20 @@ public class DefaultWorkService implements WorkService {
         List<EmployeeBasicInfoResponse> employees = employeeService.getEmployeesByWorkId(workId);
         List<MachineryBasicInfoResponse> machineries = machineryService.getMachineriesByWorkId(workId);
         List<EquipmentBasicInfoResponse> equipment = equipmentService.getEquipmentByWorkId(workId);
+        List<WorkMaterialUsageResponse> materials = List.of();
+        HarvestResponse harvestResponse = null;
 
-        return WorkMapper.toView(work, field, employees, machineries, equipment);
+         if (work.getStatus() == WorkStatus.COMPLETED) {
+            materials = workMaterialUsageService.getUsageMaterialsByWorkId(work.getId());
+
+            if (work.getWorkType() == WorkType.HARVESTING) {
+                harvestResponse = harvestService.getHarvestByWorkId(work.getId());
+            }
+         }
+
+         WorkResultResponse resultResponse = WorkMapper.toWorkResultResponse(materials, harvestResponse);
+
+        return WorkMapper.toResponse(work, field, employees, machineries, equipment, resultResponse);
     }
 
     @Override
