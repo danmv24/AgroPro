@@ -15,7 +15,7 @@ import java.util.List;
 public interface WorkMaterialUsageRepository extends ListCrudRepository<WorkMaterialUsage, Long> {
 
     @Query("""
-        SELECT fp.crop_type, m.material_type, COALESCE(SUM(wmu.total_cost), 0)
+        SELECT fp.crop_type, m.material_type, COALESCE(SUM(wmu.total_cost), 0) AS total_cost
         FROM work_material_usage AS wmu
         INNER JOIN materials AS m ON wmu.material_id = m.id
         INNER JOIN works AS w ON wmu.work_id = w.id
