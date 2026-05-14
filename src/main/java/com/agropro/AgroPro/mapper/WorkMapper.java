@@ -39,7 +39,7 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkBasicInfoResponse toBasicInfoView(Work work, Field field, boolean hasResult) {
+    public static WorkBasicInfoResponse toBasicInfoView(Work work, Field field) {
         return WorkBasicInfoResponse.builder()
                 .id(work.getId())
                 .workType(work.getWorkType())
@@ -47,7 +47,6 @@ public class WorkMapper {
                 .status(work.getStatus())
                 .startDate(work.getStartDate())
                 .endDate(work.getEndDate())
-                .hasResult(hasResult)
                 .build();
     }
 

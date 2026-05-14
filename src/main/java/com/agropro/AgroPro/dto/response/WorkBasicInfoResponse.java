@@ -24,6 +24,4 @@ public class WorkBasicInfoResponse {
     private final LocalDateTime startDate;
 
     private final LocalDateTime endDate;
-
-    private final boolean hasResult;
 }

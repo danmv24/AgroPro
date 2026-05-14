@@ -80,33 +80,14 @@ public class DefaultWorkService implements WorkService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("endDate").descending());
 
         Slice<Work> works = workRepository.findWorksByStatus(workStatus, pageable);
-        boolean isNeedResult = workStatus == WorkStatus.COMPLETED;
-
-        return linkFieldAndResultInfo(works, isNeedResult);
-    }
-
-    private Slice<WorkBasicInfoResponse> linkFieldAndResultInfo(Slice<Work> works, boolean checkResults) {
         Set<Long> fieldIds = works.stream()
                 .map(Work::getFieldId)
                 .collect(Collectors.toSet());
 
-        Map<Long, Field> fieldsById = fieldService.getFieldsByIds(fieldIds).stream()
-                .collect(Collectors.toMap(
-                        Field::getId, Function.identity()
-                ));
+        Map<Long, Field> fieldsById = loadFields(fieldIds);
 
-        Set<Long> workIds = works.stream()
-                .map(Work::getId)
-                .collect(Collectors.toSet());
-
-        Set<Long> workIdsWithResult = checkResults ? workResultRepository.findExistingResultWorkIds(workIds) : Set.of();
-
-        return works.map(work -> {
-            Field field = fieldsById.get(work.getFieldId());
-            boolean hasResult = workIdsWithResult.contains(work.getId());
-
-            return WorkMapper.toBasicInfoView(work, field, hasResult);
-        });
+        return works.map(work ->
+                WorkMapper.toBasicInfoView(work, fieldsById.get(work.getFieldId())));
     }
 
     @Override
@@ -195,6 +176,15 @@ public class DefaultWorkService implements WorkService {
 //        Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
 //
 //    }
+
+    private Map<Long, Field> loadFields(Set<Long> fieldIds) {
+        List<Field> fields = fieldService.getFieldsByIds(fieldIds);
+
+        return fields.stream()
+                .collect(Collectors.toMap(
+                        Field::getId,
+                        Function.identity()));
+    }
 
     private void validateAndRecordHarvest(Long workId, WorkType workType, BigDecimal grossHarvest) {
         if (workType == WorkType.HARVESTING) {
