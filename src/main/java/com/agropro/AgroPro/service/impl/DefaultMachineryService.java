@@ -19,7 +19,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -97,7 +96,7 @@ public class DefaultMachineryService implements MachineryService {
 
         List<WorkStatus> workStatuses = List.of(WorkStatus.PLANNED, WorkStatus.IN_PROGRESS);
         List<Machinery> conflictMachinery = machineryRepository.findConflictMachineryByStartDateAndEndDate(machineryIds,
-                workStatuses, Timestamp.valueOf(startDateOfWork), Timestamp.valueOf(endDateOfWork));
+                workStatuses, startDateOfWork, endDateOfWork);
 
         if (!conflictMachinery.isEmpty()) {
             List<Long> conflictMachineryIds = conflictMachinery.stream().map(Machinery::getId).toList();

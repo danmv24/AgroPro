@@ -14,8 +14,7 @@ public enum Product {
     SPRING_WHEAT("Пшеница яровая"),
     SPRING_BARLEY("Ячмень яровой"),
     SUNFLOWER("Подсолнечник"),
-    APPLE("Яблоки"),
-    APPLE_JUICE("Яблочный сок");
+    APPLE("Яблоки");
 
     private final String productName;
 

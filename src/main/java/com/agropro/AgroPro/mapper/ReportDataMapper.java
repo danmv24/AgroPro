@@ -23,7 +23,7 @@ public class ReportDataMapper {
     }
 
     public static ApkFiveReportData toFiveReportData(List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts,
-                                                     List<EmployeePositionCount> positionCounts, long totalEmployees,
+                                                     List<EmployeePositionStatistic> positionCounts, long totalEmployees,
                                                      long femaleEmployees, double totalWorkingHours,
                                                      List<WorkTypeHours> workTypeHours) {
         return ApkFiveReportData.builder()

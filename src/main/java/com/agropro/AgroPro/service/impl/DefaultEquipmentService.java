@@ -19,7 +19,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -98,7 +97,7 @@ public class DefaultEquipmentService implements EquipmentService {
 
         List<WorkStatus> workStatuses = List.of(WorkStatus.PLANNED, WorkStatus.IN_PROGRESS);
         List<Equipment> conflictEquipment = equipmentRepository.findConflictEquipmentByStartDateAndEndDate(equipmentIds, workStatuses,
-                Timestamp.valueOf(startDateOfWork), Timestamp.valueOf(endDateOfWork));
+                startDateOfWork, endDateOfWork);
 
         if (!conflictEquipment.isEmpty()) {
             List<Long> conflictEquipmentIds = conflictEquipment.stream().map(Equipment::getId).toList();

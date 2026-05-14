@@ -54,47 +54,5 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
     """)
     List<WorkTypeHours> findWorkTypeWithTotalHours(@Param("startDate") LocalDate startDate,
                                                    @Param("endDate") LocalDate endDate);
-//
-//    @Query("""
-//        SELECT fp.crop_type,
-//               COALESCE(SUM(wr.fuel_used), 0) AS fuel_used,
-//               COALESCE(SUM(wr.seeds_used), 0) AS seeds_used,
-//               COALESCE(SUM(wr.yield), 0) AS yield,
-//               COALESCE(SUM(wr.fertilizers_used), 0) AS fertilizers_used,
-//               SUM(e.salary * EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600) AS total_salary
-//        FROM works AS w
-//        INNER JOIN field_plantings AS fp ON fp.field_id = w.field_id
-//        LEFT JOIN work_employees we ON we.work_id = w.id
-//        LEFT JOIN employees AS e ON e.id = we.employee_id
-//        LEFT JOIN work_results AS wr ON wr.work_id = w.id
-//        WHERE w.start_date <= :endDate AND w.end_date >= :startDate
-//        GROUP BY fp.crop_type
-//    """)
-//    List<CropStatistic> findCropStatisticsByPeriod(@Param("startDate") LocalDate startDate,
-//                                                   @Param("endDate") LocalDate endDate);
-
-//    @Query("""
-//    SELECT fp.crop_type,
-//           COALESCE(SUM(wr.fuel_used), 0) AS fuel_used,
-//           COALESCE(SUM(wr.seeds_used), 0) AS seeds_used,
-//           COALESCE(SUM(wr.harvest_amount), 0) AS yield,
-//           COALESCE(SUM(wr.fertilizer_amount), 0) AS fertilizers_used,
-//           SUM(e.salary * EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600) AS total_salary,
-//           SUM(f.area) AS sown_area,
-//           SUM(CASE WHEN fp.harvest_date IS NOT NULL AND fp.harvest_date BETWEEN :startDate AND :endDate
-//                    THEN f.area
-//               END) AS harvested_area
-//    FROM works AS w
-//    INNER JOIN field_plantings AS fp ON fp.field_id = w.field_id
-//    INNER JOIN fields f ON f.id = fp.field_id
-//    LEFT JOIN work_employees we ON we.work_id = w.id
-//    LEFT JOIN employees e ON e.id = we.employee_id
-//    LEFT JOIN work_results wr ON wr.work_id = w.id
-//    WHERE w.start_date <= :endDate AND w.end_date >= :startDate AND fp.planting_date BETWEEN :startDate AND :endDate
-//    GROUP BY fp.crop_type
-//""")
-//    List<CropStatistics> findCropStatisticsByPeriod(@Param("startDate") LocalDate startDate,
-//                                                    @Param("endDate") LocalDate endDate);
-
 
 }

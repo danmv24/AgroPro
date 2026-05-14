@@ -5,7 +5,7 @@ import com.agropro.AgroPro.dto.internal.ApkFiveReportData;
 import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.enums.ReportType;
 import com.agropro.AgroPro.generator.ReportGenerator;
-import com.agropro.AgroPro.projection.EmployeePositionCount;
+import com.agropro.AgroPro.projection.EmployeePositionStatistic;
 import com.agropro.AgroPro.projection.ExpenseCategoryTotalAmount;
 import com.agropro.AgroPro.projection.WorkTypeHours;
 import lombok.RequiredArgsConstructor;
@@ -68,8 +68,8 @@ public class ApkFiveReportGenerator implements ReportGenerator {
         context.putVar("female_employees", femaleEmployees);
     }
 
-    private void fillPositionCountData(Context context, List<EmployeePositionCount> positionCounts) {
-        for (EmployeePositionCount positionCount : positionCounts) {
+    private void fillPositionCountData(Context context, List<EmployeePositionStatistic> positionCounts) {
+        for (EmployeePositionStatistic positionCount : positionCounts) {
             context.putVar(positionCount.getPosition().name().toLowerCase(Locale.ROOT), positionCount);
         }
 

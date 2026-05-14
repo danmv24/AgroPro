@@ -10,8 +10,8 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -44,8 +44,8 @@ public interface MachineryRepository extends ListCrudRepository<Machinery, Long>
     """)
     List<Machinery> findConflictMachineryByStartDateAndEndDate(@Param("machineryIds") Set<Long> machineryIds,
                                                   @Param("workStatuses") List<WorkStatus> workStatuses,
-                                                  @Param("startDateOfWork") Timestamp startDateOfWork,
-                                                  @Param("endDateOfWork") Timestamp endDateOfWork);
+                                                  @Param("startDateOfWork") LocalDateTime startDateOfWork,
+                                                  @Param("endDateOfWork") LocalDateTime endDateOfWork);
 
     @Query("""
         SELECT m.id, m.machinery_name, m.machinery_type, m.license_plate, m.purchase_date, m.inventory_number, m.current_status

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExpenseCategoryRepository extends ListCrudRepository<ExpenseCategory, Long> {
@@ -26,5 +27,7 @@ public interface ExpenseCategoryRepository extends ListCrudRepository<ExpenseCat
     List<ExpenseCategoryTotalAmount> findTotalAmountByCategoryCodesAndDateRange(@Param("codes") List<String> codes,
                                                                                 @Param("startDate") LocalDate startDate,
                                                                                 @Param("endDate") LocalDate endDate);
+
+    Optional<ExpenseCategory> findByCode(String code);
 
 }

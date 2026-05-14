@@ -19,7 +19,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -81,19 +80,20 @@ public class DefaultEmployeeService implements EmployeeService {
             throw new EmptyCollectionException();
         }
         
-        List<WorkStatus> fieldWorkStatuses = List.of(WorkStatus.PLANNED, WorkStatus.IN_PROGRESS);
+        List<WorkStatus> workStatuses = List.of(WorkStatus.PLANNED, WorkStatus.IN_PROGRESS);
 
-        List<Long> conflictEmployeeIds = employeeRepository.findConflictEmployeeIdsByDateTime(employeeIds,
-                fieldWorkStatuses, Timestamp.valueOf(startDateOfWork), Timestamp.valueOf(endDateOfWork));
+        List<Employee> conflictEmployees = employeeRepository.findConflictEmployeesByDateTime(employeeIds,
+                workStatuses, startDateOfWork, endDateOfWork);
 
-        if (!conflictEmployeeIds.isEmpty()) {
+        if (!conflictEmployees.isEmpty()) {
+            List<Long> conflictEmployeeIds = conflictEmployees.stream().map(Employee::getId).toList();
             throw new EmployeeNotAvailableException(conflictEmployeeIds);
         }
     }
 
     @Override
     public List<EmployeeBasicInfoResponse> getEmployeesByWorkId(Long workId) {
-        List<Employee> employees = employeeRepository.findEmployeesByFieldWorkId(workId);
+        List<Employee> employees = employeeRepository.findEmployeesByWorkId(workId);
 
         return employees.stream()
                 .map(EmployeeMapper::toBasicInfoView)

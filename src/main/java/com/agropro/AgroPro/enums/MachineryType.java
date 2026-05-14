@@ -11,7 +11,7 @@ import java.util.Arrays;
 public enum MachineryType {
 
     TRACTOR("Трактор"),
-    COMBINE_HARVESTER("Комбайн"),
+    COMBINE("Комбайн"),
     TRUCK("Грузовик"),
     TRANSPORT_VEHICLE("Легковой транспорт"),
     FORKLIFT("Погрузчик"),

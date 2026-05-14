@@ -14,7 +14,7 @@ public class ProductSaleStatistic {
 
     private final BigDecimal price;
 
-    private final BigDecimal quantity;
+    private final BigDecimal totalQuantity;
 
     private final BigDecimal totalAmount;
 

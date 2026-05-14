@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 @Getter
-public class EmployeePositionCount {
+public class EmployeePositionStatistic {
 
     private final EmployeePosition position;
 

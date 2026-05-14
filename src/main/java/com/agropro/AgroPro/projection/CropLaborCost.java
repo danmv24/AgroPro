@@ -12,6 +12,6 @@ public class CropLaborCost {
 
     private final CropType cropType;
 
-    private final BigDecimal totalCost;
+    private final BigDecimal totalSalary;
 
 }

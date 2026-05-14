@@ -4,7 +4,7 @@ import com.agropro.AgroPro.aggregator.DataAggregator;
 import com.agropro.AgroPro.dto.internal.ApkFiveReportData;
 import com.agropro.AgroPro.enums.Gender;
 import com.agropro.AgroPro.mapper.ReportDataMapper;
-import com.agropro.AgroPro.projection.EmployeePositionCount;
+import com.agropro.AgroPro.projection.EmployeePositionStatistic;
 import com.agropro.AgroPro.projection.ExpenseCategoryTotalAmount;
 import com.agropro.AgroPro.projection.WorkTypeHours;
 import com.agropro.AgroPro.repository.EmployeeRepository;
@@ -37,7 +37,7 @@ public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportData
     @Override
     public ApkFiveReportData collectData(LocalDate startDate, LocalDate endDate) {
         List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts = collectExpenseData(startDate, endDate);
-        List<EmployeePositionCount> positionCounts = collectEmployeePositionCount(startDate, endDate);
+        List<EmployeePositionStatistic> positionCounts = collectEmployeePositionCount(startDate, endDate);
         long totalEmployees = collectTotalEmployees();
         long femaleEmployees = collectFemaleEmployees();
         Double totalHours = collectTotalWorkingHours(startDate, endDate);
@@ -63,7 +63,7 @@ public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportData
         return expenseCategoryRepository.findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
     }
 
-    private List<EmployeePositionCount> collectEmployeePositionCount(LocalDate startDate, LocalDate endDate) {
+    private List<EmployeePositionStatistic> collectEmployeePositionCount(LocalDate startDate, LocalDate endDate) {
         return employeeRepository.findEmployeeCountByPosition(startDate, endDate);
     }
 

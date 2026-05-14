@@ -92,7 +92,7 @@ public class DefaultOptimizationService implements OptimizationService {
         }
 
         for (ProductSaleStatistic sale : sales) {
-            MPConstraint demandConstraint = solver.makeConstraint(sale.getQuantity().doubleValue(), Double.POSITIVE_INFINITY, sale.getProduct().name() + "_DEMAND");
+            MPConstraint demandConstraint = solver.makeConstraint(sale.getTotalQuantity().doubleValue(), Double.POSITIVE_INFINITY, sale.getProduct().name() + "_DEMAND");
             demandConstraint.setCoefficient(saleVars.get(sale.getProduct()), 1);
         }
 
