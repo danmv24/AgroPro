@@ -14,8 +14,7 @@ public enum CropType {
     SPRING_WHEAT("Пшеница яровая"),
     SPRING_BARLEY("Ячмень яровой"),
     SUNFLOWER("Подсолнечник"),
-    APPLE("Яблоки"),
-    PURE_STEAM("Чистый пар");
+    APPLE("Яблоки");
 
     private final String cropTypeName;
 

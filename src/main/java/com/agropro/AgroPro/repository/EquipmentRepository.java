@@ -35,9 +35,9 @@ public interface EquipmentRepository extends ListCrudRepository<Equipment, Long>
 
     @Query("""
         SELECT DISTINCT e.id, e.equipment_name, e.equipment_type, e.inventory_number, e.purchase_date, e.current_status
-        FROM work_equipment AS we
+        FROM equipment AS e
+        INNER JOIN work_equipment AS we ON e.id = we.equipment_id
         INNER JOIN works AS w ON we.work_id = w.id
-        INNER JOIN equipment AS e ON e.id = we.equipment_id
         WHERE we.equipment_id IN(:equipmentIds)
         AND w.status IN(:workStatuses)
         AND (w.end_date > :startDateOfWork AND w.start_date < :endDateOfWork)
@@ -49,8 +49,8 @@ public interface EquipmentRepository extends ListCrudRepository<Equipment, Long>
 
     @Query("""
         SELECT e.id, e.equipment_name, e.equipment_type, e.current_status, e.purchase_date, e.inventory_number
-        FROM work_equipment AS we
-        INNER JOIN equipment AS e ON e.id = we.equipment_id
+        FROM equipment AS e
+        INNER JOIN work_equipment AS we ON e.id = we.equipment_id
         WHERE we.work_id = :workId
     """)
     List<Equipment> findEquipmentByWorkId(@Param("workId") Long workId);

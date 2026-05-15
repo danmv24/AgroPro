@@ -132,6 +132,10 @@ public class DefaultWorkService implements WorkService {
 
         machineryService.changeMachineryStatusByWorkIds(workIds, StatusCode.IDLE, now);
         equipmentService.changeEquipmentStatusByWorkIds(workIds, StatusCode.IDLE, now);
+
+        workEmployeeRepository.deleteByWorkId(work.getId());
+        workEquipmentRepository.deleteByWorkId(work.getId());
+        workMachineryRepository.deleteByWorkId(work.getId());
     }
 
     @Override

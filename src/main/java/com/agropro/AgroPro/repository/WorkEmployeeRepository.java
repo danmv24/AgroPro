@@ -25,4 +25,6 @@ public interface WorkEmployeeRepository extends ListCrudRepository<WorkEmployee,
     List<CropLaborCost> findCropLaborCostsByDateRange(@Param("startDate") LocalDate startDate,
                                                       @Param("endDate") LocalDate endDate);
 
+    void deleteByWorkId(Long workId);
+
 }

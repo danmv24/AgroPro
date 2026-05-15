@@ -20,7 +20,7 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
     @Query("""
         SELECT id, work_type, field_id, status, description, start_date, end_date
         FROM works
-        WHERE status = :status AND start_date <= :now AND end_date > :now
+        WHERE status = :status AND start_date <= :now
     """)
     List<Work> findWorksToStart(@Param("status") WorkStatus status, @Param("now") LocalDateTime now);
 

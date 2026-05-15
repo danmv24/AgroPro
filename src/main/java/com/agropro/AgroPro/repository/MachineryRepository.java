@@ -35,9 +35,9 @@ public interface MachineryRepository extends ListCrudRepository<Machinery, Long>
 
     @Query("""
         SELECT DISTINCT m.id, m.machinery_name, m.machinery_type, m.inventory_number, m.license_plate, m.current_status, m.purchase_date
-        FROM work_machineries AS wm
+        FROM machineries AS m
+        INNER JOIN work_machineries AS wm ON wm.machinery_id = m.id
         INNER JOIN works AS w ON wm.work_id = w.id
-        INNER JOIN machineries AS m ON wm.machinery_id = m.id
         WHERE wm.machinery_id IN (:machineryIds)
         AND w.status IN (:workStatuses)
         AND (w.end_date > :startDateOfWork AND w.start_date < :endDateOfWork)
@@ -49,8 +49,8 @@ public interface MachineryRepository extends ListCrudRepository<Machinery, Long>
 
     @Query("""
         SELECT m.id, m.machinery_name, m.machinery_type, m.license_plate, m.purchase_date, m.inventory_number, m.current_status
-        FROM work_machineries AS wm
-        INNER JOIN machineries AS m ON m.id = wm.machinery_id
+        FROM machineries AS m
+        INNER JOIN work_machineries AS wm ON m.id = wm.machinery_id
         WHERE wm.work_id = :workId
     """)
     List<Machinery> findMachineryByWorkId(@Param("workId") Long workId);

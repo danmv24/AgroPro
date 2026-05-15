@@ -16,7 +16,6 @@ CREATE INDEX idx_fp_field_dates ON field_plantings(field_id, planting_date, harv
 CREATE INDEX idx_fp_planting_crop ON field_plantings(planting_date, crop_type);
 
 CREATE INDEX idx_works_status_start_end_dates ON works(status, start_date, end_date);
-CREATE INDEX idx_wr_work_id ON work_results(work_id);
 
 CREATE INDEX idx_ec_codes ON expense_categories(code);
 CREATE INDEX idx_expenses_category_id_expense_date ON expenses(category_id, expense_date);
