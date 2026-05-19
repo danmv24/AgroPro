@@ -100,4 +100,9 @@ public class DefaultEmployeeService implements EmployeeService {
                 .toList();
     }
 
+    @Override
+    public Employee getEmployeeById(Long employeeId) {
+        return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(Set.of(employeeId)));
+    }
+
 }

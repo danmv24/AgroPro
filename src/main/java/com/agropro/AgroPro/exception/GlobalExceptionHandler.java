@@ -8,11 +8,13 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.naming.AuthenticationException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -193,6 +195,26 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request, now);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<?> handleAccessDenied(AuthorizationDeniedException ex, HttpServletRequest request) {
+        log.warn("403 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN, request, now);
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<?> handleAuth(AuthenticationException ex, HttpServletRequest request) {
+        log.warn("401 | {} {} | Message: {}", request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+        LocalDateTime now = LocalDateTime.now();
+        ErrorResponse errorResponse = ErrorResponseMapper.toErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED, request, now);
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
 }
