@@ -1,9 +1,8 @@
-package com.agropro.AgroPro.service.impl;
+package com.agropro.AgroPro.security;
 
 import com.agropro.AgroPro.exception.UserNotFoundException;
 import com.agropro.AgroPro.model.User;
 import com.agropro.AgroPro.repository.UserRepository;
-import com.agropro.AgroPro.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

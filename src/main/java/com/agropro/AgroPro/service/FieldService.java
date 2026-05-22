@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service;
 
+import com.agropro.AgroPro.dto.response.FieldBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.FieldResponse;
 import com.agropro.AgroPro.model.Field;
 
@@ -16,5 +17,7 @@ public interface FieldService {
     List<Field> getFieldsByIds(Set<Long> fieldIds);
 
     Field getFieldById(Long id);
+
+    List<FieldBasicInfoResponse> getFields();
 
 }

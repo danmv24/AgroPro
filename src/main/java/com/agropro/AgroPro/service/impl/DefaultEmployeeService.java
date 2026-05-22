@@ -105,4 +105,14 @@ public class DefaultEmployeeService implements EmployeeService {
         return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(Set.of(employeeId)));
     }
 
+    @Override
+    public List<EmployeeBasicInfoResponse> getEmployeesWithoutAccount() {
+        List<Employee> employeesWithoutAccount = employeeRepository.findEmployeesWithoutAccount();
+
+        return employeesWithoutAccount.stream()
+                .map(EmployeeMapper::toBasicInfoView)
+                .toList();
+    }
+
+
 }

@@ -3,7 +3,6 @@ package com.agropro.AgroPro.mapper;
 import com.agropro.AgroPro.dto.request.EmployeeRequest;
 import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
-import com.agropro.AgroPro.enums.Gender;
 import com.agropro.AgroPro.model.Employee;
 
 public class EmployeeMapper {
@@ -16,7 +15,7 @@ public class EmployeeMapper {
                 .position(employeeForm.getPosition())
                 .paymentType(employeeForm.getPaymentType())
                 .salary(employeeForm.getSalary())
-                .gender(Gender.fromString(employeeForm.getGender()))
+                .gender(employeeForm.getGender())
                 .hireDate(employeeForm.getHireDate())
                 .build();
     }

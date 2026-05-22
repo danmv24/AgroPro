@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.dto.request.ProductSaleRequest;
+import com.agropro.AgroPro.dto.request.ProductSaleUpdateRequest;
 import com.agropro.AgroPro.dto.response.ProductSaleResponse;
 import com.agropro.AgroPro.service.ProductSaleService;
 import jakarta.validation.Valid;
@@ -29,9 +30,14 @@ public class ProductSaleController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Void> editSale(@PathVariable(name = "id") Long id, @Valid @RequestBody ProductSaleRequest saleRequest) {
+    public ResponseEntity<Void> editSale(@PathVariable(name = "id") Long id, @Valid @RequestBody ProductSaleUpdateRequest saleRequest) {
         productSaleService.updateSale(id, saleRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ProductSaleResponse getSale(@PathVariable Long id) {
+        return productSaleService.getSaleById(id);
     }
 
 }

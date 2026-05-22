@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
 import com.agropro.AgroPro.dto.request.ProductSaleRequest;
+import com.agropro.AgroPro.dto.request.ProductSaleUpdateRequest;
 import com.agropro.AgroPro.dto.response.ProductSaleResponse;
 import com.agropro.AgroPro.exception.ProductSaleNotFoundException;
 import com.agropro.AgroPro.mapper.ProductSaleMapper;
@@ -38,7 +39,7 @@ public class DefaultProductSaleService implements ProductSaleService {
     }
 
     @Override
-    public void updateSale(Long id, ProductSaleRequest saleRequest) {
+    public void updateSale(Long id, ProductSaleUpdateRequest saleRequest) {
         ProductSale productSale = productSaleRepository.findById(id).orElseThrow(() ->
                 new ProductSaleNotFoundException(id));
 
@@ -51,6 +52,13 @@ public class DefaultProductSaleService implements ProductSaleService {
         productSale.setSaleDate(saleRequest.getSaleDate());
 
         productSaleRepository.save(productSale);
+    }
+
+    @Override
+    public ProductSaleResponse getSaleById(Long id) {
+        ProductSale sale = productSaleRepository.findById(id).orElseThrow(() -> new ProductSaleNotFoundException(id));
+
+        return ProductSaleMapper.toResponse(sale);
     }
 
 }

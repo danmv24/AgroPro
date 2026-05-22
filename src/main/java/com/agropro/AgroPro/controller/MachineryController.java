@@ -2,6 +2,7 @@ package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.dto.request.MachineryRequest;
 import com.agropro.AgroPro.dto.request.MachineryUpdateRequest;
+import com.agropro.AgroPro.dto.response.MachineryBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MachineryResponse;
 import com.agropro.AgroPro.service.MachineryService;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +39,16 @@ public class MachineryController {
                                               @Valid @RequestBody MachineryUpdateRequest machineryUpdateRequest) {
         machineryService.updateMachinery(id, machineryUpdateRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public MachineryResponse getMachinery(@PathVariable Long id) {
+        return machineryService.getMachineryById(id);
+    }
+
+    @GetMapping("/list")
+    public List<MachineryBasicInfoResponse> getMachineriesList() {
+        return machineryService.getMachineriesList();
     }
 
 }

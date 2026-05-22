@@ -9,16 +9,22 @@ import com.agropro.AgroPro.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -33,12 +39,24 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public JwtResponse refresh(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
-        AuthToken tokens = authService.refresh(refreshToken);
-
-        addRefreshCookie(response, tokens.getRefreshToken());
-
-        return JwtMapper.toResponse(tokens.getAccessToken(), tokens.getExpiresIn());
+    public ResponseEntity<?> refresh(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
+        try {
+            AuthToken tokens = authService.refresh(refreshToken);
+            addRefreshCookie(response, tokens.getRefreshToken());
+            return ResponseEntity.ok(JwtMapper.toResponse(tokens.getAccessToken(), tokens.getExpiresIn()));
+        } catch (JwtException e) {
+            // Токен просрочен, подпись невалидна или неверный тип
+            log.warn("Refresh token invalid: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "INVALID_TOKEN", "message", e.getMessage()));
+        } catch (UsernameNotFoundException e) {
+            // Пользователь удалён или отключён
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "USER_NOT_FOUND"));
+        } catch (Exception e) {
+            log.error("Unexpected refresh error", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     private void addRefreshCookie(HttpServletResponse response, String refreshToken) {
@@ -54,7 +72,6 @@ public class AuthController {
     }
 
     @PostMapping("signup")
-    @PreAuthorize("hasRole('ACCOUNTANT')")
     public void signup(@Valid @RequestBody SignupRequest signupRequest) {
         authService.createUser(signupRequest);
     }

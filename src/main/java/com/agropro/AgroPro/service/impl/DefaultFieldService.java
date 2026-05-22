@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.response.FieldBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.FieldResponse;
 import com.agropro.AgroPro.exception.FieldNotFoundException;
 import com.agropro.AgroPro.mapper.FieldMapper;
@@ -64,5 +65,23 @@ public class DefaultFieldService implements FieldService {
     public Field getFieldById(Long id) {
         return fieldRepository.findById(id).orElseThrow(() -> new FieldNotFoundException(id));
     }
+
+    @Override
+    public List<FieldBasicInfoResponse> getFields() {
+        List<Field> fields = fieldRepository.findAll();
+
+        return fields.stream()
+                .map(FieldMapper::toBasicView)
+                .toList();
+    }
+
+//    @Override
+//    public Slice<FieldWorkResponse> getFieldWorks(Long fieldId, int page, int size) {
+//        validateFieldExistsById(fieldId);
+//
+//
+//    }
+
+
 
 }

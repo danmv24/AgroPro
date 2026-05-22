@@ -18,7 +18,7 @@ public class FieldMapper {
         return FieldResponse.builder()
                 .id(field.getId())
                 .fieldNumber(field.getFieldNumber())
-                .cropType(fieldPlanting != null ? fieldPlanting.getCropType().getCropTypeName() : null)
+                .cropType(fieldPlanting != null ? fieldPlanting.getCropType() : null)
                 .area(field.getArea())
                 .build();
     }

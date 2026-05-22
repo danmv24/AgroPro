@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.controller.FieldPlantingResponse;
 import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.exception.FieldNotFoundException;
 import com.agropro.AgroPro.mapper.FieldPlantingMapper;
@@ -8,6 +9,9 @@ import com.agropro.AgroPro.repository.FieldPlantingRepository;
 import com.agropro.AgroPro.repository.FieldRepository;
 import com.agropro.AgroPro.service.FieldPlantingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -43,6 +47,16 @@ public class DefaultFieldPlantingService implements FieldPlantingService {
     @Override
     public List<FieldPlanting> getPlantingsByIdsAndDate(Set<Long> fieldIds, LocalDate date) {
         return fieldPlantingRepository.findAllByFieldIdsAndDate(fieldIds, date);
+    }
+
+    @Override
+    public Slice<FieldPlantingResponse> getFieldPlantingHistory(Long fieldId, int page, int size) {
+        validateFieldExistsById(fieldId);
+        Pageable pageable = PageRequest.of(page, size);
+
+        Slice<FieldPlanting> fieldPlantings = fieldPlantingRepository.findByFieldIdOrderByPlantingDateDesc(fieldId, pageable);
+
+        return fieldPlantings.map(FieldPlantingMapper::toResponse);
     }
 
     private void validateFieldExistsById(Long fieldId) {

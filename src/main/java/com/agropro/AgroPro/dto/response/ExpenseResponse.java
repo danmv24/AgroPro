@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @Getter
 public class ExpenseResponse {
 
+    private final Long id;
+
     private final String code;
 
     private final String categoryName;

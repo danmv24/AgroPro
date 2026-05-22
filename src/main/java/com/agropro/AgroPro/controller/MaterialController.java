@@ -2,6 +2,7 @@ package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.dto.request.MaterialRequest;
 import com.agropro.AgroPro.dto.request.MaterialUpdateRequest;
+import com.agropro.AgroPro.dto.response.MaterialBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MaterialResponse;
 import com.agropro.AgroPro.service.MaterialService;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,5 +39,16 @@ public class MaterialController {
         materialService.updateMaterial(id, materialUpdateRequest);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{id}")
+    public MaterialResponse getMaterial(@PathVariable Long id) {
+        return materialService.getMaterialById(id);
+    }
+
+    @GetMapping("/list")
+    public List<MaterialBasicInfoResponse> getMaterialsList() {
+        return materialService.getMaterialsList();
+    }
+
 
 }

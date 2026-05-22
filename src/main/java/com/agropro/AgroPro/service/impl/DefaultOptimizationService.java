@@ -4,10 +4,12 @@ import com.agropro.AgroPro.aggregator.impl.OptimizationAggregator;
 import com.agropro.AgroPro.dto.internal.CropOptimizationData;
 import com.agropro.AgroPro.dto.internal.OptimizationData;
 import com.agropro.AgroPro.dto.request.OptimizationRequest;
+import com.agropro.AgroPro.dto.response.ProductionPlanBasicResponse;
 import com.agropro.AgroPro.dto.response.ProductionPlanResponse;
 import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.enums.Product;
 import com.agropro.AgroPro.exception.OptimalSolutionNotFoundException;
+import com.agropro.AgroPro.exception.ProductionPlanNotFoundException;
 import com.agropro.AgroPro.mapper.ProductionPlanMapper;
 import com.agropro.AgroPro.model.ProductionPlan;
 import com.agropro.AgroPro.projection.ProductSaleStatistic;
@@ -19,6 +21,9 @@ import com.google.ortools.linearsolver.MPObjective;
 import com.google.ortools.linearsolver.MPSolver;
 import com.google.ortools.linearsolver.MPVariable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -136,6 +141,22 @@ public class DefaultOptimizationService implements OptimizationService {
         ProductionPlan saved = productionPlanRepository.save(productionPlan);
 
         return ProductionPlanMapper.toResponse(saved);
+    }
+
+    @Override
+    public Slice<ProductionPlanBasicResponse> getOptimizations(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Slice<ProductionPlan> plans = productionPlanRepository.findAll(pageable);
+
+        return plans.map(ProductionPlanMapper::toBasicResponse);
+    }
+
+    @Override
+    public ProductionPlanResponse getOptimizationById(Long id) {
+        ProductionPlan plan = productionPlanRepository.findById(id).orElseThrow(() -> new ProductionPlanNotFoundException(id));
+
+        return ProductionPlanMapper.toResponse(plan);
     }
 
 }

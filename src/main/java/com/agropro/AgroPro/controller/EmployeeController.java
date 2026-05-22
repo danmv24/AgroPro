@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.dto.request.EmployeeRequest;
+import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
 import com.agropro.AgroPro.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -28,6 +31,16 @@ public class EmployeeController {
     public Slice<EmployeeResponse> getEmployees(@RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "15") int size) {
         return employeeService.getEmployees(page, size);
+    }
+
+    @GetMapping("/machine-operators")
+    public List<EmployeeBasicInfoResponse> getMachineOperators() {
+        return employeeService.getMechanizators();
+    }
+
+    @GetMapping("/without-account")
+    public ResponseEntity<List<EmployeeBasicInfoResponse>> getEmployeesWithoutAccount() {
+        return ResponseEntity.ok(employeeService.getEmployeesWithoutAccount());
     }
 
 }

@@ -20,6 +20,7 @@ public class ProductSaleMapper {
 
     public static ProductSaleResponse toResponse(ProductSale productSale) {
         return ProductSaleResponse.builder()
+                .id(productSale.getId())
                 .product(productSale.getProduct())
                 .price(productSale.getPrice())
                 .quantity(productSale.getQuantity())

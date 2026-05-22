@@ -13,4 +13,5 @@ public interface ExpenseService {
 
     Slice<ExpenseResponse> getExpenses(int page, int size);
 
+    ExpenseResponse getExpenseById(Long id);
 }

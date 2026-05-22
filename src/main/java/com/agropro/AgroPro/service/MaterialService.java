@@ -2,6 +2,7 @@ package com.agropro.AgroPro.service;
 
 import com.agropro.AgroPro.dto.request.MaterialRequest;
 import com.agropro.AgroPro.dto.request.MaterialUpdateRequest;
+import com.agropro.AgroPro.dto.response.MaterialBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MaterialResponse;
 import com.agropro.AgroPro.model.Material;
 import org.springframework.data.domain.Slice;
@@ -17,7 +18,9 @@ public interface MaterialService {
 
     void updateMaterial(Long id, MaterialUpdateRequest materialUpdateRequest);
 
-    Material getMaterialById(Long id);
+    MaterialResponse getMaterialById(Long id);
 
     List<Material> getMaterialsByIds(Set<Long> materialIds);
+
+    List<MaterialBasicInfoResponse> getMaterialsList();
 }

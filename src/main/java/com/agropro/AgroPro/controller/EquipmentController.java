@@ -2,6 +2,7 @@ package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.dto.request.EquipmentRequest;
 import com.agropro.AgroPro.dto.request.EquipmentUpdateRequest;
+import com.agropro.AgroPro.dto.response.EquipmentBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EquipmentResponse;
 import com.agropro.AgroPro.service.EquipmentService;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +37,16 @@ public class EquipmentController {
     public ResponseEntity<Void> editEquipment(@PathVariable Long id, @Valid @RequestBody EquipmentUpdateRequest equipmentUpdateRequest) {
         equipmentService.updateEquipment(id, equipmentUpdateRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public EquipmentResponse getEquipment(@PathVariable Long id) {
+        return equipmentService.getEquipmentById(id);
+    }
+
+    @GetMapping("/list")
+    public List<EquipmentBasicInfoResponse> getEquipmentList() {
+        return equipmentService.getEquipmentList();
     }
 
 }

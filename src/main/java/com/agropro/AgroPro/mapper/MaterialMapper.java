@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.mapper;
 
 import com.agropro.AgroPro.dto.request.MaterialRequest;
+import com.agropro.AgroPro.dto.response.MaterialBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MaterialResponse;
 import com.agropro.AgroPro.model.Material;
 
@@ -20,6 +21,13 @@ public class MaterialMapper {
                 .materialName(material.getMaterialName())
                 .materialType(material.getMaterialType())
                 .currentPrice(material.getCurrentPrice())
+                .build();
+    }
+
+    public static MaterialBasicInfoResponse toBasicInfoResponse(Material material) {
+        return MaterialBasicInfoResponse.builder()
+                .id(material.getId())
+                .materialName(material.getMaterialName())
                 .build();
     }
 

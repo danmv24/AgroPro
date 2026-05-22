@@ -21,19 +21,20 @@ public class MachineryMapper {
 
     public static MachineryResponse toView(Machinery machinery) {
         return MachineryResponse.builder()
+                .id(machinery.getId())
                 .machineryName(machinery.getMachineryName())
                 .machineryType(machinery.getMachineryType())
                 .inventoryNumber(machinery.getInventoryNumber())
                 .licencePlate(machinery.getLicensePlate())
-                .statusCode(machinery.getCurrentStatus().getStatusName())
+                .statusCode(machinery.getCurrentStatus())
                 .build();
     }
 
     public static MachineryBasicInfoResponse toBasicInfoView(Machinery machinery) {
         return MachineryBasicInfoResponse.builder()
                 .machineryId(machinery.getId())
+                .inventoryNumber(machinery.getInventoryNumber())
                 .machineryName(machinery.getMachineryName())
-                .machineryType(machinery.getMachineryType())
                 .licensePlate(machinery.getLicensePlate())
                 .build();
     }

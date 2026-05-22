@@ -3,6 +3,8 @@ package com.agropro.AgroPro.repository;
 import com.agropro.AgroPro.model.FieldPlanting;
 import com.agropro.AgroPro.projection.CropArea;
 import com.agropro.AgroPro.projection.CropSownArea;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -56,6 +58,9 @@ public interface FieldPlantingRepository extends ListCrudRepository<FieldPlantin
     """)
     List<CropSownArea> findSownArea(@Param("startDate") LocalDate startDate,
                                     @Param("endDate") LocalDate endDate);
+
+
+    Slice<FieldPlanting> findByFieldIdOrderByPlantingDateDesc(Long fieldId, Pageable pageable);
 
 
 }

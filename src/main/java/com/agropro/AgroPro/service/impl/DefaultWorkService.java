@@ -46,6 +46,7 @@ public class DefaultWorkService implements WorkService {
     private final MaterialService materialService;
     private final HarvestService harvestService;
     private final WorkMaterialUsageService workMaterialUsageService;
+    private final UserService userService;
 
     private final WorkRepository workRepository;
     private final WorkEmployeeRepository workEmployeeRepository;
@@ -88,6 +89,23 @@ public class DefaultWorkService implements WorkService {
 
         return works.map(work ->
                 WorkMapper.toBasicInfoView(work, fieldsById.get(work.getFieldId())));
+    }
+
+    @Override
+    public List<WorkBasicInfoResponse> getAssignedPlannedWorks(int page, int size) {
+        User user = userService.getCurrentUser();
+        Pageable pageable = PageRequest.of(page, size);
+
+        List<Work> works = workRepository.findAssignedPlannedWorks(user.getEmployeeId(), pageable);
+        Set<Long> fieldIds = works.stream()
+                .map(Work::getFieldId)
+                .collect(Collectors.toSet());
+
+        Map<Long, Field> fieldsById = loadFields(fieldIds);
+
+        return works.stream()
+                .map(work -> WorkMapper.toBasicInfoView(work, fieldsById.get(work.getFieldId())))
+                .toList();
     }
 
     @Override
@@ -174,7 +192,7 @@ public class DefaultWorkService implements WorkService {
         }
 
         for (MaterialItem materialItem : workResultRequest.getMaterialItems()) {
-            Material material = materialService.getMaterialById(materialItem.getId());
+            MaterialResponse material = materialService.getMaterialById(materialItem.getId());
 
             validateMaterialCompatibility(work.getWorkType(), material.getMaterialType());
 

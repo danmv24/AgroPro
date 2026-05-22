@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/works")
@@ -56,6 +58,12 @@ public class WorkController {
                                                  @RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "15") int size) {
         return workService.getWorksByStatus(status, page, size);
+    }
+
+    @GetMapping("/my")
+    public List<WorkBasicInfoResponse> getMyPlannedWorks(@RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "15") int size) {
+        return workService.getAssignedPlannedWorks(page, size);
     }
 
 }

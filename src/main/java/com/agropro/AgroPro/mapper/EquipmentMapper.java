@@ -20,6 +20,7 @@ public class EquipmentMapper {
 
     public static EquipmentResponse toView(Equipment equipment) {
         return EquipmentResponse.builder()
+                .id(equipment.getId())
                 .equipmentName(equipment.getEquipmentName())
                 .equipmentType(equipment.getEquipmentType())
                 .inventoryNumber(equipment.getInventoryNumber())
@@ -31,7 +32,7 @@ public class EquipmentMapper {
         return EquipmentBasicInfoResponse.builder()
                 .equipmentId(equipment.getId())
                 .equipmentName(equipment.getEquipmentName())
-                .equipmentType(equipment.getEquipmentType())
+                .inventoryNumber(equipment.getInventoryNumber())
                 .build();
     }
 

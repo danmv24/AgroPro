@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class EquipmentResponse {
 
+    private final Long id;
+
     private final String equipmentName;
 
     private final EquipmentType equipmentType;

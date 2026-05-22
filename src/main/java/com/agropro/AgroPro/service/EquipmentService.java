@@ -26,4 +26,8 @@ public interface EquipmentService {
     void changeEquipmentStatusByWorkIds(Set<Long> workIds, StatusCode statusCode, LocalDateTime changedAt);
 
     void updateEquipment(Long id, EquipmentUpdateRequest equipmentUpdateRequest);
+
+    EquipmentResponse getEquipmentById(Long id);
+
+    List<EquipmentBasicInfoResponse> getEquipmentList();
 }

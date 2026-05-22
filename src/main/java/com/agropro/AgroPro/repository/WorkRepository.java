@@ -55,4 +55,12 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
     List<WorkTypeHours> findWorkTypeWithTotalHours(@Param("startDate") LocalDate startDate,
                                                    @Param("endDate") LocalDate endDate);
 
+    @Query("""
+        SELECT w.id, work_type, field_id, start_date, end_date, status, description
+        FROM works AS w
+        INNER JOIN work_employees AS we ON w.id = we.work_id
+        WHERE we.employee_id = :employeeId
+        AND w.status = 'PLANNED'
+    """)
+    List<Work> findAssignedPlannedWorks(@Param("employeeId") Long employeeId, Pageable pageable);
 }

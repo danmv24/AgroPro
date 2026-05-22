@@ -25,4 +25,7 @@ public interface EmployeeService {
     List<EmployeeBasicInfoResponse> getEmployeesByWorkId(Long workId);
 
     Employee getEmployeeById(Long employeeId);
+
+    List<EmployeeBasicInfoResponse> getEmployeesWithoutAccount();
+
 }

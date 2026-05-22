@@ -65,4 +65,12 @@ public interface EmployeeRepository extends ListCrudRepository<Employee, Long> {
 
     long countEmployeesByGender(Gender gender);
 
+    @Query("""
+        SELECT e.id, e.surname, e.name, e.patronymic, e.position, e.payment_type, e.salary, e.hire_date, e.gender
+        FROM employees AS e
+        LEFT JOIN users AS u ON e.id = u.employee_id
+        WHERE u.employee_id IS NULL
+    """)
+    List<Employee> findEmployeesWithoutAccount();
+
 }

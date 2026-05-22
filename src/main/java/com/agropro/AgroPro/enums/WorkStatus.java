@@ -9,7 +9,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public enum WorkStatus {
 
-    PLANNED("Запланировано"),
+    PLANNED("Запланирована"),
     IN_PROGRESS("В процессе"),
     COMPLETED("Завершена"),
     CANCELLED("Отменена");

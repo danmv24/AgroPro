@@ -1,7 +1,9 @@
 package com.agropro.AgroPro.service;
 
+import com.agropro.AgroPro.controller.FieldPlantingResponse;
 import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.model.FieldPlanting;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +17,6 @@ public interface FieldPlantingService {
 
     List<FieldPlanting> getPlantingsByIdsAndDate(Set<Long> fieldIds, LocalDate date);
 
-//    List<FieldPlantingView> getFieldPlantingsByFieldId(Long fieldId);
+    Slice<FieldPlantingResponse> getFieldPlantingHistory(Long fieldId, int page, int size);
 
 }

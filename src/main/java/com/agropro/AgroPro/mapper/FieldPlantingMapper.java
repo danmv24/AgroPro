@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.controller.FieldPlantingResponse;
 import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.model.FieldPlanting;
 
@@ -12,6 +13,14 @@ public class FieldPlantingMapper {
                 .fieldId(fieldId)
                 .cropType(crop)
                 .plantingDate(plantingDate)
+                .build();
+    }
+
+    public static FieldPlantingResponse toResponse(FieldPlanting fieldPlanting) {
+        return FieldPlantingResponse.builder()
+                .cropType(fieldPlanting.getCropType())
+                .plantingDate(fieldPlanting.getPlantingDate())
+                .harvestDate(fieldPlanting.getHarvestDate())
                 .build();
     }
 

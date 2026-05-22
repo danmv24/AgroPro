@@ -2,8 +2,8 @@ package com.agropro.AgroPro.service.impl;
 
 import com.agropro.AgroPro.dto.request.MaterialRequest;
 import com.agropro.AgroPro.dto.request.MaterialUpdateRequest;
+import com.agropro.AgroPro.dto.response.MaterialBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MaterialResponse;
-import com.agropro.AgroPro.exception.EmptyCollectionException;
 import com.agropro.AgroPro.exception.MaterialNotFoundException;
 import com.agropro.AgroPro.mapper.MaterialMapper;
 import com.agropro.AgroPro.model.Material;
@@ -47,17 +47,28 @@ public class DefaultMaterialService implements MaterialService {
     }
 
     @Override
-    public Material getMaterialById(Long id) {
-        return materialRepository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id));
+    public MaterialResponse getMaterialById(Long id) {
+        Material material = materialRepository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id));
+
+        return MaterialMapper.toResponse(material);
     }
 
     @Override
     public List<Material> getMaterialsByIds(Set<Long> materialIds) {
-        if (materialIds == null || materialIds.isEmpty()) {
-            throw new EmptyCollectionException();
-        }
+//        if (materialIds == null || materialIds.isEmpty()) {
+//            throw new EmptyCollectionException();
+//        }
 
         return materialRepository.findAllByIdIn(materialIds);
+    }
+
+    @Override
+    public List<MaterialBasicInfoResponse> getMaterialsList() {
+        List<Material> materials = materialRepository.findAll();
+
+        return materials.stream()
+                .map(MaterialMapper::toBasicInfoResponse)
+                .toList();
     }
 
 }

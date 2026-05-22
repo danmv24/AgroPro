@@ -164,6 +164,22 @@ public class DefaultMachineryService implements MachineryService {
         machineryRepository.save(machinery);
     }
 
+    @Override
+    public MachineryResponse getMachineryById(Long id) {
+        Machinery machinery = machineryRepository.findById(id).orElseThrow(() -> new MachineryNotFoundException(Set.of(id)));
+
+        return MachineryMapper.toView(machinery);
+    }
+
+    @Override
+    public List<MachineryBasicInfoResponse> getMachineriesList() {
+        List<Machinery> machineries = machineryRepository.findAll();
+
+        return machineries.stream()
+                .map(MachineryMapper::toBasicInfoView)
+                .toList();
+    }
+
 //    private Map<Long, StatusCode> getMachineryStatusesByIds(Set<Long> machineryIds) {
 //        List<Machinery> machineryStatusViews = machineryRepository.findMachineryByIdIn(machineryIds);
 //

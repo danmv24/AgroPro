@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.response.ProductionPlanBasicResponse;
 import com.agropro.AgroPro.dto.response.ProductionPlanResponse;
 import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.enums.Product;
@@ -54,6 +55,15 @@ public class ProductionPlanMapper {
                 .startDate(startDate)
                 .endDate(endDate)
                 .createdAt(now)
+                .build();
+    }
+
+    public static ProductionPlanBasicResponse toBasicResponse(ProductionPlan plan) {
+        return ProductionPlanBasicResponse.builder()
+                .id(plan.getId())
+                .startDate(plan.getStartDate())
+                .endDate(plan.getEndDate())
+                .createdAt(plan.getCreatedAt())
                 .build();
     }
 

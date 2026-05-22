@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.dto.response;
 
 import com.agropro.AgroPro.enums.MachineryType;
+import com.agropro.AgroPro.enums.StatusCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MachineryResponse {
 
+    private final Long id;
+
     private final String machineryName;
 
     private final MachineryType machineryType;
@@ -18,6 +21,6 @@ public class MachineryResponse {
 
     private final String licencePlate;
 
-    private final String statusCode;
+    private final StatusCode statusCode;
 
 }

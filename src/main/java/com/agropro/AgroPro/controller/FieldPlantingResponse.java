@@ -1,23 +1,21 @@
-package com.agropro.AgroPro.dto.response;
+package com.agropro.AgroPro.controller;
 
 import com.agropro.AgroPro.enums.CropType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Builder
 @Getter
-public class FieldResponse {
-
-    private final Long id;
-
-    private final Integer fieldNumber;
+public class FieldPlantingResponse {
 
     private final CropType cropType;
 
-    private final BigDecimal area;
+    private final LocalDate plantingDate;
+
+    private final LocalDate harvestDate;
 
 }

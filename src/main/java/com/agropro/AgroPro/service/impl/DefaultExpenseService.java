@@ -67,4 +67,12 @@ public class DefaultExpenseService implements ExpenseService {
             return ExpenseMapper.toView(expense, category);
         });
     }
+
+    @Override
+    public ExpenseResponse getExpenseById(Long id) {
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
+        ExpenseCategory category = categoryService.getExpenseCategoryById(expense.getId());
+
+        return ExpenseMapper.toView(expense, category);
+    }
 }

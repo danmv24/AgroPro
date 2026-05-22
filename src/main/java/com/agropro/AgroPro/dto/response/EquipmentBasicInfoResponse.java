@@ -1,6 +1,5 @@
 package com.agropro.AgroPro.dto.response;
 
-import com.agropro.AgroPro.enums.EquipmentType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,6 @@ public class EquipmentBasicInfoResponse {
 
     private final String equipmentName;
 
-    private final EquipmentType equipmentType;
+    private final Integer inventoryNumber;
 
 }

@@ -19,6 +19,7 @@ public class ExpenseMapper {
 
     public static ExpenseResponse toView(Expense expense, ExpenseCategory expenseCategory) {
         return ExpenseResponse.builder()
+                .id(expense.getId())
                 .code(expenseCategory.getCode())
                 .categoryName(expenseCategory.getCategoryName())
                 .amount(expense.getAmount())

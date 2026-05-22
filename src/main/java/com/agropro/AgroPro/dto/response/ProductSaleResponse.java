@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @Getter
 public class ProductSaleResponse {
 
+    private final Long id;
+
     private final Product product;
 
     private final BigDecimal price;

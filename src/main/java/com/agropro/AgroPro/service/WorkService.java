@@ -7,6 +7,8 @@ import com.agropro.AgroPro.dto.response.WorkResponse;
 import com.agropro.AgroPro.enums.WorkStatus;
 import org.springframework.data.domain.Slice;
 
+import java.util.List;
+
 public interface WorkService {
 
     void createWork(WorkRequest workRequest);
@@ -26,4 +28,6 @@ public interface WorkService {
 //    Slice<WorkBasicInfoView> getCompletedWorksForWeek(LocalDate weekStart, int page, int size);
 
     Slice<WorkBasicInfoResponse> getWorksByStatus(WorkStatus workStatus, int page, int size);
+
+    List<WorkBasicInfoResponse> getAssignedPlannedWorks(int page, int size);
 }

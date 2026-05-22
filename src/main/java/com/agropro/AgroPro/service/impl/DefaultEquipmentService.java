@@ -167,4 +167,20 @@ public class DefaultEquipmentService implements EquipmentService {
         equipmentRepository.save(equipment);
 
     }
+
+    @Override
+    public EquipmentResponse getEquipmentById(Long id) {
+        Equipment equipment = equipmentRepository.findById(id).orElseThrow(() -> new EquipmentNotFoundException(Set.of(id)));
+
+        return EquipmentMapper.toView(equipment);
+    }
+
+    @Override
+    public List<EquipmentBasicInfoResponse> getEquipmentList() {
+        List<Equipment> equipment = equipmentRepository.findAll();
+
+        return equipment.stream()
+                .map(EquipmentMapper::toBasicInfoView)
+                .toList();
+    }
 }

@@ -2,6 +2,7 @@ package com.agropro.AgroPro.dto.request;
 
 
 import com.agropro.AgroPro.enums.EmployeePosition;
+import com.agropro.AgroPro.enums.Gender;
 import com.agropro.AgroPro.enums.PaymentType;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,6 @@ public class EmployeeRequest {
     @NotNull(message = "Дата приёма на работу должна быть указана")
     private LocalDate hireDate;
 
-    @NotBlank(message = "Пол сотрудника должен быть выбран")
-    private String gender;
+    @NotNull(message = "Пол сотрудника должен быть выбран")
+    private Gender gender;
 }

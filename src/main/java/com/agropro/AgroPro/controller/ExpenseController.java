@@ -32,8 +32,13 @@ public class ExpenseController {
 
     @GetMapping
     public Slice<ExpenseResponse> getExpenses(@RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "15") int size) {
+                                              @RequestParam(defaultValue = "10") int size) {
         return expenseService.getExpenses(page, size);
+    }
+
+    @GetMapping("/{id}")
+    public ExpenseResponse getExpense(@PathVariable Long id) {
+        return expenseService.getExpenseById(id);
     }
 
 }

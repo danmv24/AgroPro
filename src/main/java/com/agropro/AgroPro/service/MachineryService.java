@@ -28,4 +28,8 @@ public interface MachineryService {
     void changeMachineryStatusByWorkIds(Set<Long> workIds, StatusCode statusCode, LocalDateTime changedAt);
 
     void updateMachinery(Long id, MachineryUpdateRequest machineryUpdateRequest);
+
+    MachineryResponse getMachineryById(Long id);
+
+    List<MachineryBasicInfoResponse> getMachineriesList();
 }
