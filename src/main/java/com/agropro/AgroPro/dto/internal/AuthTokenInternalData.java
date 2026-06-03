@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 @Getter
-public class AuthToken {
+public class AuthTokenInternalData {
 
     private final String accessToken;
 

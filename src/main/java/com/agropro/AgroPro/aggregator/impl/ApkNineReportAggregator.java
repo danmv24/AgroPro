@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.aggregator.impl;
 
 import com.agropro.AgroPro.aggregator.DataAggregator;
-import com.agropro.AgroPro.dto.internal.ApkNineReportData;
+import com.agropro.AgroPro.dto.internal.ApkNineReportInternalData;
 import com.agropro.AgroPro.mapper.ReportDataMapper;
 import com.agropro.AgroPro.projection.CropArea;
 import com.agropro.AgroPro.projection.CropHarvest;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ApkNineReportAggregator implements DataAggregator<ApkNineReportData> {
+public class ApkNineReportAggregator implements DataAggregator<ApkNineReportInternalData> {
 
     private final FieldPlantingRepository fieldPlantingRepository;
 
@@ -29,7 +29,7 @@ public class ApkNineReportAggregator implements DataAggregator<ApkNineReportData
     private final WorkEmployeeRepository workEmployeeRepository;
 
     @Override
-    public ApkNineReportData collectData(LocalDate startDate, LocalDate endDate) {
+    public ApkNineReportInternalData collectData(LocalDate startDate, LocalDate endDate) {
 //        List<CropStatistic> cropStatistics = collectCropStatistic(startDate, endDate);
 
         // новое
@@ -38,7 +38,7 @@ public class ApkNineReportAggregator implements DataAggregator<ApkNineReportData
         List<CropMaterialCost> cropMaterialCosts = collectCropMaterialCost(startDate, endDate);
         List<CropLaborCost> cropLaborCosts = collectCropLaborCost(startDate, endDate);
 
-        return ReportDataMapper.toNineReportData(cropAreas, cropHarvests, cropMaterialCosts, cropLaborCosts);
+        return ReportDataMapper.toNineReportInternalData(cropAreas, cropHarvests, cropMaterialCosts, cropLaborCosts);
     }
 
     private List<CropLaborCost> collectCropLaborCost(LocalDate startDate, LocalDate endDate) {

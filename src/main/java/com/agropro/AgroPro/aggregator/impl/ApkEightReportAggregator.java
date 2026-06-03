@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.aggregator.impl;
 
 import com.agropro.AgroPro.aggregator.DataAggregator;
-import com.agropro.AgroPro.dto.internal.ApkEightReportData;
+import com.agropro.AgroPro.dto.internal.ApkEightReportInternalData;
 import com.agropro.AgroPro.mapper.ReportDataMapper;
 import com.agropro.AgroPro.projection.ExpenseCategoryTotalAmount;
 import com.agropro.AgroPro.repository.ExpenseCategoryRepository;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ApkEightReportAggregator implements DataAggregator<ApkEightReportData> {
+public class ApkEightReportAggregator implements DataAggregator<ApkEightReportInternalData> {
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
 
@@ -39,12 +39,12 @@ public class ApkEightReportAggregator implements DataAggregator<ApkEightReportDa
     );
 
     @Override
-    public ApkEightReportData collectData(LocalDate startDate, LocalDate endDate) {
+    public ApkEightReportInternalData collectData(LocalDate startDate, LocalDate endDate) {
         List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod = collectExpenseData(startDate, endDate);
         List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod = collectExpenseData(
                 startDate.minusYears(1), endDate.minusYears(1));
 
-        return ReportDataMapper.toEightReportData(expenseCategoryTotalAmountsForCurrentPeriod,
+        return ReportDataMapper.toEightReportInternalData(expenseCategoryTotalAmountsForCurrentPeriod,
                 expenseCategoryTotalAmountsForPreviousPeriod);
     }
 

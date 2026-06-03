@@ -1,11 +1,15 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.internal.EmployeeInternalData;
 import com.agropro.AgroPro.dto.request.EmployeeRequest;
 import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
 import com.agropro.AgroPro.model.Employee;
 
 public class EmployeeMapper {
+
+    private EmployeeMapper() {
+    }
 
     public static Employee toModel(EmployeeRequest employeeForm) {
         return Employee.builder()
@@ -20,7 +24,7 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public static EmployeeResponse toView(Employee employee) {
+    public static EmployeeResponse toResponse(Employee employee) {
         return EmployeeResponse.builder()
                 .surname(employee.getSurname())
                 .name(employee.getName())
@@ -31,7 +35,7 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public static EmployeeBasicInfoResponse toBasicInfoView(Employee employee) {
+    public static EmployeeBasicInfoResponse toBasicInfoResponse(Employee employee) {
         return EmployeeBasicInfoResponse.builder()
                 .employeeId(employee.getId())
                 .surname(employee.getSurname())
@@ -40,4 +44,16 @@ public class EmployeeMapper {
                 .build();
     }
 
+    public static EmployeeInternalData toInternalData(Employee employee) {
+        return EmployeeInternalData.builder()
+                .id(employee.getId())
+                .surname(employee.getSurname())
+                .name(employee.getName())
+                .patronymic(employee.getPatronymic())
+                .gender(employee.getGender())
+                .paymentType(employee.getPaymentType())
+                .hireDate(employee.getHireDate())
+                .salary(employee.getSalary())
+                .build();
+    }
 }

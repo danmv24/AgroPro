@@ -1,15 +1,18 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.internal.FieldInternalData;
 import com.agropro.AgroPro.dto.request.WorkRequest;
 import com.agropro.AgroPro.dto.response.*;
 import com.agropro.AgroPro.enums.WorkStatus;
-import com.agropro.AgroPro.model.Field;
 import com.agropro.AgroPro.model.Work;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
 public class WorkMapper {
+
+    private WorkMapper() {
+    }
 
     public static Work toModel(WorkRequest workRequest) {
         return Work.builder()
@@ -22,7 +25,7 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkResponse toResponse(Work work, Field field, List<EmployeeBasicInfoResponse> employees,
+    public static WorkResponse toResponse(Work work, FieldInternalData field, List<EmployeeBasicInfoResponse> employees,
                                           List<MachineryBasicInfoResponse> machineries, List<EquipmentBasicInfoResponse> equipment,
                                           WorkResultResponse resultResponse) {
         return WorkResponse.builder()
@@ -40,7 +43,7 @@ public class WorkMapper {
                 .build();
     }
 
-    public static WorkBasicInfoResponse toBasicInfoView(Work work, Field field) {
+    public static WorkBasicInfoResponse toBasicInfoResponse(Work work, FieldInternalData field) {
         return WorkBasicInfoResponse.builder()
                 .id(work.getId())
                 .workType(work.getWorkType())

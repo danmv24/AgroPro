@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 public class ErrorResponseMapper {
 
+    private ErrorResponseMapper() {
+    }
+
     public static ErrorResponse toErrorResponse(String message, HttpStatus httpStatus, HttpServletRequest request, LocalDateTime timestamp) {
         return ErrorResponse.builder()
                 .timestamp(timestamp)

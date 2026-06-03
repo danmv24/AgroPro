@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 @Builder
-public class ApkFiveReportData {
+public class ApkFiveReportInternalData {
 
     private final List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts;
 

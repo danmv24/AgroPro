@@ -1,11 +1,15 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.internal.MaterialInternalData;
 import com.agropro.AgroPro.dto.request.MaterialRequest;
 import com.agropro.AgroPro.dto.response.MaterialBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.MaterialResponse;
 import com.agropro.AgroPro.model.Material;
 
 public class MaterialMapper {
+
+    private MaterialMapper() {
+    }
 
     public static Material toModel(MaterialRequest materialRequest) {
         return Material.builder()
@@ -31,4 +35,12 @@ public class MaterialMapper {
                 .build();
     }
 
+    public static MaterialInternalData toInternalData(Material material) {
+        return MaterialInternalData.builder()
+                .id(material.getId())
+                .materialName(material.getMaterialName())
+                .materialType(material.getMaterialType())
+                .currentPrice(material.getCurrentPrice())
+                .build();
+    }
 }

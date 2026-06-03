@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.internal.EmployeeInternalData;
 import com.agropro.AgroPro.dto.request.EmployeeRequest;
 import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
@@ -41,20 +42,15 @@ public class DefaultEmployeeService implements EmployeeService {
         Pageable pageable = PageRequest.of(page, size);
         Slice<Employee> employees = employeeRepository.findAll(pageable);
 
-        return employees.map(EmployeeMapper::toView);
+        return employees.map(EmployeeMapper::toResponse);
     }
-
-//    @Override
-//    public List<EmployeeBasicInfoView> getHourlyPaidEmployees() {
-//        return employeeRepository.findEmployeesByPaymentType(PaymentType.HOURLY);
-//    }
 
     @Override
     public List<EmployeeBasicInfoResponse> getMechanizators() {
         List<Employee> employees = employeeRepository.findEmployeesByPosition(EmployeePosition.MACHINE_OPERATOR);
 
         return employees.stream()
-                .map(EmployeeMapper::toBasicInfoView)
+                .map(EmployeeMapper::toBasicInfoResponse)
                 .toList();
     }
 
@@ -96,13 +92,15 @@ public class DefaultEmployeeService implements EmployeeService {
         List<Employee> employees = employeeRepository.findEmployeesByWorkId(workId);
 
         return employees.stream()
-                .map(EmployeeMapper::toBasicInfoView)
+                .map(EmployeeMapper::toBasicInfoResponse)
                 .toList();
     }
 
     @Override
-    public Employee getEmployeeById(Long employeeId) {
-        return employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(Set.of(employeeId)));
+    public EmployeeInternalData getEmployeeById(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException(Set.of(employeeId)));
+
+        return EmployeeMapper.toInternalData(employee);
     }
 
     @Override
@@ -110,7 +108,7 @@ public class DefaultEmployeeService implements EmployeeService {
         List<Employee> employeesWithoutAccount = employeeRepository.findEmployeesWithoutAccount();
 
         return employeesWithoutAccount.stream()
-                .map(EmployeeMapper::toBasicInfoView)
+                .map(EmployeeMapper::toBasicInfoResponse)
                 .toList();
     }
 

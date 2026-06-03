@@ -11,9 +11,9 @@ import java.util.List;
 @Builder
 @Getter
 @RequiredArgsConstructor
-public class OptimizationData {
+public class OptimizationInternalData {
 
-    private final List<CropOptimizationData> crops;
+    private final List<CropOptimizationInternalData> crops;
 
     private final List<ProductSaleStatistic> productSales;
 

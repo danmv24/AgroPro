@@ -1,11 +1,10 @@
 package com.agropro.AgroPro.service;
 
-import com.agropro.AgroPro.model.User;
+import com.agropro.AgroPro.dto.internal.UserInternalData;
 
 public interface UserService {
 
-    User getCurrentUser();
+    UserInternalData getCurrentUser();
 
-    User getByUsername(String username);
 
 }

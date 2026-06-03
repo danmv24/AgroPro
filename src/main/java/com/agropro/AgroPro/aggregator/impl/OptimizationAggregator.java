@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.aggregator.impl;
 
 import com.agropro.AgroPro.aggregator.DataAggregator;
-import com.agropro.AgroPro.dto.internal.CropOptimizationData;
-import com.agropro.AgroPro.dto.internal.OptimizationData;
+import com.agropro.AgroPro.dto.internal.CropOptimizationInternalData;
+import com.agropro.AgroPro.dto.internal.OptimizationInternalData;
 import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.mapper.CropOptimizationDataMapper;
 import com.agropro.AgroPro.mapper.OptimizationDataMapper;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class OptimizationAggregator implements DataAggregator<OptimizationData> {
+public class OptimizationAggregator implements DataAggregator<OptimizationInternalData> {
 
     private final FieldPlantingRepository fieldPlantingRepository;
     private final FieldRepository fieldRepository;
@@ -34,7 +34,7 @@ public class OptimizationAggregator implements DataAggregator<OptimizationData> 
     private final HarvestRepository harvestRepository;
 
     @Override
-    public OptimizationData collectData(LocalDate startDate, LocalDate endDate) {
+    public OptimizationInternalData collectData(LocalDate startDate, LocalDate endDate) {
         List<CropSownArea> cropSownAreas = fieldPlantingRepository.findSownArea(startDate, endDate);
         BigDecimal totalFieldArea = fieldRepository.sumAllFieldsArea();
         List<CropMaterialCost> cropMaterialCosts = workMaterialUsageRepository.findCostsByCropTypeAndMaterialTypeBetweenDateRange(startDate, endDate);
@@ -47,17 +47,17 @@ public class OptimizationAggregator implements DataAggregator<OptimizationData> 
         Map<CropType, BigDecimal> totalCostMap = buildTotalCostMap(cropMaterialCosts);
         Map<CropType, BigDecimal> costPerHectareMap = calculateCostPerHectareMap(areaMap, totalCostMap);
 
-        List<CropOptimizationData> crops = buildCropOptimizationData(areaMap, yieldMap, costPerHectareMap);
+        List<CropOptimizationInternalData> crops = buildCropOptimizationData(areaMap, yieldMap, costPerHectareMap);
 
         return OptimizationDataMapper.toOptimizationData(crops, productSales, totalFieldArea);
     }
 
-    private List<CropOptimizationData> buildCropOptimizationData(Map<CropType, BigDecimal> cropAreaMap,
-                                                                 Map<CropType, BigDecimal> cropYieldMap,
-                                                                 Map<CropType, BigDecimal> costPerHectareMap) {
+    private List<CropOptimizationInternalData> buildCropOptimizationData(Map<CropType, BigDecimal> cropAreaMap,
+                                                                         Map<CropType, BigDecimal> cropYieldMap,
+                                                                         Map<CropType, BigDecimal> costPerHectareMap) {
         return cropAreaMap.keySet()
                 .stream()
-                .map(cropType -> CropOptimizationDataMapper.toCropOptimizationData(
+                .map(cropType -> CropOptimizationDataMapper.toCropOptimizationInternalData(
                                 cropType,
                                 cropAreaMap.getOrDefault(cropType, BigDecimal.ZERO),
                                 cropYieldMap.getOrDefault(cropType, BigDecimal.ZERO),

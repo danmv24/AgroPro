@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.aggregator.impl;
 
 import com.agropro.AgroPro.aggregator.DataAggregator;
-import com.agropro.AgroPro.dto.internal.ApkFiveReportData;
+import com.agropro.AgroPro.dto.internal.ApkFiveReportInternalData;
 import com.agropro.AgroPro.enums.Gender;
 import com.agropro.AgroPro.mapper.ReportDataMapper;
 import com.agropro.AgroPro.projection.EmployeePositionStatistic;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportData> {
+public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportInternalData> {
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
 
@@ -35,7 +35,7 @@ public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportData
     );
 
     @Override
-    public ApkFiveReportData collectData(LocalDate startDate, LocalDate endDate) {
+    public ApkFiveReportInternalData collectData(LocalDate startDate, LocalDate endDate) {
         List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts = collectExpenseData(startDate, endDate);
         List<EmployeePositionStatistic> positionCounts = collectEmployeePositionCount(startDate, endDate);
         long totalEmployees = collectTotalEmployees();
@@ -43,7 +43,7 @@ public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportData
         Double totalHours = collectTotalWorkingHours(startDate, endDate);
         List<WorkTypeHours> workTypeHours = collectWorkTypeStat(startDate, endDate);
 
-        return ReportDataMapper.toFiveReportData(expenseCategoryTotalAmounts, positionCounts, totalEmployees,
+        return ReportDataMapper.toFiveReportInternalData(expenseCategoryTotalAmounts, positionCounts, totalEmployees,
                 femaleEmployees, totalHours, workTypeHours);
     }
 

@@ -1,12 +1,12 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.internal.ExpenseCategoryInternalData;
 import com.agropro.AgroPro.dto.request.ExpenseRequest;
 import com.agropro.AgroPro.dto.request.ExpenseUpdateRequest;
 import com.agropro.AgroPro.dto.response.ExpenseResponse;
 import com.agropro.AgroPro.exception.ExpenseNotFoundException;
 import com.agropro.AgroPro.mapper.ExpenseMapper;
 import com.agropro.AgroPro.model.Expense;
-import com.agropro.AgroPro.model.ExpenseCategory;
 import com.agropro.AgroPro.repository.ExpenseRepository;
 import com.agropro.AgroPro.service.ExpenseCategoryService;
 import com.agropro.AgroPro.service.ExpenseService;
@@ -32,7 +32,7 @@ public class DefaultExpenseService implements ExpenseService {
 
     @Override
     public void createExpense(ExpenseRequest expenseRequest) {
-        ExpenseCategory category = categoryService.getExpenseCategoryById(expenseRequest.getCategoryId());
+        ExpenseCategoryInternalData category = categoryService.getExpenseCategoryById(expenseRequest.getCategoryId());
 
         expenseRepository.save(ExpenseMapper.toModel(expenseRequest, category.getId()));
     }
@@ -41,7 +41,7 @@ public class DefaultExpenseService implements ExpenseService {
     public void updateExpense(Long id, ExpenseUpdateRequest expenseForm) {
         Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
 
-        ExpenseCategory category = categoryService.getExpenseCategoryById(expenseForm.getCategoryId());
+        ExpenseCategoryInternalData category = categoryService.getExpenseCategoryById(expenseForm.getCategoryId());
         expense.setCategoryId(category.getId());
         expense.setAmount(expenseForm.getAmount());
         expense.setExpenseDate(expenseForm.getExpenseDate());
@@ -59,20 +59,20 @@ public class DefaultExpenseService implements ExpenseService {
                 .map(Expense::getCategoryId)
                 .collect(Collectors.toSet());
 
-        Map<Long, ExpenseCategory> categoriesById = categoryService.getExpenseCategoriesByIds(categoryIds).stream()
-                .collect(Collectors.toMap(ExpenseCategory::getId, Function.identity()));
+        Map<Long, ExpenseCategoryInternalData> categoriesById = categoryService.getExpenseCategoriesByIds(categoryIds).stream()
+                .collect(Collectors.toMap(ExpenseCategoryInternalData::getId, Function.identity()));
 
         return expenses.map(expense -> {
-            ExpenseCategory category = categoriesById.get(expense.getCategoryId());
-            return ExpenseMapper.toView(expense, category);
+            ExpenseCategoryInternalData category = categoriesById.get(expense.getCategoryId());
+            return ExpenseMapper.toResponse(expense, category);
         });
     }
 
     @Override
     public ExpenseResponse getExpenseById(Long id) {
         Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
-        ExpenseCategory category = categoryService.getExpenseCategoryById(expense.getId());
+        ExpenseCategoryInternalData category = categoryService.getExpenseCategoryById(expense.getId());
 
-        return ExpenseMapper.toView(expense, category);
+        return ExpenseMapper.toResponse(expense, category);
     }
 }

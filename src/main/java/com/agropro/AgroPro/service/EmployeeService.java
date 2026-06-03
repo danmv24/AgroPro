@@ -1,9 +1,9 @@
 package com.agropro.AgroPro.service;
 
+import com.agropro.AgroPro.dto.internal.EmployeeInternalData;
 import com.agropro.AgroPro.dto.request.EmployeeRequest;
 import com.agropro.AgroPro.dto.response.EmployeeBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.EmployeeResponse;
-import com.agropro.AgroPro.model.Employee;
 import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ public interface EmployeeService {
 
     List<EmployeeBasicInfoResponse> getEmployeesByWorkId(Long workId);
 
-    Employee getEmployeeById(Long employeeId);
+    EmployeeInternalData getEmployeeById(Long employeeId);
 
     List<EmployeeBasicInfoResponse> getEmployeesWithoutAccount();
 

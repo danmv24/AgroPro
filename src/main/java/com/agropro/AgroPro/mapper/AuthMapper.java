@@ -1,11 +1,14 @@
 package com.agropro.AgroPro.mapper;
 
-import com.agropro.AgroPro.dto.internal.AuthToken;
+import com.agropro.AgroPro.dto.internal.AuthTokenInternalData;
 
 public class AuthMapper {
 
-    public static AuthToken toAuthToken(String accessToken, String refreshToken, long expiresIn) {
-        return AuthToken.builder()
+    private AuthMapper() {
+    }
+
+    public static AuthTokenInternalData toInternalData(String accessToken, String refreshToken, long expiresIn) {
+        return AuthTokenInternalData.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .expiresIn(expiresIn)

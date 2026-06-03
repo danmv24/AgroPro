@@ -13,8 +13,6 @@ public interface WorkService {
 
     void createWork(WorkRequest workRequest);
 
-//    List<WorkBasicInfoView> getWorks();
-
     WorkResponse getWorkDetail(Long workId);
 
     void cancelWork(Long workId);
@@ -22,10 +20,6 @@ public interface WorkService {
     void updateStatuses();
 
     void createResult(Long workId, WorkResultRequest workResultRequest);
-
-//    void updateWork(Long workId, WorkUpdateForm workUpdateForm);
-
-//    Slice<WorkBasicInfoView> getCompletedWorksForWeek(LocalDate weekStart, int page, int size);
 
     Slice<WorkBasicInfoResponse> getWorksByStatus(WorkStatus workStatus, int page, int size);
 

@@ -8,6 +8,9 @@ import com.agropro.AgroPro.model.Equipment;
 
 public class EquipmentMapper {
 
+    private EquipmentMapper() {
+    }
+
     public static Equipment toModel(EquipmentRequest equipmentRequest) {
         return Equipment.builder()
                 .equipmentName(equipmentRequest.getEquipmentName())
@@ -18,7 +21,7 @@ public class EquipmentMapper {
                 .build();
     }
 
-    public static EquipmentResponse toView(Equipment equipment) {
+    public static EquipmentResponse toResponse(Equipment equipment) {
         return EquipmentResponse.builder()
                 .id(equipment.getId())
                 .equipmentName(equipment.getEquipmentName())
@@ -28,7 +31,7 @@ public class EquipmentMapper {
                 .build();
     }
 
-    public static EquipmentBasicInfoResponse toBasicInfoView(Equipment equipment) {
+    public static EquipmentBasicInfoResponse toBasicInfoResponse(Equipment equipment) {
         return EquipmentBasicInfoResponse.builder()
                 .equipmentId(equipment.getId())
                 .equipmentName(equipment.getEquipmentName())

@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.internal.MaterialInternalData;
 import com.agropro.AgroPro.dto.response.WorkMaterialUsageResponse;
 import com.agropro.AgroPro.mapper.WorkMaterialUsageMapper;
-import com.agropro.AgroPro.model.Material;
 import com.agropro.AgroPro.model.WorkMaterialUsage;
 import com.agropro.AgroPro.repository.WorkMaterialUsageRepository;
 import com.agropro.AgroPro.service.MaterialService;
@@ -32,9 +32,9 @@ public class DefaultWorkMaterialUsageService implements WorkMaterialUsageService
                 .map(WorkMaterialUsage::getMaterialId)
                 .collect(Collectors.toSet());
 
-        Map<Long, Material> materialById = materialService.getMaterialsByIds(materialIds).stream()
+        Map<Long, MaterialInternalData> materialById = materialService.getMaterialsByIds(materialIds).stream()
                 .collect(Collectors.toMap(
-                        Material::getId,
+                        MaterialInternalData::getId,
                         Function.identity()));
 
         return materialUsages.stream()

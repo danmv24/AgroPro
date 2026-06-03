@@ -1,6 +1,6 @@
 package com.agropro.AgroPro.controller;
 
-import com.agropro.AgroPro.dto.internal.AuthToken;
+import com.agropro.AgroPro.dto.internal.AuthTokenInternalData;
 import com.agropro.AgroPro.dto.request.LoginRequest;
 import com.agropro.AgroPro.dto.request.SignupRequest;
 import com.agropro.AgroPro.dto.response.JwtResponse;
@@ -27,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public JwtResponse login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        AuthToken tokens = authService.authenticate(loginRequest);
+        AuthTokenInternalData tokens = authService.authenticate(loginRequest);
 
         addRefreshCookie(response, tokens.getRefreshToken());
 
@@ -36,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
-        AuthToken tokens = authService.refresh(refreshToken);
+        AuthTokenInternalData tokens = authService.refresh(refreshToken);
         addRefreshCookie(response, tokens.getRefreshToken());
         return ResponseEntity.ok(JwtMapper.toResponse(tokens.getAccessToken(), tokens.getExpiresIn()));
     }

@@ -1,10 +1,14 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.internal.UserInternalData;
 import com.agropro.AgroPro.dto.request.SignupRequest;
 import com.agropro.AgroPro.enums.Role;
 import com.agropro.AgroPro.model.User;
 
 public class UserMapper {
+
+    private UserMapper() {
+    }
 
     public static User toModel(SignupRequest signupRequest, String password, Role role, Long employeeId) {
         return User.builder()
@@ -15,4 +19,13 @@ public class UserMapper {
                 .build();
     }
 
+    public static UserInternalData toInternalData(User user) {
+        return UserInternalData.builder()
+                .id(user.getId())
+                .employeeId(user.getEmployeeId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .build();
+    }
 }

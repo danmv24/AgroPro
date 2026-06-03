@@ -1,11 +1,15 @@
 package com.agropro.AgroPro.mapper;
 
+import com.agropro.AgroPro.dto.internal.ExpenseCategoryInternalData;
 import com.agropro.AgroPro.dto.response.ExpenseCategoryResponse;
 import com.agropro.AgroPro.model.ExpenseCategory;
 
 public class ExpenseCategoryMapper {
 
-    public static ExpenseCategoryResponse toView(ExpenseCategory expenseCategory) {
+    private ExpenseCategoryMapper() {
+    }
+
+    public static ExpenseCategoryResponse toResponse(ExpenseCategory expenseCategory) {
         return ExpenseCategoryResponse.builder()
                 .id(expenseCategory.getId())
                 .code(expenseCategory.getCode())
@@ -13,4 +17,12 @@ public class ExpenseCategoryMapper {
                 .build();
     }
 
+    public static ExpenseCategoryInternalData toInternalData(ExpenseCategory category) {
+        return ExpenseCategoryInternalData.builder()
+                .id(category.getId())
+                .categoryName(category.getCategoryName())
+                .code(category.getCode())
+                .unit(category.getUnit())
+                .build();
+    }
 }

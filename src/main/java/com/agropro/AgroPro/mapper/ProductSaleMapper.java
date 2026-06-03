@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 
 public class ProductSaleMapper {
 
+    private ProductSaleMapper() {
+    }
+
     public static ProductSale toModel(ProductSaleRequest saleRequest, BigDecimal totalAmount) {
         return ProductSale.builder()
                 .product(saleRequest.getProduct())

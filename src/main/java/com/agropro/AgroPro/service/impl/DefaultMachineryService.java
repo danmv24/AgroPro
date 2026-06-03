@@ -46,7 +46,7 @@ public class DefaultMachineryService implements MachineryService {
         Pageable pageable = PageRequest.of(page, size);
         Slice<Machinery> machineries = machineryRepository.findAll(pageable);
 
-        return machineries.map(MachineryMapper::toView);
+        return machineries.map(MachineryMapper::toResponse);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class DefaultMachineryService implements MachineryService {
         List<Machinery> machineries = machineryRepository.findMachineryByWorkId(workId);
 
         return machineries.stream()
-                .map(MachineryMapper::toBasicInfoView)
+                .map(MachineryMapper::toBasicInfoResponse)
                 .toList();
     }
 
@@ -168,7 +168,7 @@ public class DefaultMachineryService implements MachineryService {
     public MachineryResponse getMachineryById(Long id) {
         Machinery machinery = machineryRepository.findById(id).orElseThrow(() -> new MachineryNotFoundException(Set.of(id)));
 
-        return MachineryMapper.toView(machinery);
+        return MachineryMapper.toResponse(machinery);
     }
 
     @Override
@@ -176,19 +176,8 @@ public class DefaultMachineryService implements MachineryService {
         List<Machinery> machineries = machineryRepository.findAll();
 
         return machineries.stream()
-                .map(MachineryMapper::toBasicInfoView)
+                .map(MachineryMapper::toBasicInfoResponse)
                 .toList();
     }
-
-//    private Map<Long, StatusCode> getMachineryStatusesByIds(Set<Long> machineryIds) {
-//        List<Machinery> machineryStatusViews = machineryRepository.findMachineryByIdIn(machineryIds);
-//
-//        return machineryStatusViews.stream()
-//                .collect(Collectors.toMap(
-//                        Machinery::getId,
-//                        Machinery::getCurrentStatus
-//                ));
-//    }
-
 
 }

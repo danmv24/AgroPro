@@ -1,6 +1,8 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.internal.UserInternalData;
 import com.agropro.AgroPro.exception.UserNotFoundException;
+import com.agropro.AgroPro.mapper.UserMapper;
 import com.agropro.AgroPro.model.User;
 import com.agropro.AgroPro.repository.UserRepository;
 import com.agropro.AgroPro.service.UserService;
@@ -16,14 +18,11 @@ public class DefaultUserService implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User getCurrentUser() {
+    public UserInternalData getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUsername(auth.getName()).orElseThrow(() -> new UserNotFoundException(auth.getName()));
 
-        return getByUsername(auth.getName());
+        return UserMapper.toInternalData(user);
     }
 
-    @Override
-    public User getByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
-    }
 }

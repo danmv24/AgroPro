@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @Getter
-public class ApkNineReportData {
+public class ApkNineReportInternalData {
 
     private final List<CropArea> cropAreas;
 

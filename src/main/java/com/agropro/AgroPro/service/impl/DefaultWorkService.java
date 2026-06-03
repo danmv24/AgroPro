@@ -1,5 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.internal.FieldInternalData;
+import com.agropro.AgroPro.dto.internal.UserInternalData;
 import com.agropro.AgroPro.dto.request.MaterialItem;
 import com.agropro.AgroPro.dto.request.WorkRequest;
 import com.agropro.AgroPro.dto.request.WorkResultRequest;
@@ -8,12 +10,12 @@ import com.agropro.AgroPro.enums.MaterialType;
 import com.agropro.AgroPro.enums.StatusCode;
 import com.agropro.AgroPro.enums.WorkStatus;
 import com.agropro.AgroPro.enums.WorkType;
-import com.agropro.AgroPro.exception.WorkCannotBeCancelledException;
-import com.agropro.AgroPro.exception.WorkNotFoundException;
-import com.agropro.AgroPro.exception.WorkResultNotAllowedException;
-import com.agropro.AgroPro.exception.WorkResultValidationException;
+import com.agropro.AgroPro.exception.*;
 import com.agropro.AgroPro.mapper.*;
-import com.agropro.AgroPro.model.*;
+import com.agropro.AgroPro.model.Work;
+import com.agropro.AgroPro.model.WorkEmployee;
+import com.agropro.AgroPro.model.WorkEquipment;
+import com.agropro.AgroPro.model.WorkMachinery;
 import com.agropro.AgroPro.repository.*;
 import com.agropro.AgroPro.service.*;
 import lombok.RequiredArgsConstructor;
@@ -85,15 +87,15 @@ public class DefaultWorkService implements WorkService {
                 .map(Work::getFieldId)
                 .collect(Collectors.toSet());
 
-        Map<Long, Field> fieldsById = loadFields(fieldIds);
+        Map<Long, FieldInternalData> fieldsById = getFields(fieldIds);
 
         return works.map(work ->
-                WorkMapper.toBasicInfoView(work, fieldsById.get(work.getFieldId())));
+                WorkMapper.toBasicInfoResponse(work, fieldsById.get(work.getFieldId())));
     }
 
     @Override
     public List<WorkBasicInfoResponse> getAssignedPlannedWorks(int page, int size) {
-        User user = userService.getCurrentUser();
+        UserInternalData user = userService.getCurrentUser();
         Pageable pageable = PageRequest.of(page, size);
 
         List<Work> works = workRepository.findAssignedPlannedWorks(user.getEmployeeId(), pageable);
@@ -101,17 +103,17 @@ public class DefaultWorkService implements WorkService {
                 .map(Work::getFieldId)
                 .collect(Collectors.toSet());
 
-        Map<Long, Field> fieldsById = loadFields(fieldIds);
+        Map<Long, FieldInternalData> fieldsById = getFields(fieldIds);
 
         return works.stream()
-                .map(work -> WorkMapper.toBasicInfoView(work, fieldsById.get(work.getFieldId())))
+                .map(work -> WorkMapper.toBasicInfoResponse(work, fieldsById.get(work.getFieldId())))
                 .toList();
     }
 
     @Override
     public WorkResponse getWorkDetail(Long workId) {
         Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
-        Field field = fieldService.getFieldById(work.getFieldId());
+        FieldInternalData field = fieldService.getFieldById(work.getFieldId());
 
         List<EmployeeBasicInfoResponse> employees = employeeService.getEmployeesByWorkId(workId);
         List<MachineryBasicInfoResponse> machineries = machineryService.getMachineriesByWorkId(workId);
@@ -119,15 +121,19 @@ public class DefaultWorkService implements WorkService {
         List<WorkMaterialUsageResponse> materials = List.of();
         HarvestResponse harvestResponse = null;
 
-         if (work.getStatus() == WorkStatus.COMPLETED) {
+        if (work.getStatus() == WorkStatus.COMPLETED) {
             materials = workMaterialUsageService.getUsageMaterialsByWorkId(work.getId());
 
             if (work.getWorkType() == WorkType.HARVESTING) {
-                harvestResponse = harvestService.getHarvestByWorkId(work.getId());
+                try {
+                    harvestResponse = harvestService.getHarvestByWorkId(work.getId());
+                } catch (HarvestNotFoundException e) {
+                    harvestResponse = null;
+                }
             }
-         }
+        }
 
-         WorkResultResponse resultResponse = WorkMapper.toWorkResultResponse(materials, harvestResponse);
+        WorkResultResponse resultResponse = WorkMapper.toWorkResultResponse(materials, harvestResponse);
 
         return WorkMapper.toResponse(work, field, employees, machineries, equipment, resultResponse);
     }
@@ -205,18 +211,13 @@ public class DefaultWorkService implements WorkService {
         validateAndRecordHarvest(workId, work.getWorkType(), workResultRequest.getGrossHarvest());
     }
 
-//    @Override
-//    public void updateWork(Long workId, WorkUpdateForm workUpdateForm) {
-//        Work work = workRepository.findById(workId).orElseThrow(() -> new WorkNotFoundException(workId));
-//
-//    }
 
-    private Map<Long, Field> loadFields(Set<Long> fieldIds) {
-        List<Field> fields = fieldService.getFieldsByIds(fieldIds);
+    private Map<Long, FieldInternalData> getFields(Set<Long> fieldIds) {
+        List<FieldInternalData> fields = fieldService.getFieldsByIds(fieldIds);
 
         return fields.stream()
                 .collect(Collectors.toMap(
-                        Field::getId,
+                        FieldInternalData::getId,
                         Function.identity()));
     }
 

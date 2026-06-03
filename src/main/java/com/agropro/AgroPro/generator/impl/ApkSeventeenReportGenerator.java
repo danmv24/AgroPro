@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.generator.impl;
 
 import com.agropro.AgroPro.aggregator.impl.ApkSeventeenReportAggregator;
-import com.agropro.AgroPro.dto.internal.ApkSeventeenReportData;
-import com.agropro.AgroPro.dto.internal.TypeYearStat;
+import com.agropro.AgroPro.dto.internal.ApkSeventeenReportInternalData;
+import com.agropro.AgroPro.dto.internal.TypeYearStatInternalData;
 import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.enums.EquipmentType;
 import com.agropro.AgroPro.enums.MachineryType;
@@ -36,7 +36,7 @@ public class ApkSeventeenReportGenerator implements ReportGenerator {
 
     @Override
     public byte[] generate(ReportRequest form) {
-        ApkSeventeenReportData data = aggregator.collectData(form.getStartDate(), form.getEndDate());
+        ApkSeventeenReportInternalData data = aggregator.collectData(form.getStartDate(), form.getEndDate());
 
         try (InputStream reportTemplate = new ClassPathResource("reports/apk_17.xlsx").getInputStream()) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -70,12 +70,12 @@ public class ApkSeventeenReportGenerator implements ReportGenerator {
         }
     }
 
-    private void fillEquipmentData(Context context, Map<EquipmentType, TypeYearStat> equipmentTypeStat) {
+    private void fillEquipmentData(Context context, Map<EquipmentType, TypeYearStatInternalData> equipmentTypeStat) {
         equipmentTypeStat.forEach(((equipmentType, stat) ->
                 context.putVar(equipmentType.name().toLowerCase(Locale.ROOT), stat)));
     }
 
-    private void fillMachineryData(Context context, Map<MachineryType, TypeYearStat> machineryTypeStat) {
+    private void fillMachineryData(Context context, Map<MachineryType, TypeYearStatInternalData> machineryTypeStat) {
         machineryTypeStat.forEach(((machineryType, stat) ->
                 context.putVar(machineryType.name().toLowerCase(Locale.ROOT), stat)));
     }

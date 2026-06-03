@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.internal.ExpenseCategoryInternalData;
 import com.agropro.AgroPro.dto.response.ExpenseCategoryResponse;
 import com.agropro.AgroPro.exception.ExpenseCategoryNotFound;
 import com.agropro.AgroPro.mapper.ExpenseCategoryMapper;
@@ -19,8 +20,10 @@ public class DefaultExpenseCategoryService implements ExpenseCategoryService {
     private final ExpenseCategoryRepository categoryRepository;
 
     @Override
-    public ExpenseCategory getExpenseCategoryById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new ExpenseCategoryNotFound(id));
+    public ExpenseCategoryInternalData getExpenseCategoryById(Long id) {
+        ExpenseCategory category = categoryRepository.findById(id).orElseThrow(() -> new ExpenseCategoryNotFound(id));
+
+        return ExpenseCategoryMapper.toInternalData(category);
     }
 
     @Override
@@ -28,13 +31,17 @@ public class DefaultExpenseCategoryService implements ExpenseCategoryService {
         List<ExpenseCategory> categories = categoryRepository.findAll();
 
         return categories.stream()
-                .map(ExpenseCategoryMapper::toView)
+                .map(ExpenseCategoryMapper::toResponse)
                 .toList();
     }
 
     @Override
-    public List<ExpenseCategory> getExpenseCategoriesByIds(Set<Long> categoryIds) {
-        return categoryRepository.findAllById(categoryIds);
+    public List<ExpenseCategoryInternalData> getExpenseCategoriesByIds(Set<Long> categoryIds) {
+        List<ExpenseCategory> categories = categoryRepository.findAllById(categoryIds);
+
+        return categories.stream()
+                .map(ExpenseCategoryMapper::toInternalData)
+                .toList();
     }
 
 }

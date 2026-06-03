@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 
 public class MachineryStatusHistoryMapper {
 
+    private MachineryStatusHistoryMapper() {
+    }
+
     public static MachineryStatusHistory toModel(Machinery machinery, LocalDateTime now) {
         return MachineryStatusHistory.builder()
                 .machineryId(machinery.getId())

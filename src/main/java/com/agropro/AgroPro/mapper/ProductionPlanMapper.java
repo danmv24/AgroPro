@@ -3,7 +3,6 @@ package com.agropro.AgroPro.mapper;
 import com.agropro.AgroPro.dto.response.ProductionPlanBasicResponse;
 import com.agropro.AgroPro.dto.response.ProductionPlanResponse;
 import com.agropro.AgroPro.enums.CropType;
-import com.agropro.AgroPro.enums.Product;
 import com.agropro.AgroPro.model.ProductionPlan;
 
 import java.math.BigDecimal;
@@ -12,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 public class ProductionPlanMapper {
+
+    private ProductionPlanMapper() {
+    }
 
     public static ProductionPlanResponse toResponse(ProductionPlan plan) {
         return ProductionPlanResponse.builder()
@@ -35,7 +37,7 @@ public class ProductionPlanMapper {
                 .build();
     }
 
-    public static ProductionPlan toModel(Map<Product, BigDecimal> saleResult, Map<CropType, BigDecimal> areaResult,
+    public static ProductionPlan toModel(Map<CropType, BigDecimal> saleResult, Map<CropType, BigDecimal> areaResult,
                                          BigDecimal totalCost, BigDecimal totalRevenue, BigDecimal maxProfit,
                                          LocalDate startDate, LocalDate endDate, LocalDateTime now) {
         return ProductionPlan.builder()
@@ -44,11 +46,11 @@ public class ProductionPlanMapper {
                 .springBarleyArea(areaResult.getOrDefault(CropType.SPRING_BARLEY, BigDecimal.ZERO))
                 .sunflowerArea(areaResult.getOrDefault(CropType.SUNFLOWER, BigDecimal.ZERO))
                 .appleArea(areaResult.getOrDefault(CropType.APPLE, BigDecimal.ZERO))
-                .winterWheatQuantitySale(saleResult.getOrDefault(Product.WINTER_WHEAT, BigDecimal.ZERO))
-                .springWheatQuantitySale(saleResult.getOrDefault(Product.SPRING_WHEAT, BigDecimal.ZERO))
-                .springBarleyQuantitySale(saleResult.getOrDefault(Product.SPRING_BARLEY, BigDecimal.ZERO))
-                .sunflowerQuantitySale(saleResult.getOrDefault(Product.SUNFLOWER, BigDecimal.ZERO))
-                .appleQuantitySale(saleResult.getOrDefault(Product.APPLE, BigDecimal.ZERO))
+                .winterWheatQuantitySale(saleResult.getOrDefault(CropType.WINTER_WHEAT, BigDecimal.ZERO))
+                .springWheatQuantitySale(saleResult.getOrDefault(CropType.SPRING_WHEAT, BigDecimal.ZERO))
+                .springBarleyQuantitySale(saleResult.getOrDefault(CropType.SPRING_BARLEY, BigDecimal.ZERO))
+                .sunflowerQuantitySale(saleResult.getOrDefault(CropType.SUNFLOWER, BigDecimal.ZERO))
+                .appleQuantitySale(saleResult.getOrDefault(CropType.APPLE, BigDecimal.ZERO))
                 .totalCost(totalCost)
                 .totalRevenue(totalRevenue)
                 .maxProfit(maxProfit)

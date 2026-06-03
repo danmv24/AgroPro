@@ -8,6 +8,9 @@ import com.agropro.AgroPro.model.Machinery;
 
 public class MachineryMapper {
 
+    private MachineryMapper() {
+    }
+
     public static Machinery toModel(MachineryRequest machineryRequest) {
         return Machinery.builder()
                 .machineryName(machineryRequest.getMachineryName())
@@ -19,7 +22,7 @@ public class MachineryMapper {
                 .build();
     }
 
-    public static MachineryResponse toView(Machinery machinery) {
+    public static MachineryResponse toResponse(Machinery machinery) {
         return MachineryResponse.builder()
                 .id(machinery.getId())
                 .machineryName(machinery.getMachineryName())
@@ -30,7 +33,7 @@ public class MachineryMapper {
                 .build();
     }
 
-    public static MachineryBasicInfoResponse toBasicInfoView(Machinery machinery) {
+    public static MachineryBasicInfoResponse toBasicInfoResponse(Machinery machinery) {
         return MachineryBasicInfoResponse.builder()
                 .machineryId(machinery.getId())
                 .inventoryNumber(machinery.getInventoryNumber())

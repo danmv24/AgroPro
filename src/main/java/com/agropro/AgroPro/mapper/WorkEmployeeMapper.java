@@ -4,6 +4,9 @@ import com.agropro.AgroPro.model.WorkEmployee;
 
 public class WorkEmployeeMapper {
 
+    private WorkEmployeeMapper() {
+    }
+
     public static WorkEmployee toModel(Long workId, Long employeeId) {
         return WorkEmployee.builder()
                 .workId(workId)

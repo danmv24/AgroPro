@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 @Builder
 @Getter
-public class CropOptimizationData {
+public class CropOptimizationInternalData {
 
     private final CropType cropType;
 

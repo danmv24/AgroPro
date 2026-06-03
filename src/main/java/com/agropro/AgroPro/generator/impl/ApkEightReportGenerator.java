@@ -1,7 +1,7 @@
 package com.agropro.AgroPro.generator.impl;
 
 import com.agropro.AgroPro.aggregator.impl.ApkEightReportAggregator;
-import com.agropro.AgroPro.dto.internal.ApkEightReportData;
+import com.agropro.AgroPro.dto.internal.ApkEightReportInternalData;
 import com.agropro.AgroPro.dto.request.ReportRequest;
 import com.agropro.AgroPro.enums.ReportType;
 import com.agropro.AgroPro.generator.ReportGenerator;
@@ -30,7 +30,7 @@ public class ApkEightReportGenerator implements ReportGenerator {
 
     @Override
     public byte[] generate(ReportRequest form) {
-        ApkEightReportData data = aggregator.collectData(form.getStartDate(), form.getEndDate());
+        ApkEightReportInternalData data = aggregator.collectData(form.getStartDate(), form.getEndDate());
 
         try (InputStream reportTemplate = new ClassPathResource("reports/apk_8.xlsx").getInputStream()) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

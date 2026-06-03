@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.service;
 
+import com.agropro.AgroPro.dto.internal.FieldInternalData;
 import com.agropro.AgroPro.dto.response.FieldBasicInfoResponse;
 import com.agropro.AgroPro.dto.response.FieldResponse;
-import com.agropro.AgroPro.model.Field;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,9 +14,9 @@ public interface FieldService {
 
     void validateFieldExistsById(Long fieldId);
 
-    List<Field> getFieldsByIds(Set<Long> fieldIds);
+    List<FieldInternalData> getFieldsByIds(Set<Long> fieldIds);
 
-    Field getFieldById(Long id);
+    FieldInternalData getFieldById(Long id);
 
     List<FieldBasicInfoResponse> getFields();
 

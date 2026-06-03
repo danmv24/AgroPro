@@ -1,8 +1,8 @@
 package com.agropro.AgroPro.aggregator.impl;
 
 import com.agropro.AgroPro.aggregator.DataAggregator;
-import com.agropro.AgroPro.dto.internal.ApkSeventeenReportData;
-import com.agropro.AgroPro.dto.internal.TypeYearStat;
+import com.agropro.AgroPro.dto.internal.ApkSeventeenReportInternalData;
+import com.agropro.AgroPro.dto.internal.TypeYearStatInternalData;
 import com.agropro.AgroPro.enums.EquipmentType;
 import com.agropro.AgroPro.enums.MachineryType;
 import com.agropro.AgroPro.mapper.ReportDataMapper;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class ApkSeventeenReportAggregator implements DataAggregator<ApkSeventeenReportData> {
+public class ApkSeventeenReportAggregator implements DataAggregator<ApkSeventeenReportInternalData> {
 
     private final MachineryRepository machineryRepository;
 
@@ -38,14 +38,14 @@ public class ApkSeventeenReportAggregator implements DataAggregator<ApkSeventeen
     );
 
     @Override
-    public ApkSeventeenReportData collectData(LocalDate startDate, LocalDate endDate) {
-        Map<MachineryType, TypeYearStat> machineryTypeStat = collectMachineryData(startDate, endDate);
-        Map<EquipmentType, TypeYearStat> equipmentTypeStat = collectEquipmentData(startDate, endDate);
+    public ApkSeventeenReportInternalData collectData(LocalDate startDate, LocalDate endDate) {
+        Map<MachineryType, TypeYearStatInternalData> machineryTypeStat = collectMachineryData(startDate, endDate);
+        Map<EquipmentType, TypeYearStatInternalData> equipmentTypeStat = collectEquipmentData(startDate, endDate);
         List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod = collectExpenseData(startDate, endDate);
         List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod = collectExpenseData(
                 startDate.minusYears(1), endDate.minusYears(1));
 
-        return ReportDataMapper.toSeventeenReportData(machineryTypeStat, equipmentTypeStat, expenseCategoryTotalAmountsForCurrentPeriod,
+        return ReportDataMapper.toSeventeenReportInternalData(machineryTypeStat, equipmentTypeStat, expenseCategoryTotalAmountsForCurrentPeriod,
                 expenseCategoryTotalAmountsForPreviousPeriod);
     }
 
@@ -53,16 +53,16 @@ public class ApkSeventeenReportAggregator implements DataAggregator<ApkSeventeen
         return expenseCategoryRepository.findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
     }
 
-    private Map<EquipmentType, TypeYearStat> collectEquipmentData(LocalDate startDate, LocalDate endDate) {
+    private Map<EquipmentType, TypeYearStatInternalData> collectEquipmentData(LocalDate startDate, LocalDate endDate) {
         List<EquipmentTypeCount> equipmentByTypeAtStartDate = equipmentRepository.countEquipmentByEquipmentTypeAtStartDate(startDate);
         List<EquipmentTypeCount> incomingEquipmentByType = equipmentRepository.countEquipmentByEquipmentTypeAndPurchaseDateBetween(startDate, endDate);
         List<EquipmentTypeCount> decommissionedEquipmentByType = equipmentRepository.countDecommissionedEquipmentByEquipmentTypeAndBetweenDate(startDate, endDate);
         List<EquipmentTypeCount> equipmentByTypeAtEndDate = equipmentRepository.countEquipmentByEquipmentTypeAtEndDate(endDate);
 
-        Map<EquipmentType, TypeYearStat> equipmentTypeStat = new EnumMap<>(EquipmentType.class);
+        Map<EquipmentType, TypeYearStatInternalData> equipmentTypeStat = new EnumMap<>(EquipmentType.class);
 
         for (EquipmentType equipmentType : EquipmentType.values()) {
-            equipmentTypeStat.put(equipmentType, new TypeYearStat());
+            equipmentTypeStat.put(equipmentType, new TypeYearStatInternalData());
         }
 
         equipmentByTypeAtStartDate.forEach(row ->
@@ -80,16 +80,16 @@ public class ApkSeventeenReportAggregator implements DataAggregator<ApkSeventeen
         return equipmentTypeStat;
     }
 
-    private Map<MachineryType, TypeYearStat> collectMachineryData(LocalDate startDate, LocalDate endDate) {
+    private Map<MachineryType, TypeYearStatInternalData> collectMachineryData(LocalDate startDate, LocalDate endDate) {
         List<MachineryTypeCount> machineryByTypeAtStartDate = machineryRepository.countMachineryByMachineryTypeAtStartDate(startDate);
         List<MachineryTypeCount> incomingMachineryByType = machineryRepository.countMachineryByMachineryTypeAndPurchaseDateBetween(startDate, endDate);
         List<MachineryTypeCount> decommissionedMachineryByType = machineryRepository.countDecommissionedMachineryByMachineryTypeAndBetweenDate(startDate, endDate);
         List<MachineryTypeCount> machineryByTypeAtEndDate = machineryRepository.countMachineryByMachineryTypeAtEndDate(endDate);
 
-        Map<MachineryType, TypeYearStat> machineryTypeStat = new EnumMap<>(MachineryType.class);
+        Map<MachineryType, TypeYearStatInternalData> machineryTypeStat = new EnumMap<>(MachineryType.class);
 
         for (MachineryType machineryType : MachineryType.values()) {
-            machineryTypeStat.put(machineryType, new TypeYearStat());
+            machineryTypeStat.put(machineryType, new TypeYearStatInternalData());
         }
 
         machineryByTypeAtStartDate.forEach(row ->

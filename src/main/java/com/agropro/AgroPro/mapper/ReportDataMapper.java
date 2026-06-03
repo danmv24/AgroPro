@@ -10,11 +10,14 @@ import java.util.Map;
 
 public class ReportDataMapper {
 
-    public static ApkSeventeenReportData toSeventeenReportData(Map<MachineryType, TypeYearStat> machineryTypeStat,
-                                                               Map<EquipmentType, TypeYearStat> equipmentTypeStat,
-                                                               List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod,
-                                                               List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod) {
-        return ApkSeventeenReportData.builder()
+    private ReportDataMapper() {
+    }
+
+    public static ApkSeventeenReportInternalData toSeventeenReportInternalData(Map<MachineryType, TypeYearStatInternalData> machineryTypeStat,
+                                                                               Map<EquipmentType, TypeYearStatInternalData> equipmentTypeStat,
+                                                                               List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod,
+                                                                               List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod) {
+        return ApkSeventeenReportInternalData.builder()
                 .machineryTypeStat(machineryTypeStat)
                 .equipmentTypeStat(equipmentTypeStat)
                 .expenseCategoryTotalAmountsForCurrentPeriod(expenseCategoryTotalAmountsForCurrentPeriod)
@@ -22,11 +25,11 @@ public class ReportDataMapper {
                 .build();
     }
 
-    public static ApkFiveReportData toFiveReportData(List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts,
-                                                     List<EmployeePositionStatistic> positionCounts, long totalEmployees,
-                                                     long femaleEmployees, double totalWorkingHours,
-                                                     List<WorkTypeHours> workTypeHours) {
-        return ApkFiveReportData.builder()
+    public static ApkFiveReportInternalData toFiveReportInternalData(List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts,
+                                                                     List<EmployeePositionStatistic> positionCounts, long totalEmployees,
+                                                                     long femaleEmployees, double totalWorkingHours,
+                                                                     List<WorkTypeHours> workTypeHours) {
+        return ApkFiveReportInternalData.builder()
                 .expenseCategoryTotalAmounts(expenseCategoryTotalAmounts)
                 .positionCounts(positionCounts)
                 .totalEmployees(totalEmployees)
@@ -36,17 +39,17 @@ public class ReportDataMapper {
                 .build();
     }
 
-    public static ApkEightReportData toEightReportData(List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod,
-                                                       List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod) {
-        return ApkEightReportData.builder()
+    public static ApkEightReportInternalData toEightReportInternalData(List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod,
+                                                                       List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod) {
+        return ApkEightReportInternalData.builder()
                 .expenseCategoryTotalAmountsForCurrentPeriod(expenseCategoryTotalAmountsForCurrentPeriod)
                 .expenseCategoryTotalAmountsForPreviousPeriod(expenseCategoryTotalAmountsForPreviousPeriod)
                 .build();
     }
 
-    public static ApkNineReportData toNineReportData(List<CropArea> cropAreas, List<CropHarvest> cropHarvests,
-                                                     List<CropMaterialCost> cropMaterialCosts, List<CropLaborCost> cropLaborCosts) {
-        return ApkNineReportData.builder()
+    public static ApkNineReportInternalData toNineReportInternalData(List<CropArea> cropAreas, List<CropHarvest> cropHarvests,
+                                                                     List<CropMaterialCost> cropMaterialCosts, List<CropLaborCost> cropLaborCosts) {
+        return ApkNineReportInternalData.builder()
                 .cropAreas(cropAreas)
                 .cropHarvests(cropHarvests)
                 .cropMaterialCosts(cropMaterialCosts)

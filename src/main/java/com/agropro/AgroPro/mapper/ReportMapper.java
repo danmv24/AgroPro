@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 
 public class ReportMapper {
 
+    private ReportMapper() {
+    }
+
     public static Report toModel(ReportRequest reportRequest, String filename, LocalDateTime createdAt) {
         return Report.builder()
                 .reportType(reportRequest.getReportType())

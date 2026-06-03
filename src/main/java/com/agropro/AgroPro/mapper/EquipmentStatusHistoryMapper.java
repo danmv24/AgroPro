@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 
 public class EquipmentStatusHistoryMapper {
 
+    private EquipmentStatusHistoryMapper() {
+    }
+
     public static EquipmentStatusHistory toModel(Equipment equipment, LocalDateTime changedAt) {
         return EquipmentStatusHistory.builder()
                 .equipmentId(equipment.getId())

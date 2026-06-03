@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
-import com.agropro.AgroPro.dto.internal.AuthToken;
+import com.agropro.AgroPro.dto.internal.AuthTokenInternalData;
+import com.agropro.AgroPro.dto.internal.EmployeeInternalData;
 import com.agropro.AgroPro.dto.request.LoginRequest;
 import com.agropro.AgroPro.dto.request.SignupRequest;
 import com.agropro.AgroPro.enums.Role;
@@ -9,7 +10,6 @@ import com.agropro.AgroPro.exception.UserAlreadyExistsException;
 import com.agropro.AgroPro.mapper.AuthMapper;
 import com.agropro.AgroPro.mapper.RoleMapper;
 import com.agropro.AgroPro.mapper.UserMapper;
-import com.agropro.AgroPro.model.Employee;
 import com.agropro.AgroPro.repository.UserRepository;
 import com.agropro.AgroPro.security.CustomUserDetails;
 import com.agropro.AgroPro.service.AuthService;
@@ -22,7 +22,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 
 @Service
@@ -42,7 +41,7 @@ public class DefaultAuthService implements AuthService {
     private final EmployeeService employeeService;
 
     @Override
-    public AuthToken authenticate(LoginRequest loginRequest) {
+    public AuthTokenInternalData authenticate(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -51,11 +50,11 @@ public class DefaultAuthService implements AuthService {
         String accessToken = tokenService.generateAccessToken(userDetails);
         String refreshToken = tokenService.generateRefreshToken(userDetails);
 
-        return AuthMapper.toAuthToken(accessToken, refreshToken,900);
+        return AuthMapper.toInternalData(accessToken, refreshToken,900);
     }
 
     @Override
-    public AuthToken refresh(String refreshToken) {
+    public AuthTokenInternalData refresh(String refreshToken) {
         String username = tokenService.parseRefreshToken(refreshToken);
 
         CustomUserDetails user = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
@@ -63,7 +62,7 @@ public class DefaultAuthService implements AuthService {
         String newAccessToken = tokenService.generateAccessToken(user);
         String newRefreshToken = tokenService.generateRefreshToken(user);
 
-        return AuthMapper.toAuthToken(newAccessToken, newRefreshToken, 900);
+        return AuthMapper.toInternalData(newAccessToken, newRefreshToken, 900);
     }
 
     @Override
@@ -81,7 +80,7 @@ public class DefaultAuthService implements AuthService {
             throw new EmployeeAlreadyHasAccountException();
         }
 
-        Employee employee = employeeService.getEmployeeById(signupRequest.getEmployeeId());
+        EmployeeInternalData employee = employeeService.getEmployeeById(signupRequest.getEmployeeId());
         Role role = RoleMapper.fromPosition(employee.getPosition());
         String password = passwordEncoder.encode(signupRequest.getPassword());
 

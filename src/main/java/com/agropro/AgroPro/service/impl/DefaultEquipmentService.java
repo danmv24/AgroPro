@@ -46,7 +46,7 @@ public class DefaultEquipmentService implements EquipmentService {
         Pageable pageable = PageRequest.of(page, size);
         Slice<Equipment> equipment = equipmentRepository.findAll(pageable);
 
-        return equipment.map(EquipmentMapper::toView);
+        return equipment.map(EquipmentMapper::toResponse);
     }
 
 
@@ -111,7 +111,7 @@ public class DefaultEquipmentService implements EquipmentService {
         List<Equipment> equipment = equipmentRepository.findEquipmentByWorkId(workId);
 
         return equipment.stream()
-                .map(EquipmentMapper::toBasicInfoView)
+                .map(EquipmentMapper::toBasicInfoResponse)
                 .toList();
     }
 
@@ -172,7 +172,7 @@ public class DefaultEquipmentService implements EquipmentService {
     public EquipmentResponse getEquipmentById(Long id) {
         Equipment equipment = equipmentRepository.findById(id).orElseThrow(() -> new EquipmentNotFoundException(Set.of(id)));
 
-        return EquipmentMapper.toView(equipment);
+        return EquipmentMapper.toResponse(equipment);
     }
 
     @Override
@@ -180,7 +180,7 @@ public class DefaultEquipmentService implements EquipmentService {
         List<Equipment> equipment = equipmentRepository.findAll();
 
         return equipment.stream()
-                .map(EquipmentMapper::toBasicInfoView)
+                .map(EquipmentMapper::toBasicInfoResponse)
                 .toList();
     }
 }

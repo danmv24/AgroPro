@@ -4,6 +4,9 @@ import com.agropro.AgroPro.model.WorkMachinery;
 
 public class WorkMachineryMapper {
 
+    private WorkMachineryMapper() {
+    }
+
     public static WorkMachinery toModel(Long workId, Long machineryId) {
         return WorkMachinery.builder()
                 .workId(workId)

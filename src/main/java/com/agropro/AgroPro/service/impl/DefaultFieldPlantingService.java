@@ -1,6 +1,7 @@
 package com.agropro.AgroPro.service.impl;
 
 import com.agropro.AgroPro.controller.FieldPlantingResponse;
+import com.agropro.AgroPro.dto.internal.FieldPlantingInternalData;
 import com.agropro.AgroPro.enums.CropType;
 import com.agropro.AgroPro.exception.FieldNotFoundException;
 import com.agropro.AgroPro.mapper.FieldPlantingMapper;
@@ -45,8 +46,12 @@ public class DefaultFieldPlantingService implements FieldPlantingService {
     }
 
     @Override
-    public List<FieldPlanting> getPlantingsByIdsAndDate(Set<Long> fieldIds, LocalDate date) {
-        return fieldPlantingRepository.findAllByFieldIdsAndDate(fieldIds, date);
+    public List<FieldPlantingInternalData> getPlantingsByIdsAndDate(Set<Long> fieldIds, LocalDate date) {
+        List<FieldPlanting> fieldPlantings = fieldPlantingRepository.findAllByFieldIdsAndDate(fieldIds, date);
+
+        return fieldPlantings.stream()
+                .map(FieldPlantingMapper::toInternalData)
+                .toList();
     }
 
     @Override
@@ -64,14 +69,5 @@ public class DefaultFieldPlantingService implements FieldPlantingService {
             throw new FieldNotFoundException(fieldId);
         }
     }
-
-//    @Override
-//    public List<FieldPlantingView> getFieldPlantingsByFieldId(Long fieldId) {
-//        List<FieldPlanting> fieldPlantings = fieldPlantingRepository.findFieldPlantingByFieldId(fieldId);
-//
-//        return fieldPlantings.stream()
-//                .map(FieldPlantingMapper::toView)
-//                .toList();
-//    }
 
 }

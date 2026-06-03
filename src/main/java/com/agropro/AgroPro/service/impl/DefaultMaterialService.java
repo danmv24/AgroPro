@@ -1,5 +1,6 @@
 package com.agropro.AgroPro.service.impl;
 
+import com.agropro.AgroPro.dto.internal.MaterialInternalData;
 import com.agropro.AgroPro.dto.request.MaterialRequest;
 import com.agropro.AgroPro.dto.request.MaterialUpdateRequest;
 import com.agropro.AgroPro.dto.response.MaterialBasicInfoResponse;
@@ -54,12 +55,12 @@ public class DefaultMaterialService implements MaterialService {
     }
 
     @Override
-    public List<Material> getMaterialsByIds(Set<Long> materialIds) {
-//        if (materialIds == null || materialIds.isEmpty()) {
-//            throw new EmptyCollectionException();
-//        }
+    public List<MaterialInternalData> getMaterialsByIds(Set<Long> materialIds) {
+        List<Material> materials = materialRepository.findAllByIdIn(materialIds);
 
-        return materialRepository.findAllByIdIn(materialIds);
+        return materials.stream()
+                .map(MaterialMapper::toInternalData)
+                .toList();
     }
 
     @Override

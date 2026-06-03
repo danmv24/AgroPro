@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 public class HarvestMapper {
 
+    private HarvestMapper() {
+    }
+
     public static Harvest toModel(Long workId, BigDecimal grossHarvest, LocalDateTime now) {
         return Harvest.builder()
                 .workId(workId)
