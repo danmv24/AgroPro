@@ -40,16 +40,13 @@ public class ApkEightReportAggregator implements DataAggregator<ApkEightReportIn
 
     @Override
     public ApkEightReportInternalData collectData(LocalDate startDate, LocalDate endDate) {
-        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod = collectExpenseData(startDate, endDate);
-        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod = collectExpenseData(
-                startDate.minusYears(1), endDate.minusYears(1));
+        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod = expenseCategoryRepository
+                .findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
+        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod = expenseCategoryRepository
+                .findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate.minusYears(1), endDate.minusYears(1));
 
         return ReportDataMapper.toEightReportInternalData(expenseCategoryTotalAmountsForCurrentPeriod,
                 expenseCategoryTotalAmountsForPreviousPeriod);
-    }
-
-    private List<ExpenseCategoryTotalAmount> collectExpenseData(LocalDate startDate, LocalDate endDate) {
-        return expenseCategoryRepository.findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
     }
 
 }

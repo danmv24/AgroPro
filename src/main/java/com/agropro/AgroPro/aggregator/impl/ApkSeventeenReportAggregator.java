@@ -41,16 +41,14 @@ public class ApkSeventeenReportAggregator implements DataAggregator<ApkSeventeen
     public ApkSeventeenReportInternalData collectData(LocalDate startDate, LocalDate endDate) {
         Map<MachineryType, TypeYearStatInternalData> machineryTypeStat = collectMachineryData(startDate, endDate);
         Map<EquipmentType, TypeYearStatInternalData> equipmentTypeStat = collectEquipmentData(startDate, endDate);
-        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod = collectExpenseData(startDate, endDate);
-        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod = collectExpenseData(
-                startDate.minusYears(1), endDate.minusYears(1));
+        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForCurrentPeriod = expenseCategoryRepository
+                .findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
+
+        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmountsForPreviousPeriod = expenseCategoryRepository
+                .findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate.minusYears(1), endDate.minusYears(1));
 
         return ReportDataMapper.toSeventeenReportInternalData(machineryTypeStat, equipmentTypeStat, expenseCategoryTotalAmountsForCurrentPeriod,
                 expenseCategoryTotalAmountsForPreviousPeriod);
-    }
-
-    private List<ExpenseCategoryTotalAmount> collectExpenseData(LocalDate startDate, LocalDate endDate) {
-        return expenseCategoryRepository.findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
     }
 
     private Map<EquipmentType, TypeYearStatInternalData> collectEquipmentData(LocalDate startDate, LocalDate endDate) {

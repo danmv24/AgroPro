@@ -36,39 +36,17 @@ public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportInte
 
     @Override
     public ApkFiveReportInternalData collectData(LocalDate startDate, LocalDate endDate) {
-        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts = collectExpenseData(startDate, endDate);
-        List<EmployeePositionStatistic> positionCounts = collectEmployeePositionCount(startDate, endDate);
-        long totalEmployees = collectTotalEmployees();
-        long femaleEmployees = collectFemaleEmployees();
-        Double totalHours = collectTotalWorkingHours(startDate, endDate);
-        List<WorkTypeHours> workTypeHours = collectWorkTypeStat(startDate, endDate);
+        List<ExpenseCategoryTotalAmount> expenseCategoryTotalAmounts = expenseCategoryRepository
+                .findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
+
+        List<EmployeePositionStatistic> positionCounts = employeeRepository.findEmployeeCountByPosition(startDate, endDate);
+        long totalEmployees = employeeRepository.count();
+        long femaleEmployees = employeeRepository.countEmployeesByGender(Gender.FEMALE);
+        Double totalHours = workRepository.sumWorkingHoursBetweenStartDateAndEndDate(startDate, endDate);
+        List<WorkTypeHours> workTypeHours = workRepository.findWorkTypeWithTotalHours(startDate, endDate);
 
         return ReportDataMapper.toFiveReportInternalData(expenseCategoryTotalAmounts, positionCounts, totalEmployees,
                 femaleEmployees, totalHours, workTypeHours);
-    }
-
-    private List<WorkTypeHours> collectWorkTypeStat(LocalDate startDate, LocalDate endDate) {
-        return workRepository.findWorkTypeWithTotalHours(startDate, endDate);
-    }
-
-    private long collectFemaleEmployees() {
-        return employeeRepository.countEmployeesByGender(Gender.FEMALE);
-    }
-
-    private long collectTotalEmployees() {
-        return employeeRepository.count();
-    }
-
-    private List<ExpenseCategoryTotalAmount> collectExpenseData(LocalDate startDate, LocalDate endDate) {
-        return expenseCategoryRepository.findTotalAmountByCategoryCodesAndDateRange(EXPENSE_CATEGORY_CODES, startDate, endDate);
-    }
-
-    private List<EmployeePositionStatistic> collectEmployeePositionCount(LocalDate startDate, LocalDate endDate) {
-        return employeeRepository.findEmployeeCountByPosition(startDate, endDate);
-    }
-
-    private Double collectTotalWorkingHours(LocalDate startDate, LocalDate endDate) {
-        return workRepository.sumWorkingHoursBetweenStartDateAndEndDate(startDate, endDate);
     }
 
 
