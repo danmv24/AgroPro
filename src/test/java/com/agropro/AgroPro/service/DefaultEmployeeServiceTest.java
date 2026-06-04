@@ -42,7 +42,7 @@ class DefaultEmployeeServiceTest {
     private DefaultEmployeeService employeeService;
 
     @Test
-    void createEmployee_ShouldSaveEmployee() {
+    void createEmployee_shouldSaveEmployee() {
         EmployeeRequest request = mock(EmployeeRequest.class);
         employeeService.createEmployee(request);
 
@@ -50,7 +50,7 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void getEmployees_ShouldReturnSlice() {
+    void getEmployees_shouldReturnSlice() {
         Employee employee = createEmployee(1L);
         Slice<Employee> employeeSlice = new SliceImpl<>(List.of(employee), PageRequest.of(0, 10), false);
 
@@ -63,7 +63,7 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void getMechanizators_ShouldReturnMechanizators() {
+    void getMechanizators_shouldReturnMechanizators() {
         Employee employee = createEmployee(1L);
 
         when(employeeRepository.findEmployeesByPosition(EmployeePosition.MACHINE_OPERATOR)).thenReturn(List.of(employee));
@@ -75,18 +75,18 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void validateEmployeesExistByIds_ShouldThrowWhenIdsNull() {
+    void validateEmployeesExistByIds_shouldThrowWhenIdsNull() {
         assertThrows(EmptyCollectionException.class, () -> employeeService.validateEmployeesExistByIds(null));
     }
 
     @Test
-    void validateEmployeesExistByIds_ShouldThrowWhenIdsEmpty() {
+    void validateEmployeesExistByIds_shouldThrowWhenIdsEmpty() {
         assertThrows(EmptyCollectionException.class,
                 () -> employeeService.validateEmployeesExistByIds(Set.of()));
     }
 
     @Test
-    void validateEmployeesExistByIds_ShouldPassWhenAllExist() {
+    void validateEmployeesExistByIds_shouldPassWhenAllExist() {
         Set<Long> ids = Set.of(1L, 2L);
 
         when(employeeRepository.findEmployeeIdsByIdIn(ids)).thenReturn(ids);
@@ -94,7 +94,7 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void validateEmployeesExistByIds_ShouldThrowWhenSomeEmployeesMissing() {
+    void validateEmployeesExistByIds_shouldThrowWhenEmployeesMissing() {
         Set<Long> ids = Set.of(1L, 2L, 3L);
 
         when(employeeRepository.findEmployeeIdsByIdIn(ids)).thenReturn(Set.of(1L, 2L));
@@ -102,19 +102,19 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void validateEmployeesAvailability_ShouldThrowWhenIdsNull() {
+    void validateEmployeesAvailability_shouldThrowWhenIdsNull() {
         assertThrows(EmptyCollectionException.class,
                 () -> employeeService.validateEmployeesAvailability(null, LocalDateTime.now(), LocalDateTime.now().plusDays(1)));
     }
 
     @Test
-    void validateEmployeesAvailability_ShouldThrowWhenIdsEmpty() {
+    void validateEmployeesAvailability_shouldThrowWhenIdsEmpty() {
         assertThrows(EmptyCollectionException.class,
                 () -> employeeService.validateEmployeesAvailability(Set.of(), LocalDateTime.now(), LocalDateTime.now().plusDays(1)));
     }
 
     @Test
-    void validateEmployeesAvailability_ShouldPassWhenNoConflicts() {
+    void validateEmployeesAvailability_shouldPassWhenNoConflicts() {
         Set<Long> ids = Set.of(1L, 2L);
 
         when(employeeRepository.findConflictEmployeesByDateTime(
@@ -128,7 +128,7 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void validateEmployeesAvailability_ShouldThrowWhenConflictExists() {
+    void validateEmployeesAvailability_shouldThrowWhenConflictExists() {
         Set<Long> ids = Set.of(1L, 2L);
 
         Employee conflictEmployee = createEmployee(1L);
@@ -145,7 +145,7 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void getEmployeesByWorkId_ShouldReturnEmployees() {
+    void getEmployeesByWorkId_shouldReturnEmployees() {
         Employee employee = createEmployee(1L);
 
         when(employeeRepository.findEmployeesByWorkId(100L)).thenReturn(List.of(employee));
@@ -157,7 +157,7 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void getEmployeeById_ShouldReturnEmployee() {
+    void getEmployeeById_shouldReturnEmployee() {
         Employee employee = createEmployee(1L);
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
@@ -169,13 +169,13 @@ class DefaultEmployeeServiceTest {
     }
 
     @Test
-    void getEmployeeById_ShouldThrowWhenEmployeeNotFound() {
+    void getEmployeeById_shouldThrowWhenEmployeeNotFound() {
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(EmployeeNotFoundException.class, () -> employeeService.getEmployeeById(1L));
     }
 
     @Test
-    void getEmployeesWithoutAccount_ShouldReturnEmployees() {
+    void getEmployeesWithoutAccount_shouldReturnEmployees() {
         Employee employee = createEmployee(1L);
 
         when(employeeRepository.findEmployeesWithoutAccount()).thenReturn(List.of(employee));

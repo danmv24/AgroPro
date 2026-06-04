@@ -38,15 +38,13 @@ public class DefaultFieldService implements FieldService {
         Map<Long, FieldPlantingInternalData> plantingsByFieldId = fieldPlantingService.getPlantingsByIdsAndDate(fieldIds, date).stream()
                 .collect(Collectors.toMap(
                         FieldPlantingInternalData::getFieldId,
-                        Function.identity()
-                ));
+                        Function.identity()));
 
         return fields.stream()
                 .map(field -> {
                     FieldPlantingInternalData planting = plantingsByFieldId.get(field.getId());
-
-                    return FieldMapper.toResponse(field, planting);
-                }).toList();
+                    return FieldMapper.toResponse(field, planting);})
+                .toList();
 
     }
 

@@ -2,7 +2,7 @@ package com.agropro.AgroPro.service.impl;
 
 import com.agropro.AgroPro.dto.internal.ExpenseCategoryInternalData;
 import com.agropro.AgroPro.dto.response.ExpenseCategoryResponse;
-import com.agropro.AgroPro.exception.ExpenseCategoryNotFound;
+import com.agropro.AgroPro.exception.ExpenseCategoryNotFoundException;
 import com.agropro.AgroPro.mapper.ExpenseCategoryMapper;
 import com.agropro.AgroPro.model.ExpenseCategory;
 import com.agropro.AgroPro.repository.ExpenseCategoryRepository;
@@ -21,7 +21,7 @@ public class DefaultExpenseCategoryService implements ExpenseCategoryService {
 
     @Override
     public ExpenseCategoryInternalData getExpenseCategoryById(Long id) {
-        ExpenseCategory category = categoryRepository.findById(id).orElseThrow(() -> new ExpenseCategoryNotFound(id));
+        ExpenseCategory category = categoryRepository.findById(id).orElseThrow(() -> new ExpenseCategoryNotFoundException(id));
 
         return ExpenseCategoryMapper.toInternalData(category);
     }

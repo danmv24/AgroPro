@@ -19,7 +19,6 @@ public class DefaultHarvestService implements HarvestService {
 
     private final HarvestRepository harvestRepository;
 
-
     @Override
     public void createHarvestRecord(Long workId, BigDecimal grossHarvest) {
         if (grossHarvest == null || grossHarvest.compareTo(BigDecimal.ZERO) <= 0) {

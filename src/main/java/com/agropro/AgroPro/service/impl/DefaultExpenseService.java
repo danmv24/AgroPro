@@ -71,7 +71,7 @@ public class DefaultExpenseService implements ExpenseService {
     @Override
     public ExpenseResponse getExpenseById(Long id) {
         Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
-        ExpenseCategoryInternalData category = categoryService.getExpenseCategoryById(expense.getId());
+        ExpenseCategoryInternalData category = categoryService.getExpenseCategoryById(expense.getCategoryId());
 
         return ExpenseMapper.toResponse(expense, category);
     }
