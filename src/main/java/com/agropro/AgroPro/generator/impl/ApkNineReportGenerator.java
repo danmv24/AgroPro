@@ -60,9 +60,15 @@ public class ApkNineReportGenerator implements ReportGenerator {
         }
     }
 
+    private void fillCropHarvestsData(Context context, List<CropHarvest> cropHarvests) {
+        for (CropHarvest cropHarvest : cropHarvests) {
+            context.putVar(cropHarvest.getCropType().name().toLowerCase(Locale.ROOT) + "_harvest", cropHarvest);
+        }
+    }
+
     private void fillCropLaborCostData(Context context, List<CropLaborCost> cropLaborCosts) {
         for (CropLaborCost cropLaborCost : cropLaborCosts) {
-            context.putVar(cropLaborCost.getCropType().name().toLowerCase(), cropLaborCost);
+            context.putVar(cropLaborCost.getCropType().name().toLowerCase(Locale.ROOT), cropLaborCost);
         }
     }
 
@@ -78,12 +84,6 @@ public class ApkNineReportGenerator implements ReportGenerator {
         }
 
         context.putVar("crop_material_costs", data);
-    }
-
-    private void fillCropHarvestsData(Context context, List<CropHarvest> cropHarvests) {
-        for (CropHarvest cropHarvest : cropHarvests) {
-            context.putVar(cropHarvest.getCropType().name().toLowerCase(Locale.ROOT), cropHarvest);
-        }
     }
 
     private void fillAreaData(Context context, List<CropArea> cropAreas) {

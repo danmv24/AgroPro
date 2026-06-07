@@ -14,7 +14,6 @@ public enum EmployeePosition {
     ACCOUNTANT("Бухгалтер"),
     MANAGER("Менеджер"),
     AGRONOMIST("Агроном"),
-    TECHNOLOGIST("Технолог"),
     MACHINE_OPERATOR("Механизатор");
 
     private final String positionName;

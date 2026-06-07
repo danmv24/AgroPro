@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -80,7 +80,7 @@ public class OptimizationAggregator implements DataAggregator<OptimizationIntern
     }
 
     private Map<CropType, BigDecimal> calculateYieldMap(Map<CropType, BigDecimal> areaMap, Map<CropType, BigDecimal> harvestMap) {
-        Map<CropType, BigDecimal> result = new EnumMap<>(CropType.class);
+        Map<CropType, BigDecimal> result = new HashMap<>();
 
         for (CropType cropType : areaMap.keySet()) {
             BigDecimal area = areaMap.getOrDefault(cropType, BigDecimal.ZERO);
@@ -95,7 +95,7 @@ public class OptimizationAggregator implements DataAggregator<OptimizationIntern
     }
 
     private Map<CropType, BigDecimal> buildTotalCostMap(List<CropMaterialCost> costs) {
-        Map<CropType, BigDecimal> result = new EnumMap<>(CropType.class);
+        Map<CropType, BigDecimal> result = new HashMap<>();
 
         for (CropMaterialCost cost : costs) {
             if (cost.getCropType() == null) continue;
@@ -108,7 +108,7 @@ public class OptimizationAggregator implements DataAggregator<OptimizationIntern
     }
 
     private Map<CropType, BigDecimal> calculateCostPerHectareMap(Map<CropType, BigDecimal> areaMap, Map<CropType, BigDecimal> costMap) {
-        Map<CropType, BigDecimal> result = new EnumMap<>(CropType.class);
+        Map<CropType, BigDecimal> result = new HashMap<>();
 
         for (CropType cropType : areaMap.keySet()) {
             BigDecimal area = areaMap.getOrDefault(cropType, BigDecimal.ZERO);

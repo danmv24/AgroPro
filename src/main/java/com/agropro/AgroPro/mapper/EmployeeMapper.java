@@ -50,6 +50,7 @@ public class EmployeeMapper {
                 .surname(employee.getSurname())
                 .name(employee.getName())
                 .patronymic(employee.getPatronymic())
+                .position(employee.getPosition())
                 .gender(employee.getGender())
                 .paymentType(employee.getPaymentType())
                 .hireDate(employee.getHireDate())

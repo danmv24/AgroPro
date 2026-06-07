@@ -53,7 +53,7 @@ public class AuthController {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public void signup(@Valid @RequestBody SignupRequest signupRequest) {
         authService.createUser(signupRequest);
     }

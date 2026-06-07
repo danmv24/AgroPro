@@ -41,7 +41,7 @@ public interface WorkRepository extends ListCrudRepository<Work, Long> {
         AND w.start_date >= :startDate
         AND w.end_date <= :endDate
     """)
-    Double sumWorkingHoursBetweenStartDateAndEndDate(@Param("startDate") LocalDate startDate,
+    double sumWorkingHoursBetweenStartDateAndEndDate(@Param("startDate") LocalDate startDate,
                                                      @Param("endDate") LocalDate endDate);
 
 

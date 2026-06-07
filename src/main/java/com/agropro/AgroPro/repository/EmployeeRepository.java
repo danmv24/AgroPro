@@ -49,16 +49,40 @@ public interface EmployeeRepository extends ListCrudRepository<Employee, Long> {
                                                  @Param("endDateOfWork") LocalDateTime endDateOfWork);
 
     @Query("""
-        SELECT e.position, COUNT(*) AS count, SUM (case
-            WHEN e.payment_type = 'FIXED' then e.salary
-            WHEN e.payment_type = 'HOURLY' then e.salary * EXTRACT(EPOCH from (w.end_date - w.start_date)) / 3600
-        END) as total_salary
-        FROM employees AS e
-        LEFT JOIN work_employees we ON we.employee_id = e.id
-        LEFT JOIN works w ON w.id = we.work_id
-            AND w.start_date >= :startDate
-            AND w.end_date <= :endDate
-        GROUP BY e.position
+        WITH employee_salary AS (
+            SELECT
+                e.id,
+                e.position,
+                CASE
+                    WHEN e.payment_type = 'FIXED' THEN e.salary
+                    WHEN e.payment_type = 'HOURLY' THEN
+                        COALESCE(
+                            SUM(
+                                e.salary *
+                                EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600
+                            ),
+                            0
+                        )
+                END AS employee_salary
+            FROM employees e
+            LEFT JOIN work_employees we
+                ON we.employee_id = e.id
+            LEFT JOIN works w
+                ON w.id = we.work_id
+                AND w.start_date >= :startDate
+                AND w.end_date <= :endDate
+            GROUP BY
+                e.id,
+                e.position,
+                e.payment_type,
+                e.salary
+        )
+        SELECT
+            position,
+            COUNT(*) AS count,
+            SUM(employee_salary) AS total_salary
+        FROM employee_salary
+        GROUP BY position;
     """)
     List<EmployeePositionStatistic> findEmployeeCountByPosition(@Param("startDate") LocalDate startDate,
                                                                 @Param("endDate") LocalDate endDate);

@@ -42,7 +42,7 @@ public class ApkFiveReportAggregator implements DataAggregator<ApkFiveReportInte
         List<EmployeePositionStatistic> positionCounts = employeeRepository.findEmployeeCountByPosition(startDate, endDate);
         long totalEmployees = employeeRepository.count();
         long femaleEmployees = employeeRepository.countEmployeesByGender(Gender.FEMALE);
-        Double totalHours = workRepository.sumWorkingHoursBetweenStartDateAndEndDate(startDate, endDate);
+        double totalHours = workRepository.sumWorkingHoursBetweenStartDateAndEndDate(startDate, endDate);
         List<WorkTypeHours> workTypeHours = workRepository.findWorkTypeWithTotalHours(startDate, endDate);
 
         return ReportDataMapper.toFiveReportInternalData(expenseCategoryTotalAmounts, positionCounts, totalEmployees,
