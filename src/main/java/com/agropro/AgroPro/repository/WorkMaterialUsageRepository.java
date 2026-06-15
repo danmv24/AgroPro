@@ -21,7 +21,7 @@ public interface WorkMaterialUsageRepository extends ListCrudRepository<WorkMate
         INNER JOIN works AS w ON wmu.work_id = w.id
         INNER JOIN field_plantings AS fp ON fp.field_id = w.field_id
         WHERE w.start_date <= :endDate AND w.end_date >= :startDate
-        AND (fp.harvest_date IS NULL OR fp.harvest_date >= w.end_date)
+        AND (fp.harvest_date IS NULL OR fp.harvest_date <= w.end_date)
         GROUP BY fp.crop_type, m.material_type
     """)
     List<CropMaterialCost> findCostsByCropTypeAndMaterialTypeBetweenDateRange(@Param("startDate") LocalDate startDate,

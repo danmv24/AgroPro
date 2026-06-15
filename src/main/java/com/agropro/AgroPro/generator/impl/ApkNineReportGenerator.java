@@ -11,6 +11,7 @@ import com.agropro.AgroPro.projection.CropLaborCost;
 import com.agropro.AgroPro.projection.CropMaterialCost;
 import lombok.RequiredArgsConstructor;
 import org.jxls.common.Context;
+import org.jxls.transform.poi.PoiTransformer;
 import org.jxls.util.JxlsHelper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -49,10 +50,16 @@ public class ApkNineReportGenerator implements ReportGenerator {
             fillCropMaterialCostData(context, data.getCropMaterialCosts());
             fillCropLaborCostData(context, data.getCropLaborCosts());
 
+            PoiTransformer transformer =
+                    PoiTransformer.createTransformer(
+                            reportTemplate,
+                            outputStream
+                    );
+
             JxlsHelper.getInstance()
                     .setEvaluateFormulas(true)
                     .setFullFormulaRecalculationOnOpening(true)
-                    .processTemplate(reportTemplate, outputStream, context);
+                    .processTemplate(context, transformer);
 
             return outputStream.toByteArray();
         } catch (IOException e) {

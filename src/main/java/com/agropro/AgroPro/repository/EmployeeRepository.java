@@ -50,37 +50,19 @@ public interface EmployeeRepository extends ListCrudRepository<Employee, Long> {
 
     @Query("""
         WITH employee_salary AS (
-            SELECT
-                e.id,
-                e.position,
+            SELECT e.id,e.position,
                 CASE
                     WHEN e.payment_type = 'FIXED' THEN e.salary
                     WHEN e.payment_type = 'HOURLY' THEN
-                        COALESCE(
-                            SUM(
-                                e.salary *
-                                EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600
-                            ),
-                            0
-                        )
+                        COALESCE(SUM(e.salary *EXTRACT(EPOCH FROM (w.end_date - w.start_date)) / 3600), 0)
                 END AS employee_salary
             FROM employees e
-            LEFT JOIN work_employees we
-                ON we.employee_id = e.id
-            LEFT JOIN works w
-                ON w.id = we.work_id
+            LEFT JOIN work_employees we ON we.employee_id = e.id
+            LEFT JOIN works w ON w.id = we.work_id
                 AND w.start_date >= :startDate
                 AND w.end_date <= :endDate
-            GROUP BY
-                e.id,
-                e.position,
-                e.payment_type,
-                e.salary
-        )
-        SELECT
-            position,
-            COUNT(*) AS count,
-            SUM(employee_salary) AS total_salary
+            GROUP BY e.id,e.position,e.payment_type,e.salary)
+        SELECT position, COUNT(*) AS count, SUM(employee_salary) AS total_salary
         FROM employee_salary
         GROUP BY position;
     """)
